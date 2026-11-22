@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-22T20:04:25",
+ "generated_at": "2026-11-22T20:46:55",
  "model": "gpt-4.1-mini",
  "results": [
   {
@@ -10,8 +10,8 @@
    "status": "ok",
    "replan_count": 0,
    "llm_calls": 3,
-   "wall_s": 17.7,
-   "reply": "추천 공연 3편입니다.\n\n1. 타조소년들 [대학로]\n- 시간: 14:00~15:30 (90분)\n- 가격: 15,000원\n- 장소: 보라 아트홀(구. 지구인아트홀)\n- 근처 음식점: 경성양꼬치 대학로점 등 중식, 한식, 술집 다양\n- 판단 근거: 14:00 시작, 15:30 종료로 18:00 이전 종료, 예산 50,000원 이하\n\n2. 단막극 낭독공연, 시선: Eleven Ways of Believing [대학로]\n- 시간: 14:00~16:00 (120분)\n- 가격: 25,000원\n- 장소: 북극곰소극장\n- 근처 음식점: 카츠와이찌 종로점(일식), 고향분식 등\n- 판단 근거: 14:00 시작, 16:00 종료로 18:00 이전 종료, 예산 50,000원 이하\n\n3. 모든 날, 모든 순간 [대학로]\n- 시간: 14:00~15:40 (100분)\n- 가격: 45,000원\n- 장소: 지즐소극장\n- 근처 음식점: 녹산(중식), 혜화수산(한식), 술집 등\n- 판단 근거: 14:00 시작, 15:40 종료로 18:00 이전 종료, 예산 50,000원 이하\n\n제외: 오펀스 (13:00 시작으로 희망 시간 이전, 17:00 시작 시 19:30 종료로 제한 시간 초과)\n\n근처 음식점 정보는 모두 정상 조회되었습니다. 실제 예매 가능 여부와 잔여석은 확인하지 않았습니다.",
+   "wall_s": 10.3,
+   "reply": "추천 공연 3편입니다.\n\n1. 타조소년들 [대학로]\n- 시간: 14:00~15:30 (90분)\n- 가격: 15,000원\n- 장소: 보라 아트홀(구. 지구인아트홀)\n- 근거: 14:00 시작, 15:30 종료로 18:00 이전 종료, 예산 50,000원 이하\n- 인근 음식점: 경성양꼬치 대학로점, 미향 복아구대구, 혜화 오름 등\n\n2. 단막극 낭독공연, 시선: Eleven Ways of Believing [대학로]\n- 시간: 14:00~16:00 (120분)\n- 가격: 25,000원\n- 장소: 북극곰소극장\n- 근거: 14:00 시작, 16:00 종료로 18:00 이전 종료, 예산 50,000원 이하\n- 인근 음식점: 카츠와이찌 종로점, 고향분식, 밀라노베이커리 등\n\n3. 모든 날, 모든 순간 [대학로]\n- 시간: 14:00~15:40 (100분)\n- 가격: 45,000원\n- 장소: 지즐소극장\n- 근거: 14:00 시작, 15:40 종료로 18:00 이전 종료, 예산 50,000원 이하\n- 인근 음식점: 녹산, 도어스2, 혜화수산 혜화본점 등\n\n제외: 오펀스 (13:00 시작으로 희망시간 이전, 17:00 시작 시 19:30 종료로 제한시간 초과)\n\n음식점 정보는 모두 대학로 인근이며, places_status는 모두 정상 조회되었습니다. 실제 예매 가능 여부와 잔여석은 확인하지 않았습니다.",
    "conditions": {
     "date": {
      "value": "2026-11-28",
@@ -102,6 +102,7 @@
      "analyze",
      "plan",
      "execute",
+     "verify",
      "judge",
      "execute",
      "respond"
@@ -111,7 +112,7 @@
       "tool": "search_performances",
       "ok": true,
       "error_code": null,
-      "ms": 5665,
+      "ms": 1227,
       "cached": false,
       "summary": "후보 20건"
      },
@@ -119,7 +120,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 230,
+      "ms": 98,
       "cached": false,
       "summary": "제3회 고래 단막극 페스티벌 · 105분 · 목요일 ~ 금요일(19:30), 토요일(15:00) · 전석 40,000원"
      },
@@ -127,7 +128,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 113,
+      "ms": 93,
       "cached": false,
       "summary": "의원님, 자수할래요! · 75분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 30,000원"
      },
@@ -135,7 +136,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 112,
+      "ms": 98,
       "cached": false,
       "summary": "곰팡이, 락스 XX새끼 · 90분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(16:00) · 전석 25,000원"
      },
@@ -143,7 +144,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 145,
+      "ms": 106,
       "cached": false,
       "summary": "단막극 낭독공연, 시선: Eleven Ways of Believing [대학로] · 120분 · 목요일 ~ 금요일(19:30), 토요일 ~ 일요일(14:00,18:00) · 전석 25,000원"
      },
@@ -151,7 +152,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 271,
+      "ms": 99,
       "cached": false,
       "summary": "없는 대화 · 100분 · 월요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00) · 전석 40,000원"
      },
@@ -159,7 +160,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 228,
+      "ms": 97,
       "cached": false,
       "summary": "모든 날, 모든 순간 [대학로] · 100분 · 화요일 ~ 금요일(19:00), 토요일 ~ 일요일(14:00,16:30) · 전석 45,000원"
      },
@@ -167,7 +168,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 217,
+      "ms": 107,
       "cached": false,
       "summary": "아직 · 70분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 20,000원"
      },
@@ -175,7 +176,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 124,
+      "ms": 110,
       "cached": false,
       "summary": "꿈깨 [대학로] · 70분 · 화요일 ~ 금요일(15:00,19:30), 토요일 ~ 일요일(15:00,19:30) · 전석 30,000원"
      },
@@ -183,7 +184,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 168,
+      "ms": 97,
       "cached": false,
       "summary": "타조소년들 [대학로] · 90분 · 목요일 ~ 금요일(20:00), 토요일 ~ 일요일(14:00,18:00) · R석 30,000원, A석 15,000원"
      },
@@ -191,7 +192,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 186,
+      "ms": 103,
       "cached": false,
       "summary": "플레이티켓 낭독쇼케이스, 스마일 보이 (11월) · 60분 · 토요일 ~ 일요일(15:00) · 전석무료"
      },
@@ -199,7 +200,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 127,
+      "ms": 179,
       "cached": false,
       "summary": "제7회 서울연극25페스티벌, 서초노트 · 80분 · 토요일(15:00,18:00), 일요일(15:00) · 전석 30,000원"
      },
@@ -207,7 +208,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 122,
+      "ms": 121,
       "cached": false,
       "summary": "오펀스 · 150분 · 목요일 ~ 금요일(19:30), 토요일 ~ 일요일(13:00,17:00) · 전석 20,000원"
      },
@@ -215,7 +216,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 119,
+      "ms": 98,
       "cached": false,
       "summary": "우리는 지금 어디에 있을까 [대학로] · 70분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(16:00) · 전석 40,000원"
      },
@@ -223,7 +224,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 124,
+      "ms": 95,
       "cached": false,
       "summary": "엄마와 아들: 아들, 엄마도 처음이야! [대학로] · 80분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:30) · 전석 40,000원"
      },
@@ -231,7 +232,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 130,
+      "ms": 97,
       "cached": false,
       "summary": "핑크트럭 [대학로 (앵콜) ] · 110분 · 화요일 ~ 목요일(19:30), 토요일 ~ 일요일(14:00,17:00), HOL(14:00,17:00) · 전석 50,000원"
      },
@@ -239,7 +240,7 @@
       "tool": "search_nearby_places",
       "ok": true,
       "error_code": null,
-      "ms": 1677,
+      "ms": 689,
       "cached": false,
       "summary": "장소 5곳"
      },
@@ -247,7 +248,7 @@
       "tool": "search_nearby_places",
       "ok": true,
       "error_code": null,
-      "ms": 309,
+      "ms": 171,
       "cached": false,
       "summary": "장소 5곳"
      },
@@ -255,7 +256,7 @@
       "tool": "search_nearby_places",
       "ok": true,
       "error_code": null,
-      "ms": 165,
+      "ms": 160,
       "cached": false,
       "summary": "장소 5곳"
      }
@@ -265,7 +266,7 @@
      {
       "node": "analyze",
       "decision": "plan_performance",
-      "reason": "사용자가 이번 토요일 오후 2시 이후에 대학로에서 5만원 이하 연극을 보고 6시 전에는 끝나는 공연과 끝나고 갈 식당을 요청함"
+      "reason": "사용자가 이번 토요일 오후 2시 이후에 대학로에서 5만원 이하 연극을 보고 6시 전에 끝나는 공연과 끝나고 갈 식당을 추천해달라고 요청함"
      },
      {
       "node": "plan",
@@ -275,9 +276,9 @@
       "reason": ""
      }
     ],
-    "duration_ms": 17650
+    "duration_ms": 10257
    },
-   "event_count": 57,
+   "event_count": 64,
    "checks": [
     {
      "check": "status ok/partial",
@@ -325,8 +326,8 @@
    "status": "ok",
    "replan_count": 2,
    "llm_calls": 3,
-   "wall_s": 11.6,
-   "reply": "추천 공연은 \"꿈깨 [대학로]\"입니다.  \n- 시작 시각: 19:30, 종료 시각: 20:40, 러닝타임: 70분  \n- 가격: 30,000원 (예산 30,000원 이하)  \n- 장소: 달밤엔씨어터  \n- 조건: 19:30 시작으로 희망 시작 시각 19:00 이후이며, 21:30 이전 종료로 시간 조건 충족  \n- 연령 제한: 만 13세 이상  \n- 판단 근거: 시작 및 종료 시간과 가격이 모두 조건에 부합함  \n\n기타 후보들은 모두 예산 초과, 시간 미충족, 또는 회차 없음 등의 이유로 제외되었습니다.  \n참고로 '뮤지컬' 장르 조건에 맞는 공연이 없어 장르 조건을 넓혀 찾았다는 안내가 있습니다.  \n공연 장소 주변 정보는 요청하지 않아 확인하지 못했습니다.  \n실제 예매 가능 여부와 잔여석은 확인하지 않았습니다.",
+   "wall_s": 17.4,
+   "reply": "추천 공연은 \"꿈깨 [대학로]\"입니다. 2026년 11월 29일 19:30에 시작하여 20:40에 종료하며, 러닝타임은 70분입니다. 가격은 30,000원으로 예산 내에 맞고, 시작 시간도 19:00 이후이며 종료 시간도 21:30 이전이라 조건에 부합합니다. 장소는 달밤엔씨어터입니다. 단, '뮤지컬' 장르 조건에 맞는 공연이 없어 장르 조건을 넓혀 찾았음을 참고하세요. 주변 장소 정보는 요청하지 않아 알 수 없습니다. 실제 예매 가능 여부와 잔여석은 확인하지 않았습니다.\n\n예산 초과로 제외된 공연이 많으며, 시작 시간이 희망 시간 이전인 공연도 제외되었습니다.",
    "conditions": {
     "date": {
      "value": "2026-11-29",
@@ -384,12 +385,15 @@
      "analyze",
      "plan",
      "execute",
+     "verify",
      "judge",
      "plan",
      "execute",
+     "verify",
      "judge",
      "plan",
      "execute",
+     "verify",
      "judge",
      "respond"
     ],
@@ -398,7 +402,7 @@
       "tool": "search_performances",
       "ok": true,
       "error_code": null,
-      "ms": 154,
+      "ms": 138,
       "cached": false,
       "summary": "후보 20건"
      },
@@ -406,7 +410,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 126,
+      "ms": 95,
       "cached": false,
       "summary": "언제는 행복하지 않은 순간이 있었나요 (언행순) [서울] · 140분 · 수요일 ~ 금요일(19:00), 토요일 ~ 일요일(14:00), HOL(14:00) · 전석 60,000원"
      },
@@ -414,7 +418,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 116,
+      "ms": 98,
       "cached": false,
       "summary": "붓다, 세상의 길을 묻다 [대학로] · 100분 · 월요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00,18:30) · 전석 50,000원"
      },
@@ -422,7 +426,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 138,
+      "ms": 106,
       "cached": false,
       "summary": "닥터 두리틀 [대학로] · 110분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(14:00,18:00), HOL(14:00,18:00) · OP석  120,000원, VIP석 120,000원, R석 90,000원, S석 60,000원"
      },
@@ -430,7 +434,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 168,
+      "ms": 103,
       "cached": false,
       "summary": "안녕! 크로아티아 · 90분 · 화요일(19:30), 수요일(14:00,19:30), 목요일 ~ 금요일(19:30), 토요일(14:00,18:00), 일요일(14:00) · 전석 50,000원"
      },
@@ -438,7 +442,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 130,
+      "ms": 98,
       "cached": false,
       "summary": "여신님이 보고 계셔 [대학로] · 120분 · 화요일(20:00), 수요일(16:00,20:00), 목요일(20:00), 금요일(16:00,20:00), 토요일 ~ 일요일(14:00,18:00), HOL(14:00,18:00) · VIP석 88,000원, R석 77,000원, S석 55,000원, 시야제한석  40,000원"
      },
@@ -446,7 +450,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 141,
+      "ms": 97,
       "cached": false,
       "summary": "브로큰 넘버스 (BROKEN NUMBERS) · 100분 · 화요일(20:00), 수요일(16:00,20:00), 목요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · 기억석 66,000원, 기록석 55,000원, 존재석 44,000원"
      },
@@ -454,7 +458,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 123,
+      "ms": 98,
       "cached": false,
       "summary": "직소 [대학로] · 75분 · 월요일 ~ 화요일(20:00), 수요일(16:00,20:00), 목요일(20:00), 금요일(16:00,20:00), 토요일(15:00,19:00), 일요일(14:00,18:00) · 전석 44,000원"
      },
@@ -462,7 +466,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 117,
+      "ms": 126,
       "cached": false,
       "summary": "요셉전 [대학로] · 90분 · 월요일 ~ 화요일(19:30), 수요일(16:00), 목요일 ~ 금요일(19:30), 토요일(14:00,17:00), 일요일(15:00) · 전석 55,000원"
      },
@@ -470,7 +474,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 114,
+      "ms": 97,
       "cached": false,
       "summary": "V 에버 애프터 [대학로] · 95분 · 화요일 ~ 수요일(20:00), 목요일(16:00,20:00), 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · R석 77,000원, S석 55,000원"
      },
@@ -478,7 +482,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 121,
+      "ms": 132,
       "cached": false,
       "summary": "바울: 사랑으로 걷다 [대학로] · 100분 · 목요일(19:00), 토요일(13:00,16:00), HOL(13:00) · 전석 60,000원"
      },
@@ -486,7 +490,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 128,
+      "ms": 97,
       "cached": false,
       "summary": "마하고니 [대학로] · 110분 · 화요일(20:00), 수요일(16:00,20:00), 목요일(20:00), 금요일(16:00,20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · R석 77,000원, S석 66,000원, A석 55,000원"
      },
@@ -494,7 +498,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 113,
+      "ms": 108,
       "cached": false,
       "summary": "FATED [대학로] · 100분 · 화요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · R석 66,000원"
      },
@@ -502,7 +506,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 112,
+      "ms": 103,
       "cached": false,
       "summary": "하트비트: 심폐소생일지 [대학로] · 100분 · 월요일(20:00), 수요일(16:00,20:00), 목요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · 전석 66,000원"
      },
@@ -510,7 +514,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 133,
+      "ms": 97,
       "cached": false,
       "summary": "사춘기 [대학로] · 100분 · 화요일(20:00), 수요일(16:00,20:00), 목요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00) · 전석 66,000원"
      },
@@ -518,7 +522,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 115,
+      "ms": 6152,
       "cached": false,
       "summary": "쇼 머스트 고 온 in 대학로 · 99분 · 수요일 ~ 금요일(19:30), 토요일(15:00,19:00), 일요일(14:00,18:00) · 전석 66,000원"
      },
@@ -526,7 +530,7 @@
       "tool": "search_performances",
       "ok": true,
       "error_code": null,
-      "ms": 294,
+      "ms": 235,
       "cached": false,
       "summary": "후보 39건"
      },
@@ -534,7 +538,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 113,
+      "ms": 102,
       "cached": false,
       "summary": "수레바퀴 아래서 [대학로] · 90분 · 화요일 ~ 금요일(20:00), 토요일 ~ 일요일(14:00,18:00), HOL(14:00,18:00) · R석 60,000원, S석 50,000원"
      },
@@ -542,7 +546,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 282,
+      "ms": 103,
       "cached": false,
       "summary": "렛미플라이 [서울] · 120분 · 화요일(19:30), 수요일(15:00,19:30), 목요일 ~ 금요일(19:30), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · R석 88,000원, S석 66,000원"
      },
@@ -550,7 +554,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 131,
+      "ms": 101,
       "cached": false,
       "summary": "아나키스트 [대학로] · 120분 · 화요일(20:00), 수요일(16:00,20:00), 목요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · R석 77,000원, S석 55,000원"
      },
@@ -558,7 +562,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 124,
+      "ms": 98,
       "cached": false,
       "summary": "연의 편지 [대학로] · 100분 · 화요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · R석 70,000원, S석 55,000원"
      },
@@ -566,7 +570,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 119,
+      "ms": 116,
       "cached": false,
       "summary": "난세: 정도전과 이방원의 이야기 [대학로] · 100분 · 화요일(20:00), 수요일(16:00,20:00), 목요일 ~ 금요일(20:00), 토요일 ~ 일요일(14:00,18:00), HOL(14:00,18:00) · R석 66,000원, S석 55,000원"
      },
@@ -574,7 +578,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 122,
+      "ms": 137,
       "cached": false,
       "summary": "곤 투모로우 [대학로] · 150분 · 화요일 ~ 금요일(19:30), 토요일(15:00,19:30), 일요일(14:00,18:30), HOL(14:00,18:30) · VIP석 130,000원, OP석 130,000원, R석 90,000원, S석 60,000원"
      },
@@ -582,7 +586,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 139,
+      "ms": 108,
       "cached": false,
       "summary": "엠. 버터플라이 · 110분 · 화요일(20:00), 수요일(16:00,20:00), 목요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · R석 75,000원, S석 55,000원, A석 40,000원"
      },
@@ -590,7 +594,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 123,
+      "ms": 105,
       "cached": false,
       "summary": "잔혹동화 생존기 [대학로] · 100분 · 화요일 ~ 목요일(20:00), 금요일(16:00,20:00), 토요일 ~ 일요일(14:00,18:00), HOL(14:00,18:00) · R석 70,000원, S석 50,000원"
      },
@@ -598,7 +602,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 115,
+      "ms": 96,
       "cached": false,
       "summary": "옹알스 [대학로] · 70분 · 금요일(19:30), 토요일(14:00,16:00), 일요일(14:00) · 전석 50,000원"
      },
@@ -606,7 +610,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 131,
+      "ms": 100,
       "cached": false,
       "summary": "소크라테스 패러독스 · 80분 · 화요일 ~ 금요일(20:00), 토요일 ~ 일요일(14:00,18:00), HOL(14:00,18:00) · R석 77,000원, S석 55,000원, A석 44,000원"
      },
@@ -614,7 +618,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 110,
+      "ms": 103,
       "cached": false,
       "summary": "미드나잇: 액터뮤지션 THE CHOICE [대학로] · 100분 · 화요일(20:00), 수요일(16:00,20:00), 목요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · 전석 70,000원"
      },
@@ -622,7 +626,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 121,
+      "ms": 103,
       "cached": false,
       "summary": "콰이어 오브 맨 [대학로] · 100분 · 화요일 ~ 금요일(20:00), 토요일 ~ 일요일(14:00,18:00) · R석 99,000원, S석 77,000원, A석 66,000원"
      },
@@ -630,7 +634,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 129,
+      "ms": 99,
       "cached": false,
       "summary": "늦은 봄날 · 120분 · 수요일 ~ 금요일(19:00), 토요일 ~ 일요일(14:00), HOL(14:00) · 전석 60,000원"
      },
@@ -638,7 +642,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 114,
+      "ms": 102,
       "cached": false,
       "summary": "바람으로의 여행 · 125분 · 수요일 ~ 금요일(19:30), 토요일(15:00,19:00), 일요일(16:00) · 전석 50,000원"
      },
@@ -646,7 +650,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 116,
+      "ms": 98,
       "cached": false,
       "summary": "빨래: 32차 프로덕션 · 165분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(14:00,18:30), HOL(15:00) · R석 77,000원, S석 55,000원, 시야제한석 20,000원"
      },
@@ -654,7 +658,7 @@
       "tool": "search_performances",
       "ok": true,
       "error_code": null,
-      "ms": 172,
+      "ms": 130,
       "cached": false,
       "summary": "후보 40건"
      },
@@ -662,7 +666,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 165,
+      "ms": 99,
       "cached": false,
       "summary": "의원님, 자수할래요! · 75분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 30,000원"
      },
@@ -670,7 +674,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 138,
+      "ms": 98,
       "cached": false,
       "summary": "곰팡이, 락스 XX새끼 · 90분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(16:00) · 전석 25,000원"
      },
@@ -678,7 +682,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 110,
+      "ms": 98,
       "cached": false,
       "summary": "각성자 [대학로] · 90분 · 월요일 ~ 금요일(19:30), 토요일(15:00,18:00), 일요일(16:00) · 전석 30,000원"
      },
@@ -686,7 +690,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 113,
+      "ms": 99,
       "cached": false,
       "summary": "단막극 낭독공연, 시선: Eleven Ways of Believing [대학로] · 120분 · 목요일 ~ 금요일(19:30), 토요일 ~ 일요일(14:00,18:00) · 전석 25,000원"
      },
@@ -694,7 +698,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 118,
+      "ms": 104,
       "cached": false,
       "summary": "없는 대화 · 100분 · 월요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00) · 전석 40,000원"
      },
@@ -702,7 +706,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 144,
+      "ms": 98,
       "cached": false,
       "summary": "모든 날, 모든 순간 [대학로] · 100분 · 화요일 ~ 금요일(19:00), 토요일 ~ 일요일(14:00,16:30) · 전석 45,000원"
      },
@@ -710,7 +714,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 142,
+      "ms": 102,
       "cached": false,
       "summary": "아직 · 70분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 20,000원"
      },
@@ -718,7 +722,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 117,
+      "ms": 97,
       "cached": false,
       "summary": "숲세권 라이브, 오르내림 & 률 단독 공연: 해바라기 · 100분 · 일요일(17:00) · 전석 50,000원"
      },
@@ -726,7 +730,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 132,
+      "ms": 95,
       "cached": false,
       "summary": "신촌블루스 콘서트 (11.29) · 120분 · 일요일(14:00) · 전석 66,000원"
      },
@@ -734,7 +738,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 124,
+      "ms": 2115,
       "cached": false,
       "summary": "꿈깨 [대학로] · 70분 · 화요일 ~ 금요일(15:00,19:30), 토요일 ~ 일요일(15:00,19:30) · 전석 30,000원"
      },
@@ -742,7 +746,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 121,
+      "ms": 94,
       "cached": false,
       "summary": "피아니스트 이관욱의 발라드 · 70분 · 일요일(14:00,18:00) · 전석 50,000원"
      },
@@ -750,7 +754,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 128,
+      "ms": 92,
       "cached": false,
       "summary": "타조소년들 [대학로] · 90분 · 목요일 ~ 금요일(20:00), 토요일 ~ 일요일(14:00,18:00) · R석 30,000원, A석 15,000원"
      },
@@ -758,7 +762,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 149,
+      "ms": 94,
       "cached": false,
       "summary": "플레이티켓 낭독쇼케이스, 스마일 보이 (11월) · 60분 · 토요일 ~ 일요일(15:00) · 전석무료"
      },
@@ -766,7 +770,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 119,
+      "ms": 137,
       "cached": false,
       "summary": "제7회 서울연극25페스티벌, 서초노트 · 80분 · 토요일(15:00,18:00), 일요일(15:00) · 전석 30,000원"
      },
@@ -774,7 +778,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 111,
+      "ms": 278,
       "cached": false,
       "summary": "오펀스 · 150분 · 목요일 ~ 금요일(19:30), 토요일 ~ 일요일(13:00,17:00) · 전석 20,000원"
      }
@@ -795,7 +799,7 @@
      {
       "node": "analyze",
       "decision": "plan_performance",
-      "reason": "사용자가 11월 29일 일요일 저녁 7시 이후에 시작해서 9시 반 전에 끝나는 3만원 이하 대학로 뮤지컬을 찾고 있음"
+      "reason": "사용자가 11월 29일 일요일 저녁 7시 이후에 시작해서 9시 반 전에 끝나는 3만원 이하 대학로 뮤지컬을 찾고자 함"
      },
      {
       "node": "plan",
@@ -805,9 +809,9 @@
       "reason": ""
      }
     ],
-    "duration_ms": 11601
+    "duration_ms": 17425
    },
-   "event_count": 131,
+   "event_count": 149,
    "checks": [
     {
      "check": "재계획 1회 이상",
@@ -850,8 +854,8 @@
    "status": "limit_reached",
    "replan_count": 3,
    "llm_calls": 3,
-   "wall_s": 12.5,
-   "reply": "2026년 11월 25일 09:00~11:00 사이, 대학로 지역에서 연극 장르 조건에 맞는 공연은 없습니다. 모든 후보 공연이 시작 시각과 러닝타임을 고려할 때 11:00 이전 종료 조건을 충족하지 못했습니다. 예를 들어, '의원님, 자수할래요!'는 19:30 시작, 75분 러닝타임으로 20:45 종료되어 제한 시간 초과입니다. 또한, '안녕! 크로아티아'는 14:00 시작, 90분 러닝타임으로 15:30 종료되어 11:00 제한을 넘습니다. 조건을 3회 넓혀도 맞는 공연이 없으니 종료 제한 시간을 15:30로 늦추면 '안녕! 크로아티아'를 관람할 수 있습니다. 단, 실제 예매 가능 여부와 잔여석은 확인하지 않았습니다.",
+   "wall_s": 14.5,
+   "reply": "2026년 11월 25일 09:00~11:00 사이, 대학로 지역에서 연극 장르 공연은 조건에 맞는 것이 없습니다. 모든 후보 공연은 시작 시각이 너무 늦거나 종료 시각이 11:00 제한을 초과해 제외되었습니다. \n\n안내: '연극' 장르와 '대학로' 지역 조건을 넓혀도 맞는 공연이 없었고, 3회 조건을 넓혀도 결과가 없습니다. 조건 조정을 권합니다. \n\n추천 제안: 종료 제한을 15:30로 늦추면 '안녕! 크로아티아' (14:00~15:30, 러닝타임 90분)를 관람할 수 있습니다.\n\n실제 예매 가능 여부와 잔여석은 확인하지 않았습니다.",
    "conditions": {
     "date": {
      "value": "2026-11-25",
@@ -901,15 +905,20 @@
      "analyze",
      "plan",
      "execute",
+     "verify",
      "judge",
      "plan",
      "execute",
+     "verify",
      "judge",
      "plan",
      "execute",
+     "verify",
      "judge",
      "plan",
      "execute",
+     "verify",
+     "plan",
      "judge",
      "respond"
     ],
@@ -918,7 +927,7 @@
       "tool": "search_performances",
       "ok": true,
       "error_code": null,
-      "ms": 200,
+      "ms": 132,
       "cached": false,
       "summary": "후보 20건"
      },
@@ -926,7 +935,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 110,
+      "ms": 105,
       "cached": false,
       "summary": "의원님, 자수할래요! · 75분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 30,000원"
      },
@@ -934,7 +943,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 143,
+      "ms": 95,
       "cached": false,
       "summary": "곰팡이, 락스 XX새끼 · 90분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(16:00) · 전석 25,000원"
      },
@@ -942,7 +951,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 128,
+      "ms": 97,
       "cached": false,
       "summary": "없는 대화 · 100분 · 월요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00) · 전석 40,000원"
      },
@@ -950,7 +959,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 113,
+      "ms": 96,
       "cached": false,
       "summary": "플레이티켓 낭독쇼케이스, 니 마음대로 하세요 (11월) · 60분 · 수요일 ~ 목요일(19:30) · 전석무료"
      },
@@ -958,7 +967,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 134,
+      "ms": 96,
       "cached": false,
       "summary": "모든 날, 모든 순간 [대학로] · 100분 · 화요일 ~ 금요일(19:00), 토요일 ~ 일요일(14:00,16:30) · 전석 45,000원"
      },
@@ -966,7 +975,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 122,
+      "ms": 91,
       "cached": false,
       "summary": "아직 · 70분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 20,000원"
      },
@@ -974,7 +983,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 102,
+      "ms": 101,
       "cached": false,
       "summary": "꿈깨 [대학로] · 70분 · 화요일 ~ 금요일(15:00,19:30), 토요일 ~ 일요일(15:00,19:30) · 전석 30,000원"
      },
@@ -982,7 +991,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 115,
+      "ms": 96,
       "cached": false,
       "summary": "우리는 지금 어디에 있을까 [대학로] · 70분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(16:00) · 전석 40,000원"
      },
@@ -990,7 +999,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 109,
+      "ms": 91,
       "cached": false,
       "summary": "엄마와 아들: 아들, 엄마도 처음이야! [대학로] · 80분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:30) · 전석 40,000원"
      },
@@ -998,7 +1007,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 146,
+      "ms": 94,
       "cached": false,
       "summary": "마흔에 서 [대학로] · 90분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 40,000원"
      },
@@ -1006,7 +1015,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 110,
+      "ms": 2124,
       "cached": false,
       "summary": "모든 날 모든 순간 · 100분 · 화요일 ~ 금요일(19:00), 토요일 ~ 일요일(14:00,16:30) · 전석 45,000원"
      },
@@ -1014,7 +1023,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 116,
+      "ms": 130,
       "cached": false,
       "summary": "SLOW FORWARD · 100분 · 수요일 ~ 금요일(19:30), 토요일(15:00,18:30), 일요일(15:00) · 전석 30,000원"
      },
@@ -1022,7 +1031,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 108,
+      "ms": 98,
       "cached": false,
       "summary": "연출가 故김태수 1주기 추모연극제, 라떼는 커피다 · 70분 · 화요일 ~ 목요일(19:30) · 전석 30,000원"
      },
@@ -1030,7 +1039,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 107,
+      "ms": 99,
       "cached": false,
       "summary": "혜화동1번지 동인 페스티벌, 지역 대축제: 혜화동 콩집 · 60분 · 월요일(19:00), 화요일 ~ 금요일(21:00), 토요일(21:00), 일요일(19:00) · 전석 20,000원"
      },
@@ -1038,7 +1047,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 227,
+      "ms": 99,
       "cached": false,
       "summary": "제3회 심야N연극제, 전생에 나라를 구한 걸 (Girl) [대학로] · 80분 · 수요일 ~ 금요일(20:10), 토요일 ~ 일요일(20:10) · 전석 30,000원"
      },
@@ -1046,7 +1055,7 @@
       "tool": "search_performances",
       "ok": true,
       "error_code": null,
-      "ms": 175,
+      "ms": 193,
       "cached": false,
       "summary": "후보 40건"
      },
@@ -1054,7 +1063,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 136,
+      "ms": 99,
       "cached": false,
       "summary": "동상이몽 [대학로] · 80분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(14:00,16:30) · 전석 60,000원"
      },
@@ -1062,7 +1071,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 203,
+      "ms": 116,
       "cached": false,
       "summary": "설강화 [대학로] · 100분 · 월요일(20:00), 수요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · R석 60,000원, S석 50,000원, 시야방해석  30,000원, 관찰일지석  10,000원"
      },
@@ -1070,7 +1079,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 119,
+      "ms": 102,
       "cached": false,
       "summary": "THE CELL: 더 셀 [대학로] · 80분 · 월요일 ~ 목요일(19:30), 금요일(17:00,19:30), 토요일 ~ 일요일(14:00,17:00,19:30) · 전석 55,000원"
      },
@@ -1078,7 +1087,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 103,
+      "ms": 94,
       "cached": false,
       "summary": "헬프 HELP · 100분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 40,000원"
      },
@@ -1086,7 +1095,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 102,
+      "ms": 93,
       "cached": false,
       "summary": "말숙과 해미와 눈 [대학로] · 80분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 40,000원"
      },
@@ -1094,7 +1103,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 115,
+      "ms": 103,
       "cached": false,
       "summary": "동화와 전설 [대학로] · 110분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 50,000원"
      },
@@ -1102,7 +1111,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 113,
+      "ms": 98,
       "cached": false,
       "summary": "제비심장 · 110분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 40,000원"
      },
@@ -1110,7 +1119,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 118,
+      "ms": 96,
       "cached": false,
       "summary": "먼지여자 [대학로] · 90분 · 월요일(19:30), 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 40,000원"
      },
@@ -1118,7 +1127,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 116,
+      "ms": 105,
       "cached": false,
       "summary": "라 파운데이션 [대학로] · 120분 · 월요일 ~ 화요일(19:30), 수요일(15:00,19:30), 목요일(19:30), 금요일(15:00,19:30), 토요일 ~ 일요일(15:00,19:30) · 전석 55,000원"
      },
@@ -1126,7 +1135,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 123,
+      "ms": 99,
       "cached": false,
       "summary": "포쉬 [대학로] · 110분 · 화요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · 일반석 66,000원, 시야제한석 30,000원"
      },
@@ -1134,7 +1143,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 107,
+      "ms": 96,
       "cached": false,
       "summary": "쿼드, 연극의 질문들: 이성열의 화염 · 190분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 50,000원"
      },
@@ -1142,7 +1151,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 151,
+      "ms": 104,
       "cached": false,
       "summary": "노맨틱 코미디 · 110분 · 화요일 ~ 금요일(19:30), 토요일(15:00,18:00), 일요일(15:00), HOL(15:00) · 전석 30,000원"
      },
@@ -1150,7 +1159,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 132,
+      "ms": 109,
       "cached": false,
       "summary": "더 라스트 카고 · 80분 · 월요일 ~ 화요일(20:00), 수요일(16:00,20:00), 목요일(20:00), 금요일(16:00,20:00), 토요일(15:00,19:00), 일요일(14:00,18:00) · R석 50,000원, S석 40,000원"
      },
@@ -1158,7 +1167,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 133,
+      "ms": 100,
       "cached": false,
       "summary": "전락 [대학로] · 100분 · 화요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00) · 전석 66,000원"
      },
@@ -1166,7 +1175,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 117,
+      "ms": 107,
       "cached": false,
       "summary": "트로피 보이즈 · 80분 · 화요일(20:00), 수요일(16:00,20:00), 목요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(15:00) · 전석 66,000원"
      },
@@ -1174,7 +1183,7 @@
       "tool": "search_performances",
       "ok": true,
       "error_code": null,
-      "ms": 169,
+      "ms": 132,
       "cached": false,
       "summary": "후보 40건"
      },
@@ -1182,7 +1191,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 117,
+      "ms": 102,
       "cached": false,
       "summary": "제7회 서울연극25페스티벌, 족두리가 돌아왔다 · 90분 · 화요일 ~ 목요일(19:30) · 전석 30,000원"
      },
@@ -1190,7 +1199,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 140,
+      "ms": 105,
       "cached": false,
       "summary": "언제는 행복하지 않은 순간이 있었나요 (언행순) [서울] · 140분 · 수요일 ~ 금요일(19:00), 토요일 ~ 일요일(14:00), HOL(14:00) · 전석 60,000원"
      },
@@ -1198,7 +1207,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 117,
+      "ms": 93,
       "cached": false,
       "summary": "스테이지 반달, 낭독극 3부작: 타임어택! & 뜬-소문 & 해파리가 되는 꿈 · 60분 · 화요일 ~ 목요일(16:00,20:00) · 전석 20,000원"
      },
@@ -1206,7 +1215,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 105,
+      "ms": 85,
       "cached": false,
       "summary": "THE Dreamers K-POP STORY CONCERT · 70분 · 토요일(19:00) · R석 60,000원, S석 50,000원, A석 40,000원"
      },
@@ -1214,7 +1223,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 109,
+      "ms": 93,
       "cached": false,
       "summary": "붓다, 세상의 길을 묻다 [대학로] · 100분 · 월요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00,18:30) · 전석 50,000원"
      },
@@ -1222,7 +1231,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 117,
+      "ms": 2122,
       "cached": false,
       "summary": "덩더쿵 어린이 궁중 음악대 · 90분 · 일요일(11:00,13:30,16:00) · 어린이   45,000원, 보호자  15,000원"
      },
@@ -1230,7 +1239,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 121,
+      "ms": 115,
       "cached": false,
       "summary": "안녕! 크로아티아 · 90분 · 화요일(19:30), 수요일(14:00,19:30), 목요일 ~ 금요일(19:30), 토요일(14:00,18:00), 일요일(14:00) · 전석 50,000원"
      },
@@ -1238,7 +1247,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 117,
+      "ms": 104,
       "cached": false,
       "summary": "여신님이 보고 계셔 [대학로] · 120분 · 화요일(20:00), 수요일(16:00,20:00), 목요일(20:00), 금요일(16:00,20:00), 토요일 ~ 일요일(14:00,18:00), HOL(14:00,18:00) · VIP석 88,000원, R석 77,000원, S석 55,000원, 시야제한석  40,000원"
      },
@@ -1246,7 +1255,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 165,
+      "ms": 96,
       "cached": false,
       "summary": "브로큰 넘버스 (BROKEN NUMBERS) · 100분 · 화요일(20:00), 수요일(16:00,20:00), 목요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · 기억석 66,000원, 기록석 55,000원, 존재석 44,000원"
      },
@@ -1254,7 +1263,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 115,
+      "ms": 100,
       "cached": false,
       "summary": "제47회 서울무용제, 경연대상 · 60분 · 수요일(20:00), 금요일(20:00), 일요일(19:00) · R석 70,000원, S석 50,000원, A석 30,000원"
      },
@@ -1262,7 +1271,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 116,
+      "ms": 103,
       "cached": false,
       "summary": "Piano Quartet 43: Late Autumn Resonance · 90분 · 수요일(19:30) · 전석 30,000원"
      },
@@ -1270,7 +1279,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 115,
+      "ms": 98,
       "cached": false,
       "summary": "매직 라이브 펍 [대학로] · 70분 · 수요일(19:30), 토요일(16:00), 일요일(14:00,18:00) · 2인석 30,000원"
      },
@@ -1278,7 +1287,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 127,
+      "ms": 105,
       "cached": false,
       "summary": "요셉전 [대학로] · 90분 · 월요일 ~ 화요일(19:30), 수요일(16:00), 목요일 ~ 금요일(19:30), 토요일(14:00,17:00), 일요일(15:00) · 전석 55,000원"
      },
@@ -1286,7 +1295,7 @@
       "tool": "search_performances",
       "ok": true,
       "error_code": null,
-      "ms": 160,
+      "ms": 149,
       "cached": false,
       "summary": "후보 40건"
      },
@@ -1294,7 +1303,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 143,
+      "ms": 125,
       "cached": false,
       "summary": "다이브: 심연의 몸 · 60분 · 화요일 ~ 수요일(19:30) · 전석 30,000원"
      },
@@ -1302,7 +1311,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 141,
+      "ms": 112,
       "cached": false,
       "summary": "호두까기인형의 크리스마스 초대, 피아노4 hadns [서울] · 50분 · 금요일(19:00), 토요일(15:00) · 전석 25,000원"
      },
@@ -1310,7 +1319,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 131,
+      "ms": 108,
       "cached": false,
       "summary": "프란츠 리스트 체임버 오케스트라 내한공연 [서울 영등포] · 120분 · 수요일(19:30) · R석 100,000원, S석 80,000원, A석 50,000원"
      },
@@ -1318,7 +1327,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 109,
+      "ms": 102,
       "cached": false,
       "summary": "MU&A 스튜디오 기획 시리즈, 주간 클래식 · 70분 · 목요일(19:30) · 회차별 L  35,000원, 회차별 G  50,000원, 패키지  220,000원"
      },
@@ -1326,7 +1335,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 115,
+      "ms": 105,
       "cached": false,
       "summary": "몸짓을 연주하다: LINE · 60분 · 수요일(19:30) · 전석 50,000원"
      },
@@ -1334,7 +1343,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 108,
+      "ms": 105,
       "cached": false,
       "summary": "껍질 벗기기 · 90분 · 월요일 ~ 수요일(20:00), 토요일(15:00,19:00), 일요일(19:00) · 전석 30,000원"
      },
@@ -1342,7 +1351,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 103,
+      "ms": 102,
       "cached": false,
       "summary": "황윤지의 일곱 번째 전통춤: 천류선무 · 70분 · 수요일(19:30) · 전석 30,000원"
      },
@@ -1358,7 +1367,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 110,
+      "ms": 103,
       "cached": false,
       "summary": "삼익 자일러 아티스트 시리즈 Ⅱ. 교수와 제자 - 음악의 계보를 잇다 (2026.11~2027.02) · 110분 · 월요일(18:30,19:00), 수요일(19:30), 금요일(19:00) · 전석 20,000원"
      },
@@ -1366,7 +1375,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 115,
+      "ms": 101,
       "cached": false,
       "summary": "그루브재즈데이, Groove in November · 100분 · 수요일 ~ 목요일(20:00) · 1층석 15,000원"
      },
@@ -1374,7 +1383,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 147,
+      "ms": 101,
       "cached": false,
       "summary": "나루아티스트와 함께하는 살롱음악회 (11월) · 60분 · 수요일(19:30) · 전석 1,000원"
      },
@@ -1382,7 +1391,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 116,
+      "ms": 109,
       "cached": false,
       "summary": "AZITO PLAY, 남장 · 220분 · 수요일(19:00) · 사전예약 20,000원, 현장판매 25,000원"
      },
@@ -1390,7 +1399,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 125,
+      "ms": 99,
       "cached": false,
       "summary": "아주아주 배고픈 애벌레 쇼 · 60분 · 토요일 ~ 일요일(11:00,14:00), HOL(11:00,14:00,16:00) · 애벌레석 66,000원"
      },
@@ -1398,7 +1407,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 113,
+      "ms": 96,
       "cached": false,
       "summary": "Ob/scene Festival (옵/신) , 이민진: 판-타 · 50분 · 월요일 ~ 수요일(19:30) · 전석 30,000원"
      },
@@ -1406,7 +1415,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 104,
+      "ms": 101,
       "cached": false,
       "summary": "인사이드 더 플레이 : 카지노X · 140분 · 월요일 ~ 화요일(20:00,20:25,20:40), 목요일 ~ 금요일(20:00,20:25,20:40), 토요일 ~ 일요일(20:00,20:25,20:40) · Royal Club 129,000원, Masimo Club 89,000원, Elite Club  69,000원"
      }
@@ -1432,7 +1441,7 @@
      {
       "node": "analyze",
       "decision": "plan_performance",
-      "reason": "사용자가 다음 주 수요일 오전 9시 이후 시작해서 오전 11시 전에 끝나는 대학로 연극을 찾음"
+      "reason": "사용자가 다음 주 수요일 오전 9시 이후 시작하고 오전 11시 전에 끝나는 대학로 연극을 찾고 있음"
      },
      {
       "node": "plan",
@@ -1442,9 +1451,9 @@
       "reason": ""
      }
     ],
-    "duration_ms": 12425
+    "duration_ms": 14493
    },
-   "event_count": 168,
+   "event_count": 196,
    "checks": [
     {
      "check": "status limit_reached",
@@ -1477,8 +1486,8 @@
    "status": "partial",
    "replan_count": 0,
    "llm_calls": 3,
-   "wall_s": 13.6,
-   "reply": "2026년 11월 28일 대학로에서 14:00 이후 18:00 이전에 볼 수 있는 연극 공연 중 예산 5만원 이하인 추천은 다음과 같습니다.\n\n1. 타조소년들 [대학로]\n- 시간: 14:00~15:30 (90분)\n- 가격: 15,000원\n- 판단 근거: 14:00 시작, 15:30 종료로 18:00 이전 종료, 예산 5만원 이하\n- 장소: 보라 아트홀(구. 지구인아트홀)\n- 주변 식당 정보 조회에 실패했습니다.\n\n2. 단막극 낭독공연, 시선: Eleven Ways of Believing [대학로]\n- 시간: 14:00~16:00 (120분)\n- 가격: 25,000원\n- 판단 근거: 14:00 시작, 16:00 종료로 18:00 이전 종료, 예산 5만원 이하\n- 장소: 북극곰소극장\n- 주변 식당 정보 조회에 실패했습니다.\n\n3. 모든 날, 모든 순간 [대학로]\n- 시간: 14:00~15:40 (100분)\n- 가격: 45,000원\n- 판단 근거: 14:00 시작, 15:40 종료로 18:00 이전 종료, 예산 5만원 이하\n- 장소: 지즐소극장\n- 주변 식당 정보 조회에 실패했습니다.\n\n제외된 공연:\n- 오펀스: 13:00 시작으로 희망 시작 시간 14:00 이전이며, 17:00 시작 공연은 18:00 제한 시간 초과\n\n안내: 주변 식당 정보 조회에 실패해 공연장 주변 식당 안내를 드리지 못했습니다. 실제 예매 가능 여부와 잔여석은 확인하지 않았습니다.",
+   "wall_s": 14.5,
+   "reply": "2026년 11월 28일 대학로에서 14:00 이후 18:00 이전, 예산 5만원 이하 조건에 맞는 연극 공연 세 편을 추천합니다.\n\n1. 타조소년들 [대학로]\n- 시간: 14:00~15:30 (90분)\n- 가격: 15,000원\n- 판단 근거: 14:00 시작, 15:30 종료로 18:00 이전 종료, 예산 5만원 이하\n- 장소: 보라 아트홀(구. 지구인아트홀)\n- 주변 식당 정보 조회에 실패했습니다.\n\n2. 단막극 낭독공연, 시선: Eleven Ways of Believing [대학로]\n- 시간: 14:00~16:00 (120분)\n- 가격: 25,000원\n- 판단 근거: 14:00 시작, 16:00 종료로 18:00 이전 종료, 예산 5만원 이하\n- 장소: 북극곰소극장\n- 주변 식당 정보 조회에 실패했습니다.\n\n3. 모든 날, 모든 순간 [대학로]\n- 시간: 14:00~15:40 (100분)\n- 가격: 45,000원\n- 판단 근거: 14:00 시작, 15:40 종료로 18:00 이전 종료, 예산 5만원 이하\n- 장소: 지즐소극장\n- 주변 식당 정보 조회에 실패했습니다.\n\n제외된 공연: 오펀스 (14:00 이후 시작 아님, 종료 시간 제한 초과)\n\n참고: 주변 식당 정보 조회에 실패해 대학로 내 공연장 주변 식당 안내를 드리지 못했습니다. 실제 예매 가능 여부와 잔여석은 확인하지 않았습니다.",
    "conditions": {
     "date": {
      "value": "2026-11-28",
@@ -1578,6 +1587,7 @@
      "analyze",
      "plan",
      "execute",
+     "verify",
      "judge",
      "execute",
      "respond"
@@ -1587,7 +1597,7 @@
       "tool": "search_performances",
       "ok": true,
       "error_code": null,
-      "ms": 3149,
+      "ms": 6989,
       "cached": false,
       "summary": "후보 20건"
      },
@@ -1595,7 +1605,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 114,
+      "ms": 99,
       "cached": false,
       "summary": "제3회 고래 단막극 페스티벌 · 105분 · 목요일 ~ 금요일(19:30), 토요일(15:00) · 전석 40,000원"
      },
@@ -1603,7 +1613,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 110,
+      "ms": 102,
       "cached": false,
       "summary": "의원님, 자수할래요! · 75분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 30,000원"
      },
@@ -1611,7 +1621,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 134,
+      "ms": 98,
       "cached": false,
       "summary": "곰팡이, 락스 XX새끼 · 90분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(16:00) · 전석 25,000원"
      },
@@ -1619,7 +1629,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 115,
+      "ms": 100,
       "cached": false,
       "summary": "단막극 낭독공연, 시선: Eleven Ways of Believing [대학로] · 120분 · 목요일 ~ 금요일(19:30), 토요일 ~ 일요일(14:00,18:00) · 전석 25,000원"
      },
@@ -1627,7 +1637,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 114,
+      "ms": 103,
       "cached": false,
       "summary": "없는 대화 · 100분 · 월요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00) · 전석 40,000원"
      },
@@ -1635,7 +1645,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 115,
+      "ms": 145,
       "cached": false,
       "summary": "모든 날, 모든 순간 [대학로] · 100분 · 화요일 ~ 금요일(19:00), 토요일 ~ 일요일(14:00,16:30) · 전석 45,000원"
      },
@@ -1643,7 +1653,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 143,
+      "ms": 111,
       "cached": false,
       "summary": "아직 · 70분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 20,000원"
      },
@@ -1651,7 +1661,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 120,
+      "ms": 113,
       "cached": false,
       "summary": "꿈깨 [대학로] · 70분 · 화요일 ~ 금요일(15:00,19:30), 토요일 ~ 일요일(15:00,19:30) · 전석 30,000원"
      },
@@ -1659,7 +1669,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 115,
+      "ms": 103,
       "cached": false,
       "summary": "타조소년들 [대학로] · 90분 · 목요일 ~ 금요일(20:00), 토요일 ~ 일요일(14:00,18:00) · R석 30,000원, A석 15,000원"
      },
@@ -1667,7 +1677,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 111,
+      "ms": 94,
       "cached": false,
       "summary": "플레이티켓 낭독쇼케이스, 스마일 보이 (11월) · 60분 · 토요일 ~ 일요일(15:00) · 전석무료"
      },
@@ -1675,7 +1685,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 118,
+      "ms": 97,
       "cached": false,
       "summary": "제7회 서울연극25페스티벌, 서초노트 · 80분 · 토요일(15:00,18:00), 일요일(15:00) · 전석 30,000원"
      },
@@ -1683,7 +1693,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 127,
+      "ms": 95,
       "cached": false,
       "summary": "오펀스 · 150분 · 목요일 ~ 금요일(19:30), 토요일 ~ 일요일(13:00,17:00) · 전석 20,000원"
      },
@@ -1691,7 +1701,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 121,
+      "ms": 94,
       "cached": false,
       "summary": "우리는 지금 어디에 있을까 [대학로] · 70분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(16:00) · 전석 40,000원"
      },
@@ -1699,7 +1709,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 119,
+      "ms": 103,
       "cached": false,
       "summary": "엄마와 아들: 아들, 엄마도 처음이야! [대학로] · 80분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:30) · 전석 40,000원"
      },
@@ -1707,7 +1717,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 99,
+      "ms": 95,
       "cached": false,
       "summary": "핑크트럭 [대학로 (앵콜) ] · 110분 · 화요일 ~ 목요일(19:30), 토요일 ~ 일요일(14:00,17:00), HOL(14:00,17:00) · 전석 50,000원"
      },
@@ -1715,7 +1725,7 @@
       "tool": "search_nearby_places",
       "ok": false,
       "error_code": "AUTH_FAILED",
-      "ms": 1578,
+      "ms": 542,
       "cached": false,
       "summary": "AUTH_FAILED: 카카오 API 키가 유효하지 않습니다."
      },
@@ -1723,7 +1733,7 @@
       "tool": "search_nearby_places",
       "ok": false,
       "error_code": "AUTH_FAILED",
-      "ms": 132,
+      "ms": 126,
       "cached": false,
       "summary": "AUTH_FAILED: 카카오 API 키가 유효하지 않습니다."
      },
@@ -1731,7 +1741,7 @@
       "tool": "search_nearby_places",
       "ok": false,
       "error_code": "AUTH_FAILED",
-      "ms": 123,
+      "ms": 116,
       "cached": false,
       "summary": "AUTH_FAILED: 카카오 API 키가 유효하지 않습니다."
      }
@@ -1741,7 +1751,7 @@
      {
       "node": "analyze",
       "decision": "plan_performance",
-      "reason": "사용자가 이번 토요일 오후 2시 이후에 대학로에서 5만원 이하 연극을 보고 6시 전에는 끝내고 싶어하며, 끝나고 갈 식당도 요청함"
+      "reason": "사용자가 이번 토요일 오후 2시 이후에 대학로에서 5만원 이하 연극을 보고 6시 전에는 끝나는 공연과 끝나고 갈 식당을 추천받고 싶어함"
      },
      {
       "node": "plan",
@@ -1751,9 +1761,9 @@
       "reason": ""
      }
     ],
-    "duration_ms": 13521
+    "duration_ms": 14466
    },
-   "event_count": 57,
+   "event_count": 67,
    "checks": [
     {
      "check": "status partial",
@@ -1796,7 +1806,7 @@
    "status": "chat",
    "replan_count": 0,
    "llm_calls": 2,
-   "wall_s": 2.7,
+   "wall_s": 2.3,
    "reply": "안녕하세요! 저는 날짜, 시간, 지역, 장르, 예산 조건에 맞는 실제 공연을 추천해드리고, 공연장 주변 식당, 카페, 주차장 정보도 안내해드려요. 마음에 드는 공연은 관람 계획으로 저장해드릴 수 있습니다.",
    "conditions": {},
    "recommendations": [],
@@ -1819,7 +1829,7 @@
       "reason": "사용자가 인사와 기능에 대해 물었음"
      }
     ],
-    "duration_ms": 2636
+    "duration_ms": 2298
    },
    "event_count": 7,
    "checks": [
@@ -1854,7 +1864,7 @@
    "status": "clarify",
    "replan_count": 0,
    "llm_calls": 1,
-   "wall_s": 1.4,
+   "wall_s": 1.1,
    "reply": "이어서 찾아 드리려면 다음 내용을 알려 주세요: 관람 날짜, 희망 시작 시각(몇 시 이후).",
    "conditions": {
     "end_by": {
@@ -1882,7 +1892,7 @@
       "reason": "종료 시간을 7시 이전으로 변경 요청"
      }
     ],
-    "duration_ms": 1385
+    "duration_ms": 1053
    },
    "event_count": 7,
    "checks": [
@@ -1922,8 +1932,8 @@
    "status": "ok",
    "replan_count": 0,
    "llm_calls": 3,
-   "wall_s": 8.9,
-   "reply": "추천 공연 3편입니다.\n\n1. 여신님이 보고 계셔 [대학로]\n- 시간: 14:00~16:00 (120분)\n- 가격: 40,000원\n- 장소: 유니플렉스 (1관(대극장))\n- 판단 근거: 14시 시작, 16시 종료로 18시 이전 종료, 예산 5만원 이하 충족\n- 인근 음식점: 서래향 대학로점(중식), 도르프(제과), 소바의온도 대학로직영점(일식), 동아냉면 혜화점(한식), 푸라닭치킨 대학로점(치킨)\n\n2. 안녕! 크로아티아\n- 시간: 14:00~15:30 (90분)\n- 가격: 50,000원\n- 장소: 비유아트홀(구. 효천아트센터 그라운드씬)\n- 판단 근거: 14시 시작, 15시 30분 종료로 18시 이전 종료, 예산 5만원 한도 충족\n- 인근 음식점: 봄까스(일식), 처갓집양념치킨 혜화점(치킨), 마로화적(한식), 명륜손칼국수(한식), 한성본가(한식)\n\n3. 브로큰 넘버스 (BROKEN NUMBERS)\n- 시간: 15:00~16:40 (100분)\n- 가격: 44,000원\n- 장소: 링크더스페이스(LINK THE SPACE) (1관)\n- 판단 근거: 15시 시작, 16시 40분 종료로 18시 이전 종료, 예산 5만원 이하 충족\n- 인근 음식점: 서래향 대학로점(중식), 샐러링 대학로점(샐러드), 해화개반 대학로(일식), 롤링파스타 대학로점(양식), 투파인드피터 혜화점(양식)\n\n제외된 공연들은 모두 예산 50,000원을 초과하여 제외되었습니다.\n\n음식점 정보는 모두 대학로 인근이며, 장소 조회는 정상적으로 이루어졌습니다.\n\n실제 예매 가능 여부와 잔여석은 확인하지 않았습니다.",
+   "wall_s": 7.9,
+   "reply": "추천 공연 3편입니다.\n\n1. 여신님이 보고 계셔 [대학로]\n- 시간: 14:00~16:00 (120분)\n- 가격: 40,000원\n- 장소: 유니플렉스 (1관(대극장))\n- 판단 근거: 14시 시작, 16시 종료로 18시 이전 종료, 예산 5만원 이하 충족\n- 인근 음식점: 서래향 대학로점(중식), 도르프(제과), 소바의온도(일식), 동아냉면(한식), 푸라닭치킨(치킨)\n\n2. 안녕! 크로아티아\n- 시간: 14:00~15:30 (90분)\n- 가격: 50,000원\n- 장소: 비유아트홀(구. 효천아트센터 그라운드씬)\n- 판단 근거: 14시 시작, 15시 30분 종료로 18시 이전 종료, 예산 5만원 이하 충족\n- 인근 음식점: 봄까스(일식), 처갓집양념치킨, 마로화적(한식), 명륜손칼국수, 한성본가(한식)\n\n3. 브로큰 넘버스 (BROKEN NUMBERS)\n- 시간: 15:00~16:40 (100분)\n- 가격: 44,000원\n- 장소: 링크더스페이스(LINK THE SPACE) (1관)\n- 판단 근거: 15시 시작, 16시 40분 종료로 18시 이전 종료, 예산 5만원 이하 충족\n- 인근 음식점: 서래향 대학로점(중식), 샐러링(샐러드), 해화개반(일식), 롤링파스타(양식), 투파인드피터(양식)\n\n제외된 공연들은 모두 예산 50,000원을 초과하여 제외되었습니다.\n\n음식점 정보는 모두 대학로 인근이며, places_status는 모두 정상 조회되었습니다.\n\n실제 예매 가능 여부와 잔여석은 확인하지 않았습니다.",
    "conditions": {
     "date": {
      "value": "2026-11-28",
@@ -2014,6 +2024,7 @@
      "analyze",
      "plan",
      "execute",
+     "verify",
      "judge",
      "execute",
      "respond"
@@ -2023,7 +2034,7 @@
       "tool": "search_performances",
       "ok": true,
       "error_code": null,
-      "ms": 172,
+      "ms": 145,
       "cached": false,
       "summary": "후보 20건"
      },
@@ -2031,7 +2042,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 108,
+      "ms": 100,
       "cached": false,
       "summary": "언제는 행복하지 않은 순간이 있었나요 (언행순) [서울] · 140분 · 수요일 ~ 금요일(19:00), 토요일 ~ 일요일(14:00), HOL(14:00) · 전석 60,000원"
      },
@@ -2039,7 +2050,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 120,
+      "ms": 110,
       "cached": false,
       "summary": "붓다, 세상의 길을 묻다 [대학로] · 100분 · 월요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00,18:30) · 전석 50,000원"
      },
@@ -2047,7 +2058,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 114,
+      "ms": 100,
       "cached": false,
       "summary": "닥터 두리틀 [대학로] · 110분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(14:00,18:00), HOL(14:00,18:00) · OP석  120,000원, VIP석 120,000원, R석 90,000원, S석 60,000원"
      },
@@ -2055,7 +2066,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 122,
+      "ms": 94,
       "cached": false,
       "summary": "안녕! 크로아티아 · 90분 · 화요일(19:30), 수요일(14:00,19:30), 목요일 ~ 금요일(19:30), 토요일(14:00,18:00), 일요일(14:00) · 전석 50,000원"
      },
@@ -2063,7 +2074,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 132,
+      "ms": 97,
       "cached": false,
       "summary": "여신님이 보고 계셔 [대학로] · 120분 · 화요일(20:00), 수요일(16:00,20:00), 목요일(20:00), 금요일(16:00,20:00), 토요일 ~ 일요일(14:00,18:00), HOL(14:00,18:00) · VIP석 88,000원, R석 77,000원, S석 55,000원, 시야제한석  40,000원"
      },
@@ -2071,7 +2082,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 137,
+      "ms": 105,
       "cached": false,
       "summary": "브로큰 넘버스 (BROKEN NUMBERS) · 100분 · 화요일(20:00), 수요일(16:00,20:00), 목요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · 기억석 66,000원, 기록석 55,000원, 존재석 44,000원"
      },
@@ -2079,7 +2090,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 118,
+      "ms": 100,
       "cached": false,
       "summary": "직소 [대학로] · 75분 · 월요일 ~ 화요일(20:00), 수요일(16:00,20:00), 목요일(20:00), 금요일(16:00,20:00), 토요일(15:00,19:00), 일요일(14:00,18:00) · 전석 44,000원"
      },
@@ -2087,7 +2098,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 138,
+      "ms": 106,
       "cached": false,
       "summary": "요셉전 [대학로] · 90분 · 월요일 ~ 화요일(19:30), 수요일(16:00), 목요일 ~ 금요일(19:30), 토요일(14:00,17:00), 일요일(15:00) · 전석 55,000원"
      },
@@ -2095,7 +2106,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 120,
+      "ms": 103,
       "cached": false,
       "summary": "V 에버 애프터 [대학로] · 95분 · 화요일 ~ 수요일(20:00), 목요일(16:00,20:00), 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · R석 77,000원, S석 55,000원"
      },
@@ -2103,7 +2114,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 111,
+      "ms": 99,
       "cached": false,
       "summary": "바울: 사랑으로 걷다 [대학로] · 100분 · 목요일(19:00), 토요일(13:00,16:00), HOL(13:00) · 전석 60,000원"
      },
@@ -2111,7 +2122,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 124,
+      "ms": 120,
       "cached": false,
       "summary": "마하고니 [대학로] · 110분 · 화요일(20:00), 수요일(16:00,20:00), 목요일(20:00), 금요일(16:00,20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · R석 77,000원, S석 66,000원, A석 55,000원"
      },
@@ -2119,7 +2130,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 109,
+      "ms": 101,
       "cached": false,
       "summary": "FATED [대학로] · 100분 · 화요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · R석 66,000원"
      },
@@ -2127,7 +2138,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 119,
+      "ms": 99,
       "cached": false,
       "summary": "하트비트: 심폐소생일지 [대학로] · 100분 · 월요일(20:00), 수요일(16:00,20:00), 목요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00) · 전석 66,000원"
      },
@@ -2135,7 +2146,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 108,
+      "ms": 106,
       "cached": false,
       "summary": "사춘기 [대학로] · 100분 · 화요일(20:00), 수요일(16:00,20:00), 목요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00) · 전석 66,000원"
      },
@@ -2143,7 +2154,7 @@
       "tool": "get_performance_detail",
       "ok": true,
       "error_code": null,
-      "ms": 108,
+      "ms": 112,
       "cached": false,
       "summary": "쇼 머스트 고 온 in 대학로 · 99분 · 수요일 ~ 금요일(19:30), 토요일(15:00,19:00), 일요일(14:00,18:00) · 전석 66,000원"
      },
@@ -2151,7 +2162,7 @@
       "tool": "search_nearby_places",
       "ok": true,
       "error_code": null,
-      "ms": 161,
+      "ms": 164,
       "cached": false,
       "summary": "장소 5곳"
      },
@@ -2159,7 +2170,7 @@
       "tool": "search_nearby_places",
       "ok": true,
       "error_code": null,
-      "ms": 160,
+      "ms": 140,
       "cached": false,
       "summary": "장소 5곳"
      },
@@ -2167,7 +2178,7 @@
       "tool": "search_nearby_places",
       "ok": true,
       "error_code": null,
-      "ms": 149,
+      "ms": 159,
       "cached": false,
       "summary": "장소 5곳"
      }
@@ -2177,7 +2188,7 @@
      {
       "node": "analyze",
       "decision": "modify_condition",
-      "reason": "직전 조건에서 장르를 연극에서 뮤지컬로 변경 요청"
+      "reason": "같은 날 공연 날짜는 유지하고 장르를 연극에서 뮤지컬로 변경 요청함"
      },
      {
       "node": "plan",
@@ -2187,9 +2198,9 @@
       "reason": ""
      }
     ],
-    "duration_ms": 8924
+    "duration_ms": 7893
    },
-   "event_count": 57,
+   "event_count": 64,
    "checks": [
     {
      "check": "장르=뮤지컬(user)",
@@ -2222,7 +2233,7 @@
    "status": "saved",
    "replan_count": 0,
    "llm_calls": 1,
-   "wall_s": 1.2,
+   "wall_s": 1.3,
    "reply": "'여신님이 보고 계셔 [대학로]' 2026-11-28 14:00~16:00 관람 계획을 저장했어요.",
    "conditions": {
     "date": {
@@ -2271,10 +2282,10 @@
      {
       "node": "analyze",
       "decision": "confirm_plan",
-      "reason": "사용자가 직전 추천 중 1번 공연을 저장·확정하려고 함"
+      "reason": "사용자가 1번 공연을 저장·확정하려는 요청임"
      }
     ],
-    "duration_ms": 1127
+    "duration_ms": 1301
    },
    "event_count": 7,
    "checks": [
@@ -2353,6 +2364,7 @@
      "analyze",
      "plan",
      "execute",
+     "verify",
      "judge",
      "respond"
     ],
@@ -2371,7 +2383,7 @@
      {
       "node": "analyze",
       "decision": "plan_performance",
-      "reason": "사용자가 이번 토요일 오후 2시 이후에 대학로에서 5만원 이하 연극을 보고 6시 전에는 끝나는 공연과 끝나고 갈 식당을 추천받고 싶어함"
+      "reason": "사용자가 이번 토요일 오후 2시 이후에 대학로에서 5만원 이하 연극을 보고 6시 전에 끝나는 공연과 끝나고 갈 식당을 요청함"
      },
      {
       "node": "plan",
@@ -2381,9 +2393,9 @@
       "reason": ""
      }
     ],
-    "duration_ms": 2154
+    "duration_ms": 2157
    },
-   "event_count": 18,
+   "event_count": 25,
    "checks": [
     {
      "check": "status config_missing",

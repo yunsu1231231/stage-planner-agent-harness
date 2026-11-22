@@ -1,65 +1,71 @@
 [
  {
-  "event_id": "53abcc51b17547f083dfe4c6147f4751",
+  "event_id": "52d0e74252cd4b089e71e2995f141bc4",
   "seq": 1,
-  "ts": "2026-11-22T20:04:23.411+09:00",
+  "ts": "2026-11-22T20:46:53.750+09:00",
   "type": "run.start",
   "node": null,
-  "run_id": "r-91b6ebdd9cb1",
+  "run_id": "r-57d13baa375d",
   "payload": {
-   "message": "이번 토요일 오후 2시 이후에 대학로에서 5만원 이하 연극 보고 6시 전에는 끝내고 싶어. 끝나고 갈 식당도 알려줘"
+   "message": "이번 토요일 오후 2시 이후에 대학로에서 5만원 이하 연극 보고 6시 전에는 끝내고 싶어. 끝나고 갈 식당도 알려줘",
+   "mode": "planner_worker"
   }
  },
  {
-  "event_id": "7affbbfe59ec4b8b85c195c7a9e53413",
+  "event_id": "a14494eb9b5e4a4d8db4bcc28c410a0a",
   "seq": 2,
-  "ts": "2026-11-22T20:04:23.417+09:00",
+  "ts": "2026-11-22T20:46:53.753+09:00",
   "type": "node.enter",
   "node": "analyze",
-  "run_id": "r-91b6ebdd9cb1",
-  "payload": {}
- },
- {
-  "event_id": "ff6bf292b6504015a81126ec9488766d",
-  "seq": 3,
-  "ts": "2026-11-22T20:04:24.777+09:00",
-  "type": "llm.decision",
-  "node": "analyze",
-  "run_id": "r-91b6ebdd9cb1",
+  "run_id": "r-57d13baa375d",
   "payload": {
-   "decision": "plan_performance",
-   "reason": "사용자가 이번 토요일 오후 2시 이후에 대학로에서 5만원 이하 연극을 보고 6시 전에는 끝나는 공연과 끝나고 갈 식당을 추천받고 싶어함"
+   "role": "Planner"
   }
  },
  {
-  "event_id": "94eb6c9e28bb4df1ac30b080011381d1",
+  "event_id": "b35549faec694bd28a83ac50a6f3dea0",
+  "seq": 3,
+  "ts": "2026-11-22T20:46:55.110+09:00",
+  "type": "llm.decision",
+  "node": "analyze",
+  "run_id": "r-57d13baa375d",
+  "payload": {
+   "decision": "plan_performance",
+   "reason": "사용자가 이번 토요일 오후 2시 이후에 대학로에서 5만원 이하 연극을 보고 6시 전에 끝나는 공연과 끝나고 갈 식당을 요청함"
+  }
+ },
+ {
+  "event_id": "347ccc39e79d4a029a3859669f15bf56",
   "seq": 4,
-  "ts": "2026-11-22T20:04:24.778+09:00",
+  "ts": "2026-11-22T20:46:55.110+09:00",
   "type": "node.exit",
   "node": "analyze",
-  "run_id": "r-91b6ebdd9cb1",
+  "run_id": "r-57d13baa375d",
   "payload": {
    "intent": "plan_performance",
    "missing": [],
-   "reason": "사용자가 이번 토요일 오후 2시 이후에 대학로에서 5만원 이하 연극을 보고 6시 전에는 끝나는 공연과 끝나고 갈 식당을 추천받고 싶어함"
+   "reason": "사용자가 이번 토요일 오후 2시 이후에 대학로에서 5만원 이하 연극을 보고 6시 전에 끝나는 공연과 끝나고 갈 식당을 요청함",
+   "role": "Planner"
   }
  },
  {
-  "event_id": "82714c4abbb544ab922827461103e57b",
+  "event_id": "3db94937de2d44449a91c6d4a38b56b9",
   "seq": 5,
-  "ts": "2026-11-22T20:04:24.781+09:00",
+  "ts": "2026-11-22T20:46:55.112+09:00",
   "type": "node.enter",
   "node": "plan",
-  "run_id": "r-91b6ebdd9cb1",
-  "payload": {}
+  "run_id": "r-57d13baa375d",
+  "payload": {
+   "role": "Planner"
+  }
  },
  {
-  "event_id": "e89f6e4dae3c4e088edf19274214fc3d",
+  "event_id": "5547a8b3e21c471385ec139639eeeb4b",
   "seq": 6,
-  "ts": "2026-11-22T20:04:25.547+09:00",
+  "ts": "2026-11-22T20:46:55.894+09:00",
   "type": "llm.decision",
   "node": "plan",
-  "run_id": "r-91b6ebdd9cb1",
+  "run_id": "r-57d13baa375d",
   "payload": {
    "decision": [
     "search_performances"
@@ -69,19 +75,18 @@
     "search_performances": {
      "date": "2026-11-28",
      "region": "대학로",
-     "genre": "연극",
-     "limit": 10
+     "genre": "연극"
     }
    }
   }
  },
  {
-  "event_id": "6452a3a48daf444393333b5dbf601df1",
+  "event_id": "d8490a58f83c421db0c277e482ab287d",
   "seq": 7,
-  "ts": "2026-11-22T20:04:25.548+09:00",
+  "ts": "2026-11-22T20:46:55.895+09:00",
   "type": "plan.corrected",
   "node": "plan",
-  "run_id": "r-91b6ebdd9cb1",
+  "run_id": "r-57d13baa375d",
   "payload": {
    "reason": "rule_check",
    "added": [
@@ -92,12 +97,12 @@
   }
  },
  {
-  "event_id": "39ee15edbd9844cdb73d7d3360c73fe2",
+  "event_id": "69174112bb6f4e30ae6aff7f0792cc6c",
   "seq": 8,
-  "ts": "2026-11-22T20:04:25.548+09:00",
+  "ts": "2026-11-22T20:46:55.896+09:00",
   "type": "plan.created",
   "node": "plan",
-  "run_id": "r-91b6ebdd9cb1",
+  "run_id": "r-57d13baa375d",
   "payload": {
    "plan_version": 0,
    "strategy": "initial",
@@ -114,7 +119,9 @@
      "phase": "collect",
      "depends_on": [],
      "fixed_args": [
-      "date"
+      "date",
+      "region",
+      "genre"
      ]
     },
     {
@@ -148,33 +155,92 @@
   }
  },
  {
-  "event_id": "7649f380962a417f87cbc708ef083f24",
+  "event_id": "3a4446e921394a4e8f18de1ffe35727c",
   "seq": 9,
-  "ts": "2026-11-22T20:04:25.549+09:00",
-  "type": "node.exit",
+  "ts": "2026-11-22T20:46:55.897+09:00",
+  "type": "agent.message",
   "node": "plan",
-  "run_id": "r-91b6ebdd9cb1",
+  "run_id": "r-57d13baa375d",
   "payload": {
-   "phase": "collect",
-   "plan_version": 0
+   "from": "Planner",
+   "to": "Worker",
+   "kind": "task_list",
+   "body": {
+    "plan_version": 0,
+    "strategy": "initial",
+    "tasks": [
+     {
+      "id": "t1",
+      "tool": "search_performances",
+      "args": {
+       "date": "2026-11-28",
+       "region": "대학로",
+       "genre": "연극",
+       "limit": 20
+      },
+      "fixed_args": [
+       "date",
+       "region",
+       "genre"
+      ],
+      "phase": "collect"
+     },
+     {
+      "id": "t2",
+      "tool": "get_performance_detail",
+      "args": {
+       "performance_id": "<search.items[].performance_id>"
+      },
+      "fixed_args": [],
+      "phase": "collect"
+     },
+     {
+      "id": "t3",
+      "tool": "search_nearby_places",
+      "args": {
+       "venue_id": "<judge.eligible[].venue_id>",
+       "category": "restaurant"
+      },
+      "fixed_args": [
+       "category"
+      ],
+      "phase": "enrich"
+     }
+    ]
+   }
   }
  },
  {
-  "event_id": "b90b0999f15c45c3a3ab2128b8ab843c",
+  "event_id": "8ff2645ff0fb4ba59e8c6ad1da54a0e1",
   "seq": 10,
-  "ts": "2026-11-22T20:04:25.553+09:00",
-  "type": "node.enter",
-  "node": "execute",
-  "run_id": "r-91b6ebdd9cb1",
-  "payload": {}
+  "ts": "2026-11-22T20:46:55.898+09:00",
+  "type": "node.exit",
+  "node": "plan",
+  "run_id": "r-57d13baa375d",
+  "payload": {
+   "phase": "collect",
+   "plan_version": 0,
+   "role": "Planner"
+  }
  },
  {
-  "event_id": "709cba5c372440f8abec8ce32b37c83d",
+  "event_id": "9bbcfd1356a24543923eed31d492fa6d",
   "seq": 11,
-  "ts": "2026-11-22T20:04:25.554+09:00",
+  "ts": "2026-11-22T20:46:55.900+09:00",
+  "type": "node.enter",
+  "node": "execute",
+  "run_id": "r-57d13baa375d",
+  "payload": {
+   "role": "Worker"
+  }
+ },
+ {
+  "event_id": "6c0f5aadd2524673824a9006982b4055",
+  "seq": 12,
+  "ts": "2026-11-22T20:46:55.900+09:00",
   "type": "tool.request",
   "node": "execute",
-  "run_id": "r-91b6ebdd9cb1",
+  "run_id": "r-57d13baa375d",
   "payload": {
    "tool": "search_performances",
    "args": {
@@ -183,16 +249,18 @@
     "genre": "연극",
     "limit": 20
    },
-   "cached": false
+   "cached": false,
+   "task_id": "t1",
+   "attempt": 0
   }
  },
  {
-  "event_id": "465f8db87a4445679c0dec9b724e050b",
-  "seq": 12,
-  "ts": "2026-11-22T20:04:25.555+09:00",
+  "event_id": "9990457194544a398fd8b5e13d3c65a8",
+  "seq": 13,
+  "ts": "2026-11-22T20:46:55.901+09:00",
   "type": "tool.response",
   "node": "execute",
-  "run_id": "r-91b6ebdd9cb1",
+  "run_id": "r-57d13baa375d",
   "payload": {
    "tool": "search_performances",
    "ok": false,
@@ -203,65 +271,176 @@
   }
  },
  {
-  "event_id": "5b9f5d515e2045c1be14e575ec7bdeb9",
-  "seq": 13,
-  "ts": "2026-11-22T20:04:25.556+09:00",
+  "event_id": "1f3746431fba40ed89dbbfdc24ae641a",
+  "seq": 14,
+  "ts": "2026-11-22T20:46:55.901+09:00",
+  "type": "worker.decision",
+  "node": "execute",
+  "run_id": "r-57d13baa375d",
+  "payload": {
+   "task_id": "t1",
+   "tool": "search_performances",
+   "code": "MISSING_API_KEY",
+   "attempt": 0,
+   "fixed_args": [
+    "date",
+    "region",
+    "genre"
+   ],
+   "action": "fatal",
+   "llm": false,
+   "reason": "치명적 실패 — 재시도해도 같음, 사용자 안내 필요"
+  }
+ },
+ {
+  "event_id": "143a4acd9ee94f73bc866dbbb2667676",
+  "seq": 15,
+  "ts": "2026-11-22T20:46:55.902+09:00",
+  "type": "agent.message",
+  "node": "execute",
+  "run_id": "r-57d13baa375d",
+  "payload": {
+   "from": "Worker",
+   "to": "Planner",
+   "kind": "work_result",
+   "body": {
+    "done": 0,
+    "failed": 1,
+    "retried": 0,
+    "unresolved": [
+     {
+      "task_id": "t1",
+      "tool": "search_performances",
+      "code": "MISSING_API_KEY",
+      "action": "fatal"
+     }
+    ],
+    "replan_requests": []
+   }
+  }
+ },
+ {
+  "event_id": "12e50616a91b4f10b09f27a992f5edef",
+  "seq": 16,
+  "ts": "2026-11-22T20:46:55.902+09:00",
   "type": "node.exit",
   "node": "execute",
-  "run_id": "r-91b6ebdd9cb1",
+  "run_id": "r-57d13baa375d",
   "payload": {
-   "stop_reason": "fatal:MISSING_API_KEY"
+   "stop_reason": "fatal:MISSING_API_KEY",
+   "role": "Worker"
   }
  },
  {
-  "event_id": "f2ccd6ac0b524a93b543486dbec68677",
-  "seq": 14,
-  "ts": "2026-11-22T20:04:25.560+09:00",
-  "type": "node.enter",
-  "node": "judge",
-  "run_id": "r-91b6ebdd9cb1",
-  "payload": {}
- },
- {
-  "event_id": "e9a516522af84c8da83462d09a9b707d",
-  "seq": 15,
-  "ts": "2026-11-22T20:04:25.561+09:00",
-  "type": "node.exit",
-  "node": "judge",
-  "run_id": "r-91b6ebdd9cb1",
-  "payload": {
-   "next": "respond"
-  }
- },
- {
-  "event_id": "7c376cd97e8646fb8d301cc7db4417f0",
-  "seq": 16,
-  "ts": "2026-11-22T20:04:25.564+09:00",
-  "type": "node.enter",
-  "node": "respond",
-  "run_id": "r-91b6ebdd9cb1",
-  "payload": {}
- },
- {
-  "event_id": "c796f47dc4d948cfa8a8c5d8a1f11f16",
+  "event_id": "7ccc7046841e436d8f750abed11f377a",
   "seq": 17,
-  "ts": "2026-11-22T20:04:25.564+09:00",
-  "type": "node.exit",
-  "node": "respond",
-  "run_id": "r-91b6ebdd9cb1",
-  "payload": {}
+  "ts": "2026-11-22T20:46:55.903+09:00",
+  "type": "node.enter",
+  "node": "verify",
+  "run_id": "r-57d13baa375d",
+  "payload": {
+   "role": "LoggingAgent"
+  }
  },
  {
-  "event_id": "17363b933adf48b9b0f8a3d0fc824a19",
+  "event_id": "ddbdcc76d6b540caadf947365e39f959",
   "seq": 18,
-  "ts": "2026-11-22T20:04:25.566+09:00",
+  "ts": "2026-11-22T20:46:55.903+09:00",
+  "type": "verify.result",
+  "node": "verify",
+  "run_id": "r-57d13baa375d",
+  "payload": {
+   "verdict": "normal",
+   "warnings": [],
+   "reason": null
+  }
+ },
+ {
+  "event_id": "359ac8ec6b15408e9fce0ae06d08879b",
+  "seq": 19,
+  "ts": "2026-11-22T20:46:55.903+09:00",
+  "type": "agent.message",
+  "node": "verify",
+  "run_id": "r-57d13baa375d",
+  "payload": {
+   "from": "LoggingAgent",
+   "to": "Planner",
+   "kind": "verification",
+   "body": {
+    "verdict": "normal",
+    "warnings": []
+   }
+  }
+ },
+ {
+  "event_id": "78f0219beb0543fd9b2d9b1c176496db",
+  "seq": 20,
+  "ts": "2026-11-22T20:46:55.903+09:00",
+  "type": "node.exit",
+  "node": "verify",
+  "run_id": "r-57d13baa375d",
+  "payload": {
+   "role": "LoggingAgent"
+  }
+ },
+ {
+  "event_id": "085538c45b1b4b3ba5e786a3191da89b",
+  "seq": 21,
+  "ts": "2026-11-22T20:46:55.905+09:00",
+  "type": "node.enter",
+  "node": "judge",
+  "run_id": "r-57d13baa375d",
+  "payload": {
+   "role": "Planner"
+  }
+ },
+ {
+  "event_id": "ba5fdffe5ed34458803cc0be68310a00",
+  "seq": 22,
+  "ts": "2026-11-22T20:46:55.905+09:00",
+  "type": "node.exit",
+  "node": "judge",
+  "run_id": "r-57d13baa375d",
+  "payload": {
+   "next": "respond",
+   "role": "Planner"
+  }
+ },
+ {
+  "event_id": "1a4b99196901414e8255bcea5262a33e",
+  "seq": 23,
+  "ts": "2026-11-22T20:46:55.907+09:00",
+  "type": "node.enter",
+  "node": "respond",
+  "run_id": "r-57d13baa375d",
+  "payload": {
+   "role": "Planner"
+  }
+ },
+ {
+  "event_id": "e50d40882dcb482ebfb7cdc0e0ca7e6e",
+  "seq": 24,
+  "ts": "2026-11-22T20:46:55.907+09:00",
+  "type": "node.exit",
+  "node": "respond",
+  "run_id": "r-57d13baa375d",
+  "payload": {
+   "role": "Planner"
+  }
+ },
+ {
+  "event_id": "abda074b8aa04a4083620c3d92ad0bb0",
+  "seq": 25,
+  "ts": "2026-11-22T20:46:55.908+09:00",
   "type": "run.end",
   "node": null,
-  "run_id": "r-91b6ebdd9cb1",
+  "run_id": "r-57d13baa375d",
   "payload": {
    "status": "config_missing",
    "llm_calls": 2,
-   "duration_ms": 2154,
+   "worker_llm_calls": 0,
+   "mode": "planner_worker",
+   "duration_ms": 2157,
    "replan_count": 0
   }
  }

@@ -1,0 +1,247 @@
+[
+ {
+  "event_id": "f36c4546bc73442f9d32f81e13323a40",
+  "seq": 1,
+  "ts": "2026-11-22T20:43:24.150+09:00",
+  "type": "run.start",
+  "node": null,
+  "run_id": "r-e15a13be7be5",
+  "payload": {
+   "message": "여신님 보고계셔 러닝타임이 몇 분이야?",
+   "mode": "baseline"
+  }
+ },
+ {
+  "event_id": "ecda5596c17a4f098f3bea6e382b51f8",
+  "seq": 2,
+  "ts": "2026-11-22T20:43:24.152+09:00",
+  "type": "node.enter",
+  "node": "analyze",
+  "run_id": "r-e15a13be7be5",
+  "payload": {}
+ },
+ {
+  "event_id": "73060d71314644aebc63f8ad8531cbf8",
+  "seq": 3,
+  "ts": "2026-11-22T20:43:25.302+09:00",
+  "type": "llm.decision",
+  "node": "analyze",
+  "run_id": "r-e15a13be7be5",
+  "payload": {
+   "decision": "fact_query",
+   "reason": "공연 '여신님 보고계셔'의 러닝타임을 묻는 질문임"
+  }
+ },
+ {
+  "event_id": "ae388afc638f4aaa990ac1a5a4e15d49",
+  "seq": 4,
+  "ts": "2026-11-22T20:43:25.302+09:00",
+  "type": "node.exit",
+  "node": "analyze",
+  "run_id": "r-e15a13be7be5",
+  "payload": {
+   "intent": "fact_query",
+   "missing": [],
+   "reason": "공연 '여신님 보고계셔'의 러닝타임을 묻는 질문임"
+  }
+ },
+ {
+  "event_id": "9159d123cfbf4bddbfd4b31b9d1d0cd0",
+  "seq": 5,
+  "ts": "2026-11-22T20:43:25.304+09:00",
+  "type": "node.enter",
+  "node": "plan",
+  "run_id": "r-e15a13be7be5",
+  "payload": {}
+ },
+ {
+  "event_id": "3832aabec80540dc90b82ddac0bcf9ab",
+  "seq": 6,
+  "ts": "2026-11-22T20:43:26.211+09:00",
+  "type": "llm.decision",
+  "node": "plan",
+  "run_id": "r-e15a13be7be5",
+  "payload": {
+   "decision": [
+    "search_performances"
+   ],
+   "reason": "",
+   "proposed_args": {
+    "search_performances": {
+     "keyword": "여신님 보고계셔",
+     "limit": 5
+    }
+   }
+  }
+ },
+ {
+  "event_id": "9f3bd573c9fc4966b50c8fd6e61400bd",
+  "seq": 7,
+  "ts": "2026-11-22T20:43:26.211+09:00",
+  "type": "plan.corrected",
+  "node": "plan",
+  "run_id": "r-e15a13be7be5",
+  "payload": {
+   "reason": "rule_check",
+   "added": [
+    "get_performance_detail"
+   ],
+   "removed": []
+  }
+ },
+ {
+  "event_id": "3e5a758cbfde4aff84e1a36d8d5ffabb",
+  "seq": 8,
+  "ts": "2026-11-22T20:43:26.212+09:00",
+  "type": "plan.created",
+  "node": "plan",
+  "run_id": "r-e15a13be7be5",
+  "payload": {
+   "plan_version": 0,
+   "strategy": "initial",
+   "tasks": [
+    {
+     "id": "t1",
+     "tool": "search_performances",
+     "args": {
+      "keyword": "여신님 보고계셔",
+      "limit": 5,
+      "end_date": "2027-01-21"
+     },
+     "phase": "collect",
+     "depends_on": [],
+     "fixed_args": []
+    },
+    {
+     "id": "t2",
+     "tool": "get_performance_detail",
+     "args": {
+      "performance_id": "<search.items[].performance_id>"
+     },
+     "phase": "collect",
+     "depends_on": [
+      "t1"
+     ],
+     "fixed_args": []
+    }
+   ]
+  }
+ },
+ {
+  "event_id": "7566a6df3c024a12b40a8634b6def8fe",
+  "seq": 9,
+  "ts": "2026-11-22T20:43:26.212+09:00",
+  "type": "node.exit",
+  "node": "plan",
+  "run_id": "r-e15a13be7be5",
+  "payload": {
+   "phase": "collect",
+   "plan_version": 0
+  }
+ },
+ {
+  "event_id": "0c6de5a398ec41a6aee6430121075483",
+  "seq": 10,
+  "ts": "2026-11-22T20:43:26.213+09:00",
+  "type": "node.enter",
+  "node": "execute",
+  "run_id": "r-e15a13be7be5",
+  "payload": {}
+ },
+ {
+  "event_id": "a3eecdf275304703a7d101971f5190ff",
+  "seq": 11,
+  "ts": "2026-11-22T20:43:26.213+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-e15a13be7be5",
+  "payload": {
+   "tool": "search_performances",
+   "args": {
+    "keyword": "여신님 보고계셔",
+    "limit": 5,
+    "end_date": "2027-01-21"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "a46927956a2749fc80fdd9f3d6bb26c7",
+  "seq": 12,
+  "ts": "2026-11-22T20:43:26.330+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-e15a13be7be5",
+  "payload": {
+   "tool": "search_performances",
+   "ok": false,
+   "error_code": "NO_RESULT",
+   "duration_ms": 116,
+   "cached": false,
+   "summary": "NO_RESULT: 조건에 맞는 공연을 찾지 못했습니다."
+  }
+ },
+ {
+  "event_id": "d8dd7b3296804f6ea92c39103d086d8a",
+  "seq": 13,
+  "ts": "2026-11-22T20:43:26.331+09:00",
+  "type": "node.exit",
+  "node": "execute",
+  "run_id": "r-e15a13be7be5",
+  "payload": {}
+ },
+ {
+  "event_id": "0f1fa8b5d38f42549698165d772d80bc",
+  "seq": 14,
+  "ts": "2026-11-22T20:43:26.333+09:00",
+  "type": "node.enter",
+  "node": "judge",
+  "run_id": "r-e15a13be7be5",
+  "payload": {}
+ },
+ {
+  "event_id": "a3a3134745c4497c910df8027ddcc9d1",
+  "seq": 15,
+  "ts": "2026-11-22T20:43:26.334+09:00",
+  "type": "node.exit",
+  "node": "judge",
+  "run_id": "r-e15a13be7be5",
+  "payload": {
+   "next": "respond"
+  }
+ },
+ {
+  "event_id": "7df7c006d3ce4f4d839a36d7694f875d",
+  "seq": 16,
+  "ts": "2026-11-22T20:43:26.336+09:00",
+  "type": "node.enter",
+  "node": "respond",
+  "run_id": "r-e15a13be7be5",
+  "payload": {}
+ },
+ {
+  "event_id": "c268776a336e415cb45255d0c1fd2e9f",
+  "seq": 17,
+  "ts": "2026-11-22T20:43:27.114+09:00",
+  "type": "node.exit",
+  "node": "respond",
+  "run_id": "r-e15a13be7be5",
+  "payload": {}
+ },
+ {
+  "event_id": "980a192b972d411f8d95b7d224be0eec",
+  "seq": 18,
+  "ts": "2026-11-22T20:43:27.116+09:00",
+  "type": "run.end",
+  "node": null,
+  "run_id": "r-e15a13be7be5",
+  "payload": {
+   "status": "no_match",
+   "llm_calls": 3,
+   "worker_llm_calls": 0,
+   "mode": "baseline",
+   "duration_ms": 2966,
+   "replan_count": 0
+  }
+ }
+]

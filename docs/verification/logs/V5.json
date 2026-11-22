@@ -1,78 +1,88 @@
 [
  {
-  "event_id": "e3994142a350426cadac47850e1f5bde",
+  "event_id": "fdce1edbaf1e4101b11f85e0ded62d55",
   "seq": 1,
-  "ts": "2026-11-22T20:04:09.121+09:00",
+  "ts": "2026-11-22T20:46:41.056+09:00",
   "type": "run.start",
   "node": null,
-  "run_id": "r-f392d002487e",
+  "run_id": "r-4a00bd4b6a1e",
   "payload": {
-   "message": "안녕! 너는 뭘 할 수 있어?"
+   "message": "안녕! 너는 뭘 할 수 있어?",
+   "mode": "planner_worker"
   }
  },
  {
-  "event_id": "0d404cdc528f4ec195d715fe333dbf8d",
+  "event_id": "09ec3ab49e294b7c8058ffd4e0af7a8f",
   "seq": 2,
-  "ts": "2026-11-22T20:04:09.129+09:00",
+  "ts": "2026-11-22T20:46:41.058+09:00",
   "type": "node.enter",
   "node": "analyze",
-  "run_id": "r-f392d002487e",
-  "payload": {}
+  "run_id": "r-4a00bd4b6a1e",
+  "payload": {
+   "role": "Planner"
+  }
  },
  {
-  "event_id": "23f7d844f9d54f22b0e47363f27e4645",
+  "event_id": "315f7c571da8493ba8765096bc6c72cf",
   "seq": 3,
-  "ts": "2026-11-22T20:04:10.348+09:00",
+  "ts": "2026-11-22T20:46:42.113+09:00",
   "type": "llm.decision",
   "node": "analyze",
-  "run_id": "r-f392d002487e",
+  "run_id": "r-4a00bd4b6a1e",
   "payload": {
    "decision": "chitchat",
    "reason": "사용자가 인사와 기능에 대해 물었음"
   }
  },
  {
-  "event_id": "fd28cf8ce86d4b9b838329dd74f3a70f",
+  "event_id": "5e698448e6d145a89bc4af43493418df",
   "seq": 4,
-  "ts": "2026-11-22T20:04:10.349+09:00",
+  "ts": "2026-11-22T20:46:42.114+09:00",
   "type": "node.exit",
   "node": "analyze",
-  "run_id": "r-f392d002487e",
+  "run_id": "r-4a00bd4b6a1e",
   "payload": {
    "intent": "chitchat",
    "missing": [],
-   "reason": "사용자가 인사와 기능에 대해 물었음"
+   "reason": "사용자가 인사와 기능에 대해 물었음",
+   "role": "Planner"
   }
  },
  {
-  "event_id": "8b69167d97d440d9bc80aef7a4642509",
+  "event_id": "de3de5f787a348aca6c03190228a4711",
   "seq": 5,
-  "ts": "2026-11-22T20:04:10.352+09:00",
+  "ts": "2026-11-22T20:46:42.117+09:00",
   "type": "node.enter",
   "node": "respond",
-  "run_id": "r-f392d002487e",
-  "payload": {}
+  "run_id": "r-4a00bd4b6a1e",
+  "payload": {
+   "role": "Planner"
+  }
  },
  {
-  "event_id": "15c0b97882bd448c90cf67ba1d31357c",
+  "event_id": "bf62ce2970bd41b49f39a50b2d9c56a2",
   "seq": 6,
-  "ts": "2026-11-22T20:04:11.756+09:00",
+  "ts": "2026-11-22T20:46:43.352+09:00",
   "type": "node.exit",
   "node": "respond",
-  "run_id": "r-f392d002487e",
-  "payload": {}
+  "run_id": "r-4a00bd4b6a1e",
+  "payload": {
+   "role": "Planner"
+  }
  },
  {
-  "event_id": "22f43792c5ea43778f2a307c8d26193f",
+  "event_id": "01b3a943846b441ebd00f94e70f68ed6",
   "seq": 7,
-  "ts": "2026-11-22T20:04:11.758+09:00",
+  "ts": "2026-11-22T20:46:43.354+09:00",
   "type": "run.end",
   "node": null,
-  "run_id": "r-f392d002487e",
+  "run_id": "r-4a00bd4b6a1e",
   "payload": {
    "status": "chat",
    "llm_calls": 2,
-   "duration_ms": 2636,
+   "worker_llm_calls": 0,
+   "mode": "planner_worker",
+   "duration_ms": 2298,
    "replan_count": 0
   }
  }

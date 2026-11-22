@@ -1,3 +1,11 @@
+tests/agents/test_anomaly.py::test_normal_run_has_no_warnings_and_checks_all_rules PASSED
+tests/agents/test_anomaly.py::test_repeated_identical_real_calls_are_flagged_but_cache_hits_are_not PASSED
+tests/agents/test_anomaly.py::test_replan_reaching_limit_is_excessive PASSED
+tests/agents/test_anomaly.py::test_tool_not_in_active_plan_is_unplanned PASSED
+tests/agents/test_anomaly.py::test_active_plan_is_the_latest_one PASSED
+tests/agents/test_anomaly.py::test_tool_calls_without_any_plan_are_undeterminable_not_normal PASSED
+tests/agents/test_anomaly.py::test_no_evidence_is_undeterminable PASSED
+tests/agents/test_anomaly.py::test_warning_beats_undeterminable PASSED
 tests/agents/test_graph.py::test_graph_has_analyze_plan_execute_judge_respond PASSED
 tests/agents/test_graph.py::test_s1_recommends_with_criteria_exclusions_and_places PASSED
 tests/agents/test_graph.py::test_tool_args_come_from_conditions_not_llm PASSED
@@ -45,6 +53,22 @@ tests/agents/test_judge.py::test_suggestions_point_to_nearest_relaxation PASSED
 tests/agents/test_memory.py::test_merge_updates_only_changed_and_tracks_source PASSED
 tests/agents/test_memory.py::test_reset_drops_previous_conditions PASSED
 tests/agents/test_memory.py::test_history_keeps_last_six_turns_and_no_raw_tool_payloads PASSED
+tests/agents/test_planner_worker.py::test_pw_graph_adds_verify_between_worker_and_judge PASSED
+tests/agents/test_planner_worker.py::test_normal_path_worker_uses_no_llm_and_messages_are_logged PASSED
+tests/agents/test_planner_worker.py::test_same_recommendations_as_baseline_on_normal_path PASSED
+tests/agents/test_planner_worker.py::test_no_result_worker_llm_fixes_tunable_arg_and_keeps_fixed_args PASSED
+tests/agents/test_planner_worker.py::test_events_are_snapshots_not_live_references PASSED
+tests/agents/test_planner_worker.py::test_worker_llm_off_skips_by_rule PASSED
+tests/agents/test_planner_worker.py::test_fact_query_typo_is_fixed_by_worker_retry PASSED
+tests/agents/test_planner_worker.py::test_decision_schema_cannot_express_fixed_args PASSED
+tests/agents/test_planner_worker.py::test_invalid_retry_decisions_are_rejected_and_skipped[decision0-identical] PASSED
+tests/agents/test_planner_worker.py::test_invalid_retry_decisions_are_rejected_and_skipped[decision1-not_tunable] PASSED
+tests/agents/test_planner_worker.py::test_retry_is_capped_at_two_per_task PASSED
+tests/agents/test_planner_worker.py::test_fatal_failure_never_reaches_worker_llm PASSED
+tests/agents/test_planner_worker.py::test_classify_rules PASSED
+tests/agents/test_planner_worker.py::test_registry_marks_missing_required_argument PASSED
+tests/agents/test_planner_worker.py::test_worker_replan_request_is_reflected_by_planner PASSED
+tests/agents/test_planner_worker.py::test_planner_rebuilds_task_list_when_verifier_flags_anomaly PASSED
 tests/api/test_api.py::test_routes_are_separated_by_resource PASSED
 tests/api/test_api.py::test_health_reports_flags_never_values PASSED
 tests/api/test_api.py::test_tools_endpoint_lists_registered_specs PASSED
@@ -57,7 +81,14 @@ tests/api/test_api.py::test_reset_chat_session PASSED
 tests/api/test_api.py::test_plan_crud_and_overlap PASSED
 tests/api/test_api.py::test_plan_validation PASSED
 tests/api/test_api.py::test_logs_list_detail_delete_and_no_update PASSED
+tests/api/test_api.py::test_anomaly_reports_endpoint_returns_rule_verdict_per_run PASSED
 tests/api/test_api.py::test_chat_works_without_logging_agent PASSED
+tests/events/test_anomaly_logging.py::test_normal_run_gets_report_and_no_llm_call PASSED
+tests/events/test_anomaly_logging.py::test_anomaly_run_is_diagnosed_once_and_stored_separately PASSED
+tests/events/test_anomaly_logging.py::test_diagnosis_failure_keeps_report_and_logs PASSED
+tests/events/test_anomaly_logging.py::test_inspect_mid_run_returns_interim_report_in_same_format PASSED
+tests/events/test_anomaly_logging.py::test_runs_are_judged_independently_and_buffers_released PASSED
+tests/events/test_anomaly_logging.py::test_deleting_session_removes_reports_too PASSED
 tests/events/test_bus_and_logging_agent.py::test_bus_delivers_to_all_subscribers_and_isolates_failures PASSED
 tests/events/test_bus_and_logging_agent.py::test_logging_agent_stores_every_event_of_a_run_in_order PASSED
 tests/events/test_bus_and_logging_agent.py::test_agent_runs_normally_without_logging_agent PASSED
@@ -105,6 +136,8 @@ tests/tools/test_kopis.py::test_search_defaults_to_today_and_sends_identifying_u
 tests/tools/test_kopis.py::test_search_parses_items_with_korean_and_iso_dates PASSED
 tests/tools/test_kopis.py::test_search_maps_region_and_genre_names_to_codes PASSED
 tests/tools/test_kopis.py::test_search_keyword_maps_to_title_filter PASSED
+tests/tools/test_kopis.py::test_search_end_date_sets_period_window PASSED
+tests/tools/test_kopis.py::test_search_end_date_must_not_precede_date_or_exceed_window PASSED
 tests/tools/test_kopis.py::test_search_unknown_region_or_genre_is_invalid_input_without_call PASSED
 tests/tools/test_kopis.py::test_search_past_date_is_clamped_and_marked_estimated PASSED
 tests/tools/test_kopis.py::test_search_excludes_finished_but_keeps_upcoming PASSED
@@ -186,4 +219,4 @@ tests/tools/test_registry.py::test_nearby_requires_venue_or_coordinates PASSED
 tests/tools/test_registry.py::test_exception_inside_tool_becomes_upstream_error_without_leaking_detail PASSED
 tests/tools/test_registry.py::test_result_shape_is_uniform PASSED
 tests/tools/test_registry.py::test_langchain_tools_expose_only_name_description_schema PASSED
-===================== 188 passed, 8 deselected in 29.26s ======================
+===================== 221 passed, 8 deselected in 13.16s ======================

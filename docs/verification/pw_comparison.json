@@ -1,0 +1,745 @@
+{
+ "generated_at": "2026-11-22T20:45:11",
+ "model": "gpt-4.1-mini",
+ "configs": [
+  "baseline",
+  "pw_llm_on",
+  "pw_llm_off"
+ ],
+ "scenarios": [
+  [
+   "C1",
+   "정상 경로",
+   "이번 토요일 오후 2시 이후에 대학로에서 5만원 이하 연극 보고 6시 전에는 끝내고 싶어. 끝나고 갈 식당도 알려줘"
+  ],
+  [
+   "C2",
+   "재계획 후 성공",
+   "11월 29일 일요일 저녁 7시 이후에 시작해서 9시 반 전에 끝나는 3만원 이하 대학로 뮤지컬 찾아줘"
+  ],
+  [
+   "C3",
+   "재계획 상한",
+   "다음 주 수요일 오전 9시 이후에 시작해서 오전 11시 전에 끝나는 대학로 연극 있어?"
+  ],
+  [
+   "C4",
+   "공연명 오타 (Worker 인자 수정)",
+   "여신님 보고계셔 러닝타임이 몇 분이야?"
+  ],
+  [
+   "C5",
+   "후보 0건 장르 (Worker 계획 변경 요청)",
+   "11월 28일 토요일 저녁 6시 이후 대학로에서 대중무용 공연 보고 싶어. 9시 전에 끝나야 해"
+  ]
+ ],
+ "results": {
+  "baseline": {
+   "C1": {
+    "status": "ok",
+    "replan_count": 0,
+    "llm_calls": 3,
+    "worker_llm_calls": 0,
+    "duration_ms": 10193,
+    "real_tool_calls": 19,
+    "tool_calls_by_name": {
+     "get_performance_detail": 15,
+     "search_nearby_places": 3,
+     "search_performances": 1
+    },
+    "strategies": [],
+    "replan_reasons": [],
+    "steps": [
+     "analyze",
+     "plan",
+     "execute",
+     "judge",
+     "execute",
+     "respond"
+    ],
+    "worker_decisions": [],
+    "verify": [],
+    "messages": 0,
+    "final_verdict": "normal",
+    "final_warnings": [],
+    "diagnosis": null,
+    "recommendations": [
+     "타조소년들 [대학로]",
+     "단막극 낭독공연, 시선: Eleven Ways of Believing [대학로]",
+     "모든 날, 모든 순간 [대학로]"
+    ],
+    "facts": null,
+    "reply_head": "추천 공연 3편입니다.\n\n1. 타조소년들 [대학로]\n- 시간: 14:00~15:30 (90분)\n- 가격: 15,000원\n- 장소: 보라 아트홀(구. 지구인아트홀)\n- 근거: 14:00 시작, 15:30 종료로 18:00 이전 종료, 예산 50,000원 이하\n- 인근 식당: 경성양꼬치 대"
+   },
+   "C2": {
+    "status": "ok",
+    "replan_count": 2,
+    "llm_calls": 3,
+    "worker_llm_calls": 0,
+    "duration_ms": 12384,
+    "real_tool_calls": 48,
+    "tool_calls_by_name": {
+     "get_performance_detail": 45,
+     "search_performances": 3
+    },
+    "strategies": [
+     "expand_pool",
+     "drop_genre"
+    ],
+    "replan_reasons": [
+     "충족 후보 0개 (제외 15, 판단 불가 0)",
+     "충족 후보 0개 (제외 30, 판단 불가 0)"
+    ],
+    "steps": [
+     "analyze",
+     "plan",
+     "execute",
+     "judge",
+     "plan",
+     "execute",
+     "judge",
+     "plan",
+     "execute",
+     "judge",
+     "respond"
+    ],
+    "worker_decisions": [],
+    "verify": [],
+    "messages": 0,
+    "final_verdict": "normal",
+    "final_warnings": [],
+    "diagnosis": null,
+    "recommendations": [
+     "꿈깨 [대학로]"
+    ],
+    "facts": null,
+    "reply_head": "추천 공연은 \"꿈깨 [대학로]\"입니다. 2026년 11월 29일 19:30에 시작하여 20:40에 종료하며, 러닝타임은 70분입니다. 가격은 30,000원으로 예산 내에 맞고, 시작 시간도 19:00 이후이며 종료 시간도 21:30 이전이라 조건에 부합합니다. 장소는 달밤엔씨어터입니다."
+   },
+   "C3": {
+    "status": "limit_reached",
+    "replan_count": 3,
+    "llm_calls": 3,
+    "worker_llm_calls": 0,
+    "duration_ms": 16906,
+    "real_tool_calls": 62,
+    "tool_calls_by_name": {
+     "get_performance_detail": 58,
+     "search_performances": 4
+    },
+    "strategies": [
+     "expand_pool",
+     "drop_genre",
+     "widen_region"
+    ],
+    "replan_reasons": [
+     "충족 후보 0개 (제외 15, 판단 불가 0)",
+     "충족 후보 0개 (제외 30, 판단 불가 0)",
+     "충족 후보 0개 (제외 43, 판단 불가 0)"
+    ],
+    "steps": [
+     "analyze",
+     "plan",
+     "execute",
+     "judge",
+     "plan",
+     "execute",
+     "judge",
+     "plan",
+     "execute",
+     "judge",
+     "plan",
+     "execute",
+     "judge",
+     "respond"
+    ],
+    "worker_decisions": [],
+    "verify": [],
+    "messages": 0,
+    "final_verdict": "anomaly",
+    "final_warnings": [
+     "excessive_replan"
+    ],
+    "diagnosis": "Planner Agent 문제입니다. 후보 충족이 없어 재계획이 3회 발생했으므로, 후보 선정 기준이나 필터 조건을 완화하여 후보를 확보하도록 수정해야 합니다.",
+    "recommendations": [],
+    "facts": null,
+    "reply_head": "2026년 11월 25일 09:00~11:00 사이, 대학로 지역에서 연극 장르 공연은 조건에 맞는 것이 없습니다. 모든 후보 공연은 시작 시각이 너무 늦거나 종료 시각이 11:00 제한을 초과해 제외되었습니다. 예를 들어, '의원님, 자수할래요!'는 19:30 시작, 75분 러닝타임으"
+   },
+   "C4": {
+    "status": "no_match",
+    "replan_count": 0,
+    "llm_calls": 3,
+    "worker_llm_calls": 0,
+    "duration_ms": 2966,
+    "real_tool_calls": 1,
+    "tool_calls_by_name": {
+     "search_performances": 1
+    },
+    "strategies": [],
+    "replan_reasons": [],
+    "steps": [
+     "analyze",
+     "plan",
+     "execute",
+     "judge",
+     "respond"
+    ],
+    "worker_decisions": [],
+    "verify": [],
+    "messages": 0,
+    "final_verdict": "normal",
+    "final_warnings": [],
+    "diagnosis": null,
+    "recommendations": [],
+    "facts": null,
+    "reply_head": "현재 조건에 맞는 공연 정보가 없습니다. 추가 조건을 알려주시면 다시 찾아드리겠습니다. 실제 예매 가능 여부와 잔여석은 확인하지 않았습니다."
+   },
+   "C5": {
+    "status": "ok",
+    "replan_count": 2,
+    "llm_calls": 3,
+    "worker_llm_calls": 0,
+    "duration_ms": 7228,
+    "real_tool_calls": 18,
+    "tool_calls_by_name": {
+     "get_performance_detail": 15,
+     "search_performances": 3
+    },
+    "strategies": [
+     "expand_pool",
+     "drop_genre"
+    ],
+    "replan_reasons": [
+     "충족 후보 0개 (제외 0, 판단 불가 0)",
+     "충족 후보 0개 (제외 0, 판단 불가 0)"
+    ],
+    "steps": [
+     "analyze",
+     "plan",
+     "execute",
+     "judge",
+     "plan",
+     "execute",
+     "judge",
+     "plan",
+     "execute",
+     "judge",
+     "respond"
+    ],
+    "worker_decisions": [],
+    "verify": [],
+    "messages": 0,
+    "final_verdict": "normal",
+    "final_warnings": [],
+    "diagnosis": null,
+    "recommendations": [
+     "타조소년들 [대학로]",
+     "단막극 낭독공연, 시선: Eleven Ways of Believing [대학로]",
+     "제7회 서울연극25페스티벌, 서초노트"
+    ],
+    "facts": null,
+    "reply_head": "대중무용 장르 공연은 없어서 장르 조건을 넓혀 찾았습니다.\n\n추천 공연은 다음과 같습니다.\n\n1. 타조소년들 [대학로]\n- 장소: 보라 아트홀(구. 지구인아트홀)\n- 일시: 2026-11-28 18:00~19:30 (90분)\n- 가격: 15,000원부터\n- 판단 근거: 18:00 시작,"
+   }
+  },
+  "pw_llm_on": {
+   "C1": {
+    "status": "ok",
+    "replan_count": 0,
+    "llm_calls": 3,
+    "worker_llm_calls": 0,
+    "duration_ms": 10591,
+    "real_tool_calls": 19,
+    "tool_calls_by_name": {
+     "get_performance_detail": 15,
+     "search_nearby_places": 3,
+     "search_performances": 1
+    },
+    "strategies": [],
+    "replan_reasons": [],
+    "steps": [
+     "analyze",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "execute",
+     "respond"
+    ],
+    "worker_decisions": [],
+    "verify": [
+     "normal"
+    ],
+    "messages": 4,
+    "final_verdict": "normal",
+    "final_warnings": [],
+    "diagnosis": null,
+    "recommendations": [
+     "타조소년들 [대학로]",
+     "단막극 낭독공연, 시선: Eleven Ways of Believing [대학로]",
+     "모든 날, 모든 순간 [대학로]"
+    ],
+    "facts": null,
+    "reply_head": "추천 공연 3편입니다.\n\n1. 타조소년들 [대학로]\n- 시간: 14:00~15:30 (90분)\n- 가격: 15,000원\n- 장소: 보라 아트홀(구. 지구인아트홀)\n- 근거: 14:00 시작, 15:30 종료로 18:00 이전 종료, 예산 50,000원 이하\n- 인근 식당: 경성양꼬치 대"
+   },
+   "C2": {
+    "status": "ok",
+    "replan_count": 2,
+    "llm_calls": 3,
+    "worker_llm_calls": 0,
+    "duration_ms": 11528,
+    "real_tool_calls": 48,
+    "tool_calls_by_name": {
+     "get_performance_detail": 45,
+     "search_performances": 3
+    },
+    "strategies": [
+     "expand_pool",
+     "drop_genre"
+    ],
+    "replan_reasons": [
+     "충족 후보 0개 (제외 15, 판단 불가 0)",
+     "충족 후보 0개 (제외 30, 판단 불가 0)"
+    ],
+    "steps": [
+     "analyze",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "respond"
+    ],
+    "worker_decisions": [],
+    "verify": [
+     "normal",
+     "normal",
+     "normal"
+    ],
+    "messages": 9,
+    "final_verdict": "normal",
+    "final_warnings": [],
+    "diagnosis": null,
+    "recommendations": [
+     "꿈깨 [대학로]"
+    ],
+    "facts": null,
+    "reply_head": "추천 공연은 \"꿈깨 [대학로]\"입니다. 2026년 11월 29일 19:30에 시작하여 20:40에 종료하며, 러닝타임은 70분입니다. 가격은 30,000원으로 예산 내에 맞고, 시작 시간도 19:00 이후이며 종료 시간도 21:30 이전이라 조건에 부합합니다. 장소는 달밤엔씨어터입니다."
+   },
+   "C3": {
+    "status": "limit_reached",
+    "replan_count": 3,
+    "llm_calls": 3,
+    "worker_llm_calls": 0,
+    "duration_ms": 15035,
+    "real_tool_calls": 62,
+    "tool_calls_by_name": {
+     "get_performance_detail": 58,
+     "search_performances": 4
+    },
+    "strategies": [
+     "expand_pool",
+     "drop_genre",
+     "widen_region"
+    ],
+    "replan_reasons": [
+     "충족 후보 0개 (제외 15, 판단 불가 0)",
+     "충족 후보 0개 (제외 30, 판단 불가 0)",
+     "충족 후보 0개 (제외 43, 판단 불가 0)"
+    ],
+    "steps": [
+     "analyze",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "plan",
+     "execute",
+     "verify",
+     "plan",
+     "judge",
+     "respond"
+    ],
+    "worker_decisions": [],
+    "verify": [
+     "normal",
+     "normal",
+     "normal",
+     "anomaly"
+    ],
+    "messages": 13,
+    "final_verdict": "anomaly",
+    "final_warnings": [
+     "excessive_replan"
+    ],
+    "diagnosis": "경고 원인은 Planner의 재계획이 3회로 상한에 도달했기 때문입니다. Planner가 후보가 없을 때 재계획 전략을 조정하거나 재계획 횟수를 제한하는 로직을 개선해야 합니다. Worker와 로깅 Agent에는 문제점이 없습니다.",
+    "recommendations": [],
+    "facts": null,
+    "reply_head": "2026년 11월 25일 09:00부터 11:00까지, 대학로 지역에서 연극 장르 조건에 맞는 공연은 없습니다. 조건을 '연극' 장르와 '대학로' 지역에서 넓혀도 해당 시간 내 종료하는 공연이 없었습니다. 종료 제한을 15:30로 늦추면 '안녕! 크로아티아' 공연(14:00~15:30,"
+   },
+   "C4": {
+    "status": "ok",
+    "replan_count": 0,
+    "llm_calls": 4,
+    "worker_llm_calls": 1,
+    "duration_ms": 4501,
+    "real_tool_calls": 3,
+    "tool_calls_by_name": {
+     "get_performance_detail": 1,
+     "search_performances": 2
+    },
+    "strategies": [],
+    "replan_reasons": [],
+    "steps": [
+     "analyze",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "respond"
+    ],
+    "worker_decisions": [
+     {
+      "tool": "search_performances",
+      "code": "NO_RESULT",
+      "action": "retry",
+      "llm": true,
+      "reason": "공연명이 길어 검색 결과가 없으므로 앞부분만 사용해 검색한다.",
+      "patch": {
+       "keyword": "여신님"
+      },
+      "rejected": null
+     }
+    ],
+    "verify": [
+     "normal"
+    ],
+    "messages": 3,
+    "final_verdict": "normal",
+    "final_warnings": [],
+    "diagnosis": null,
+    "recommendations": [],
+    "facts": "여신님이 보고 계셔 [대학로]",
+    "reply_head": "추천 공연은 \"여신님이 보고 계셔 [대학로]\"입니다. 장소는 유니플렉스 1관(대극장)이며, 러닝타임은 120분입니다. 공연 일정은 화요일 20:00, 수요일 16:00·20:00, 목요일 20:00, 금요일 16:00·20:00, 토요일과 일요일 및 공휴일은 14:00·18:00에 시작"
+   },
+   "C5": {
+    "status": "ok",
+    "replan_count": 1,
+    "llm_calls": 3,
+    "worker_llm_calls": 0,
+    "duration_ms": 7061,
+    "real_tool_calls": 17,
+    "tool_calls_by_name": {
+     "get_performance_detail": 15,
+     "search_performances": 2
+    },
+    "strategies": [
+     "drop_genre"
+    ],
+    "replan_reasons": [
+     "충족 후보 0개 (제외 0, 판단 불가 0); Worker 요청: search_performances NO_RESULT"
+    ],
+    "steps": [
+     "analyze",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "respond"
+    ],
+    "worker_decisions": [
+     {
+      "tool": "search_performances",
+      "code": "NO_RESULT",
+      "action": "replan_request",
+      "llm": false,
+      "reason": "고칠 수 있는 인자 없음 — Planner 에 계획 변경 요청",
+      "patch": null,
+      "rejected": null
+     }
+    ],
+    "verify": [
+     "normal",
+     "normal"
+    ],
+    "messages": 6,
+    "final_verdict": "normal",
+    "final_warnings": [],
+    "diagnosis": null,
+    "recommendations": [
+     "타조소년들 [대학로]",
+     "단막극 낭독공연, 시선: Eleven Ways of Believing [대학로]",
+     "제7회 서울연극25페스티벌, 서초노트"
+    ],
+    "facts": null,
+    "reply_head": "대학로에서 2026년 11월 28일 18시 이후 21시 이전에 볼 수 있는 대중무용 장르 공연은 없습니다. 다만, 대중무용 조건을 넓혀 다음 세 공연을 추천합니다.\n\n1. 타조소년들 [대학로]\n- 시간: 18:00~19:30 (90분)\n- 가격: 15,000원\n- 장소: 보라 아트홀(구"
+   }
+  },
+  "pw_llm_off": {
+   "C1": {
+    "status": "ok",
+    "replan_count": 0,
+    "llm_calls": 3,
+    "worker_llm_calls": 0,
+    "duration_ms": 9995,
+    "real_tool_calls": 19,
+    "tool_calls_by_name": {
+     "get_performance_detail": 15,
+     "search_nearby_places": 3,
+     "search_performances": 1
+    },
+    "strategies": [],
+    "replan_reasons": [],
+    "steps": [
+     "analyze",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "execute",
+     "respond"
+    ],
+    "worker_decisions": [],
+    "verify": [
+     "normal"
+    ],
+    "messages": 4,
+    "final_verdict": "normal",
+    "final_warnings": [],
+    "diagnosis": null,
+    "recommendations": [
+     "타조소년들 [대학로]",
+     "단막극 낭독공연, 시선: Eleven Ways of Believing [대학로]",
+     "모든 날, 모든 순간 [대학로]"
+    ],
+    "facts": null,
+    "reply_head": "추천 공연 3편입니다.\n\n1. 타조소년들 [대학로]\n- 시각: 14:00~15:30 (90분)\n- 가격: 15,000원\n- 장소: 보라 아트홀(구. 지구인아트홀)\n- 근거: 14:00 시작, 15:30 종료로 18:00 이전 종료, 예산 50,000원 이하\n- 인근 음식점: 경성양꼬치 "
+   },
+   "C2": {
+    "status": "ok",
+    "replan_count": 2,
+    "llm_calls": 3,
+    "worker_llm_calls": 0,
+    "duration_ms": 10005,
+    "real_tool_calls": 48,
+    "tool_calls_by_name": {
+     "get_performance_detail": 45,
+     "search_performances": 3
+    },
+    "strategies": [
+     "expand_pool",
+     "drop_genre"
+    ],
+    "replan_reasons": [
+     "충족 후보 0개 (제외 15, 판단 불가 0)",
+     "충족 후보 0개 (제외 30, 판단 불가 0)"
+    ],
+    "steps": [
+     "analyze",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "respond"
+    ],
+    "worker_decisions": [],
+    "verify": [
+     "normal",
+     "normal",
+     "normal"
+    ],
+    "messages": 9,
+    "final_verdict": "normal",
+    "final_warnings": [],
+    "diagnosis": null,
+    "recommendations": [
+     "꿈깨 [대학로]"
+    ],
+    "facts": null,
+    "reply_head": "추천 공연은 \"꿈깨 [대학로]\"입니다. 2026년 11월 29일 19:30에 시작하여 20:40에 종료하며, 러닝타임은 70분입니다. 가격은 30,000원으로 예산 내에 맞고, 시작 시간도 19:00 이후이며 종료 시간도 21:30 이전이라 조건에 부합합니다. 장소는 달밤엔씨어터입니다."
+   },
+   "C3": {
+    "status": "limit_reached",
+    "replan_count": 3,
+    "llm_calls": 3,
+    "worker_llm_calls": 0,
+    "duration_ms": 13253,
+    "real_tool_calls": 62,
+    "tool_calls_by_name": {
+     "get_performance_detail": 58,
+     "search_performances": 4
+    },
+    "strategies": [
+     "expand_pool",
+     "drop_genre",
+     "widen_region"
+    ],
+    "replan_reasons": [
+     "충족 후보 0개 (제외 15, 판단 불가 0)",
+     "충족 후보 0개 (제외 30, 판단 불가 0)",
+     "충족 후보 0개 (제외 43, 판단 불가 0)"
+    ],
+    "steps": [
+     "analyze",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "plan",
+     "execute",
+     "verify",
+     "plan",
+     "judge",
+     "respond"
+    ],
+    "worker_decisions": [],
+    "verify": [
+     "normal",
+     "normal",
+     "normal",
+     "anomaly"
+    ],
+    "messages": 13,
+    "final_verdict": "anomaly",
+    "final_warnings": [
+     "excessive_replan"
+    ],
+    "diagnosis": "경고 원인은 Planner의 재계획 3회 초과입니다. Planner가 후보가 없을 때마다 재계획을 반복하는 전략을 수정해야 합니다. Worker와 로깅 Agent에는 문제 없습니다.",
+    "recommendations": [],
+    "facts": null,
+    "reply_head": "2026년 11월 25일 09:00~11:00 사이, 대학로 지역에서 연극 장르 조건에 맞는 공연은 없습니다. 모든 후보 공연이 시작 시각과 러닝타임을 고려할 때 11:00 이전 종료 조건을 충족하지 못했습니다. 예를 들어, '의원님, 자수할래요!'는 19:30 시작, 75분 러닝타임으"
+   },
+   "C4": {
+    "status": "no_match",
+    "replan_count": 0,
+    "llm_calls": 3,
+    "worker_llm_calls": 0,
+    "duration_ms": 2773,
+    "real_tool_calls": 1,
+    "tool_calls_by_name": {
+     "search_performances": 1
+    },
+    "strategies": [],
+    "replan_reasons": [],
+    "steps": [
+     "analyze",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "respond"
+    ],
+    "worker_decisions": [
+     {
+      "tool": "search_performances",
+      "code": "NO_RESULT",
+      "action": "replan_request",
+      "llm": false,
+      "reason": "worker_llm_off",
+      "patch": null,
+      "rejected": null
+     }
+    ],
+    "verify": [
+     "normal"
+    ],
+    "messages": 3,
+    "final_verdict": "normal",
+    "final_warnings": [],
+    "diagnosis": null,
+    "recommendations": [],
+    "facts": null,
+    "reply_head": "추천 가능한 공연 정보가 없습니다. 추가 조건이나 다른 요청이 있으면 알려주세요. 실제 예매 가능 여부와 잔여석은 확인하지 않았습니다."
+   },
+   "C5": {
+    "status": "ok",
+    "replan_count": 1,
+    "llm_calls": 3,
+    "worker_llm_calls": 0,
+    "duration_ms": 8720,
+    "real_tool_calls": 17,
+    "tool_calls_by_name": {
+     "get_performance_detail": 15,
+     "search_performances": 2
+    },
+    "strategies": [
+     "drop_genre"
+    ],
+    "replan_reasons": [
+     "충족 후보 0개 (제외 0, 판단 불가 0); Worker 요청: search_performances NO_RESULT"
+    ],
+    "steps": [
+     "analyze",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "plan",
+     "execute",
+     "verify",
+     "judge",
+     "respond"
+    ],
+    "worker_decisions": [
+     {
+      "tool": "search_performances",
+      "code": "NO_RESULT",
+      "action": "replan_request",
+      "llm": false,
+      "reason": "고칠 수 있는 인자 없음 — Planner 에 계획 변경 요청",
+      "patch": null,
+      "rejected": null
+     }
+    ],
+    "verify": [
+     "normal",
+     "normal"
+    ],
+    "messages": 6,
+    "final_verdict": "normal",
+    "final_warnings": [],
+    "diagnosis": null,
+    "recommendations": [
+     "타조소년들 [대학로]",
+     "단막극 낭독공연, 시선: Eleven Ways of Believing [대학로]",
+     "제7회 서울연극25페스티벌, 서초노트"
+    ],
+    "facts": null,
+    "reply_head": "대학로에서 2026년 11월 28일 18시 이후 21시 이전에 볼 수 있는 대중무용 장르 공연은 없습니다. 다만, 장르 조건을 넓혀 다음 세 공연을 추천합니다.\n\n1. 타조소년들 [대학로]\n- 시간: 18:00~19:30 (90분)\n- 가격: 15,000원\n- 장소: 보라 아트홀(구. "
+   }
+  }
+ }
+}

@@ -21,6 +21,20 @@
       "description": "관람 날짜 YYYY-MM-DD. 생략하면 오늘",
       "title": "Date"
      },
+     "end_date": {
+      "anyOf": [
+       {
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "default": null,
+      "description": "기간 검색 끝 날짜 YYYY-MM-DD (공연명으로 찾을 때 등). 생략하면 date 하루",
+      "title": "End Date"
+     },
      "region": {
       "anyOf": [
        {

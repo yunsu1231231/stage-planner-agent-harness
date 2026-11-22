@@ -1,81 +1,91 @@
 [
  {
-  "event_id": "9b1300db1c9b4722b24b548c6f318ddd",
+  "event_id": "8755c2e14b144e3b93e08a7d542c856c",
   "seq": 1,
-  "ts": "2026-11-22T20:04:11.808+09:00",
+  "ts": "2026-11-22T20:46:43.394+09:00",
   "type": "run.start",
   "node": null,
-  "run_id": "r-12e24a193b10",
+  "run_id": "r-7a9cf37a238f",
   "payload": {
-   "message": "7시 전에 끝나야 해"
+   "message": "7시 전에 끝나야 해",
+   "mode": "planner_worker"
   }
  },
  {
-  "event_id": "b0e9ca73b547461583b1dec77019e839",
+  "event_id": "cdc4022cfc9d4d5c9b8e68518f649cfa",
   "seq": 2,
-  "ts": "2026-11-22T20:04:11.816+09:00",
+  "ts": "2026-11-22T20:46:43.395+09:00",
   "type": "node.enter",
   "node": "analyze",
-  "run_id": "r-12e24a193b10",
-  "payload": {}
+  "run_id": "r-7a9cf37a238f",
+  "payload": {
+   "role": "Planner"
+  }
  },
  {
-  "event_id": "943475d5ec804782a0e6240f189932a8",
+  "event_id": "723a8ad1ffbe468f9ce6f60aea197279",
   "seq": 3,
-  "ts": "2026-11-22T20:04:13.184+09:00",
+  "ts": "2026-11-22T20:46:44.444+09:00",
   "type": "llm.decision",
   "node": "analyze",
-  "run_id": "r-12e24a193b10",
+  "run_id": "r-7a9cf37a238f",
   "payload": {
    "decision": "modify_condition",
    "reason": "종료 시간을 7시 이전으로 변경 요청"
   }
  },
  {
-  "event_id": "d7e55ec2c4184eeabf60b44d54827801",
+  "event_id": "2f16b3952999487bb01c02a835419a38",
   "seq": 4,
-  "ts": "2026-11-22T20:04:13.185+09:00",
+  "ts": "2026-11-22T20:46:44.444+09:00",
   "type": "node.exit",
   "node": "analyze",
-  "run_id": "r-12e24a193b10",
+  "run_id": "r-7a9cf37a238f",
   "payload": {
    "intent": "modify_condition",
    "missing": [
     "date",
     "earliest_start"
    ],
-   "reason": "종료 시간을 7시 이전으로 변경 요청"
+   "reason": "종료 시간을 7시 이전으로 변경 요청",
+   "role": "Planner"
   }
  },
  {
-  "event_id": "5e166985cd9f4bf7bce48f4c7b0e9275",
+  "event_id": "4ca7f4655b1c4f09bfb9d3621234eb5f",
   "seq": 5,
-  "ts": "2026-11-22T20:04:13.188+09:00",
+  "ts": "2026-11-22T20:46:44.445+09:00",
   "type": "node.enter",
   "node": "respond",
-  "run_id": "r-12e24a193b10",
-  "payload": {}
+  "run_id": "r-7a9cf37a238f",
+  "payload": {
+   "role": "Planner"
+  }
  },
  {
-  "event_id": "7af87f98d4cf4662a9099f9544e51064",
+  "event_id": "244432982045412b86c9dd3aa77bf72d",
   "seq": 6,
-  "ts": "2026-11-22T20:04:13.190+09:00",
+  "ts": "2026-11-22T20:46:44.446+09:00",
   "type": "node.exit",
   "node": "respond",
-  "run_id": "r-12e24a193b10",
-  "payload": {}
+  "run_id": "r-7a9cf37a238f",
+  "payload": {
+   "role": "Planner"
+  }
  },
  {
-  "event_id": "09f201185c4047298d9573e128dea928",
+  "event_id": "7a48ed88a2164fb09e90764ea3e5b333",
   "seq": 7,
-  "ts": "2026-11-22T20:04:13.193+09:00",
+  "ts": "2026-11-22T20:46:44.446+09:00",
   "type": "run.end",
   "node": null,
-  "run_id": "r-12e24a193b10",
+  "run_id": "r-7a9cf37a238f",
   "payload": {
    "status": "clarify",
    "llm_calls": 1,
-   "duration_ms": 1385,
+   "worker_llm_calls": 0,
+   "mode": "planner_worker",
+   "duration_ms": 1053,
    "replan_count": 0
   }
  }

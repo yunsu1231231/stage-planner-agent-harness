@@ -1,0 +1,1220 @@
+[
+ {
+  "event_id": "4361e9fc2851475a81d899dfbffee08f",
+  "seq": 1,
+  "ts": "2026-11-22T20:45:02.218+09:00",
+  "type": "run.start",
+  "node": null,
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "message": "11월 28일 토요일 저녁 6시 이후 대학로에서 대중무용 공연 보고 싶어. 9시 전에 끝나야 해",
+   "mode": "planner_worker"
+  }
+ },
+ {
+  "event_id": "9751a8a0c06d4720928aa6808120bc61",
+  "seq": 2,
+  "ts": "2026-11-22T20:45:02.220+09:00",
+  "type": "node.enter",
+  "node": "analyze",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "role": "Planner"
+  }
+ },
+ {
+  "event_id": "1f6b44b3cf834181a1b1fe0723dcb384",
+  "seq": 3,
+  "ts": "2026-11-22T20:45:03.435+09:00",
+  "type": "llm.decision",
+  "node": "analyze",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "decision": "plan_performance",
+   "reason": "사용자가 11월 28일 토요일 저녁 6시 이후 대학로에서 대중무용 공연을 보고 싶어하며 9시 전에 끝나야 한다고 명시함"
+  }
+ },
+ {
+  "event_id": "ba8264fc8ce14f73a0bd043f955e743e",
+  "seq": 4,
+  "ts": "2026-11-22T20:45:03.436+09:00",
+  "type": "node.exit",
+  "node": "analyze",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "intent": "plan_performance",
+   "missing": [],
+   "reason": "사용자가 11월 28일 토요일 저녁 6시 이후 대학로에서 대중무용 공연을 보고 싶어하며 9시 전에 끝나야 한다고 명시함",
+   "role": "Planner"
+  }
+ },
+ {
+  "event_id": "8ba223279ebd4d3ca07bbfe7e4f1d0bf",
+  "seq": 5,
+  "ts": "2026-11-22T20:45:03.437+09:00",
+  "type": "node.enter",
+  "node": "plan",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "role": "Planner"
+  }
+ },
+ {
+  "event_id": "e401ff6806c546a3af4e3228d4c6d0f4",
+  "seq": 6,
+  "ts": "2026-11-22T20:45:04.176+09:00",
+  "type": "llm.decision",
+  "node": "plan",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "decision": [
+    "search_performances"
+   ],
+   "reason": "",
+   "proposed_args": {
+    "search_performances": {
+     "date": "2026-11-28",
+     "region": "대학로",
+     "genre": "대중무용"
+    }
+   }
+  }
+ },
+ {
+  "event_id": "df9bb25a11494cf68ec62246aacfda62",
+  "seq": 7,
+  "ts": "2026-11-22T20:45:04.177+09:00",
+  "type": "plan.corrected",
+  "node": "plan",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "reason": "rule_check",
+   "added": [
+    "get_performance_detail"
+   ],
+   "removed": []
+  }
+ },
+ {
+  "event_id": "ce9d481775d045d7a3046315e9cebba3",
+  "seq": 8,
+  "ts": "2026-11-22T20:45:04.177+09:00",
+  "type": "plan.created",
+  "node": "plan",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "plan_version": 0,
+   "strategy": "initial",
+   "tasks": [
+    {
+     "id": "t1",
+     "tool": "search_performances",
+     "args": {
+      "date": "2026-11-28",
+      "region": "대학로",
+      "genre": "대중무용",
+      "limit": 20
+     },
+     "phase": "collect",
+     "depends_on": [],
+     "fixed_args": [
+      "date",
+      "region",
+      "genre"
+     ]
+    },
+    {
+     "id": "t2",
+     "tool": "get_performance_detail",
+     "args": {
+      "performance_id": "<search.items[].performance_id>"
+     },
+     "phase": "collect",
+     "depends_on": [
+      "t1"
+     ],
+     "fixed_args": []
+    }
+   ]
+  }
+ },
+ {
+  "event_id": "be6b681449bf4c61bdbd3dbc0f2cd4c3",
+  "seq": 9,
+  "ts": "2026-11-22T20:45:04.178+09:00",
+  "type": "agent.message",
+  "node": "plan",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "from": "Planner",
+   "to": "Worker",
+   "kind": "task_list",
+   "body": {
+    "plan_version": 0,
+    "strategy": "initial",
+    "tasks": [
+     {
+      "id": "t1",
+      "tool": "search_performances",
+      "args": {
+       "date": "2026-11-28",
+       "region": "대학로",
+       "genre": "대중무용",
+       "limit": 20
+      },
+      "fixed_args": [
+       "date",
+       "region",
+       "genre"
+      ],
+      "phase": "collect"
+     },
+     {
+      "id": "t2",
+      "tool": "get_performance_detail",
+      "args": {
+       "performance_id": "<search.items[].performance_id>"
+      },
+      "fixed_args": [],
+      "phase": "collect"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "event_id": "859ac1bf79f247c5aeb725f8e377c55a",
+  "seq": 10,
+  "ts": "2026-11-22T20:45:04.179+09:00",
+  "type": "node.exit",
+  "node": "plan",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "phase": "collect",
+   "plan_version": 0,
+   "role": "Planner"
+  }
+ },
+ {
+  "event_id": "268dc0c17ea8485db96a32d06d80f6d1",
+  "seq": 11,
+  "ts": "2026-11-22T20:45:04.182+09:00",
+  "type": "node.enter",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "role": "Worker"
+  }
+ },
+ {
+  "event_id": "027bd46c46704f75939565adc08900f5",
+  "seq": 12,
+  "ts": "2026-11-22T20:45:04.183+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "search_performances",
+   "args": {
+    "date": "2026-11-28",
+    "region": "대학로",
+    "genre": "대중무용",
+    "limit": 20
+   },
+   "cached": false,
+   "task_id": "t1",
+   "attempt": 0
+  }
+ },
+ {
+  "event_id": "1d31413fa911453ca575a2ee66ce490c",
+  "seq": 13,
+  "ts": "2026-11-22T20:45:04.306+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "search_performances",
+   "ok": false,
+   "error_code": "NO_RESULT",
+   "duration_ms": 123,
+   "cached": false,
+   "summary": "NO_RESULT: 조건에 맞는 공연을 찾지 못했습니다."
+  }
+ },
+ {
+  "event_id": "751edb0f81c04effbe9a3c0fb3532f8c",
+  "seq": 14,
+  "ts": "2026-11-22T20:45:04.312+09:00",
+  "type": "worker.decision",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "task_id": "t1",
+   "tool": "search_performances",
+   "code": "NO_RESULT",
+   "attempt": 0,
+   "fixed_args": [
+    "date",
+    "region",
+    "genre"
+   ],
+   "action": "replan_request",
+   "llm": false,
+   "reason": "고칠 수 있는 인자 없음 — Planner 에 계획 변경 요청"
+  }
+ },
+ {
+  "event_id": "5e7f29434faa487c9e4b89e02c884c15",
+  "seq": 15,
+  "ts": "2026-11-22T20:45:04.314+09:00",
+  "type": "agent.message",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "from": "Worker",
+   "to": "Planner",
+   "kind": "work_result",
+   "body": {
+    "done": 0,
+    "failed": 1,
+    "retried": 0,
+    "unresolved": [
+     {
+      "task_id": "t1",
+      "tool": "search_performances",
+      "code": "NO_RESULT",
+      "action": "replan_request"
+     }
+    ],
+    "replan_requests": [
+     {
+      "tool": "search_performances",
+      "code": "NO_RESULT",
+      "task_id": "t1"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "event_id": "9ee1dc4fae9546c8baf4aa37d977b693",
+  "seq": 16,
+  "ts": "2026-11-22T20:45:04.315+09:00",
+  "type": "node.exit",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "role": "Worker"
+  }
+ },
+ {
+  "event_id": "11db57bef0c34976a8d8f7c39493c6d3",
+  "seq": 17,
+  "ts": "2026-11-22T20:45:04.319+09:00",
+  "type": "node.enter",
+  "node": "verify",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "role": "LoggingAgent"
+  }
+ },
+ {
+  "event_id": "2dcc4b236c564fc182505402609946bd",
+  "seq": 18,
+  "ts": "2026-11-22T20:45:04.319+09:00",
+  "type": "verify.result",
+  "node": "verify",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "verdict": "normal",
+   "warnings": [],
+   "reason": null
+  }
+ },
+ {
+  "event_id": "d613b990b0d04e26b3b7b2f64379ce53",
+  "seq": 19,
+  "ts": "2026-11-22T20:45:04.320+09:00",
+  "type": "agent.message",
+  "node": "verify",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "from": "LoggingAgent",
+   "to": "Planner",
+   "kind": "verification",
+   "body": {
+    "verdict": "normal",
+    "warnings": []
+   }
+  }
+ },
+ {
+  "event_id": "d1d6b40837c54bac825aa010f5884dbf",
+  "seq": 20,
+  "ts": "2026-11-22T20:45:04.320+09:00",
+  "type": "node.exit",
+  "node": "verify",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "role": "LoggingAgent"
+  }
+ },
+ {
+  "event_id": "89d74487bd834fa7a8020714c466e550",
+  "seq": 21,
+  "ts": "2026-11-22T20:45:04.322+09:00",
+  "type": "node.enter",
+  "node": "judge",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "role": "Planner"
+  }
+ },
+ {
+  "event_id": "cd7764d152824120a5b9b1e3ade8a3bd",
+  "seq": 22,
+  "ts": "2026-11-22T20:45:04.323+09:00",
+  "type": "judge.result",
+  "node": "judge",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "plan_version": 0,
+   "eligible": 0,
+   "excluded": 0,
+   "unjudgeable": 0
+  }
+ },
+ {
+  "event_id": "d88d80f265a9497f9487877f9d7fd6f4",
+  "seq": 23,
+  "ts": "2026-11-22T20:45:04.324+09:00",
+  "type": "node.exit",
+  "node": "judge",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "next": "replan",
+   "role": "Planner"
+  }
+ },
+ {
+  "event_id": "daed26c302924ed5818be55bce127963",
+  "seq": 24,
+  "ts": "2026-11-22T20:45:04.325+09:00",
+  "type": "node.enter",
+  "node": "plan",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "role": "Planner"
+  }
+ },
+ {
+  "event_id": "91303db29095419da23037e7e648f4af",
+  "seq": 25,
+  "ts": "2026-11-22T20:45:04.326+09:00",
+  "type": "replan",
+  "node": "plan",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "count": 1,
+   "strategy": "drop_genre",
+   "reason": "충족 후보 0개 (제외 0, 판단 불가 0); Worker 요청: search_performances NO_RESULT"
+  }
+ },
+ {
+  "event_id": "efc1793b5625477896d757f91c60476b",
+  "seq": 26,
+  "ts": "2026-11-22T20:45:04.326+09:00",
+  "type": "plan.created",
+  "node": "plan",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "plan_version": 1,
+   "strategy": "drop_genre",
+   "tasks": [
+    {
+     "id": "t1",
+     "tool": "search_performances",
+     "args": {
+      "date": "2026-11-28",
+      "region": "대학로",
+      "limit": 20
+     },
+     "phase": "collect",
+     "depends_on": [],
+     "fixed_args": [
+      "date",
+      "region"
+     ]
+    },
+    {
+     "id": "t2",
+     "tool": "get_performance_detail",
+     "args": {
+      "performance_id": "<search.items[].performance_id>"
+     },
+     "phase": "collect",
+     "depends_on": [
+      "t1"
+     ],
+     "fixed_args": []
+    }
+   ]
+  }
+ },
+ {
+  "event_id": "640616b9c30244e192dd8a2ef9b8ccf0",
+  "seq": 27,
+  "ts": "2026-11-22T20:45:04.327+09:00",
+  "type": "agent.message",
+  "node": "plan",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "from": "Planner",
+   "to": "Worker",
+   "kind": "task_list",
+   "body": {
+    "plan_version": 1,
+    "strategy": "drop_genre",
+    "tasks": [
+     {
+      "id": "t1",
+      "tool": "search_performances",
+      "args": {
+       "date": "2026-11-28",
+       "region": "대학로",
+       "limit": 20
+      },
+      "fixed_args": [
+       "date",
+       "region"
+      ],
+      "phase": "collect"
+     },
+     {
+      "id": "t2",
+      "tool": "get_performance_detail",
+      "args": {
+       "performance_id": "<search.items[].performance_id>"
+      },
+      "fixed_args": [],
+      "phase": "collect"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "event_id": "d7513049e89448a7962f1951b1ce66d4",
+  "seq": 28,
+  "ts": "2026-11-22T20:45:04.327+09:00",
+  "type": "node.exit",
+  "node": "plan",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "phase": "collect",
+   "plan_version": 1,
+   "role": "Planner"
+  }
+ },
+ {
+  "event_id": "0e40eb8ddcf341ce8cac0a2c0cb2595d",
+  "seq": 29,
+  "ts": "2026-11-22T20:45:04.328+09:00",
+  "type": "node.enter",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "role": "Worker"
+  }
+ },
+ {
+  "event_id": "57e7485d137c4d4dab62979878ca2d93",
+  "seq": 30,
+  "ts": "2026-11-22T20:45:04.329+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "search_performances",
+   "args": {
+    "date": "2026-11-28",
+    "region": "대학로",
+    "limit": 20
+   },
+   "cached": false,
+   "task_id": "t1",
+   "attempt": 0
+  }
+ },
+ {
+  "event_id": "ee24a2c9765f462c8261286ec569929a",
+  "seq": 31,
+  "ts": "2026-11-22T20:45:04.452+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "search_performances",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 123,
+   "cached": false,
+   "summary": "후보 20건"
+  }
+ },
+ {
+  "event_id": "b91cf5ab23d44d75b8b524c6f2507514",
+  "seq": 32,
+  "ts": "2026-11-22T20:45:04.452+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF307016"
+   },
+   "cached": false,
+   "task_id": "t2:PF307016",
+   "attempt": 0
+  }
+ },
+ {
+  "event_id": "23618ec00d8d4ddf96e5f9ed401ea580",
+  "seq": 33,
+  "ts": "2026-11-22T20:45:04.549+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 96,
+   "cached": false,
+   "summary": "제3회 고래 단막극 페스티벌 · 105분 · 목요일 ~ 금요일(19:30), 토요일(15:00) · 전석 40,000원"
+  }
+ },
+ {
+  "event_id": "8dcf020216dd4fd78a6b69f6844182cc",
+  "seq": 34,
+  "ts": "2026-11-22T20:45:04.550+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF306970"
+   },
+   "cached": false,
+   "task_id": "t2:PF306970",
+   "attempt": 0
+  }
+ },
+ {
+  "event_id": "8064341ce897469e861c57bbcfe5da75",
+  "seq": 35,
+  "ts": "2026-11-22T20:45:04.647+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 97,
+   "cached": false,
+   "summary": "의원님, 자수할래요! · 75분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 30,000원"
+  }
+ },
+ {
+  "event_id": "9f6541133c0d4e0c92aad10c6f2efa60",
+  "seq": 36,
+  "ts": "2026-11-22T20:45:04.648+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF306685"
+   },
+   "cached": false,
+   "task_id": "t2:PF306685",
+   "attempt": 0
+  }
+ },
+ {
+  "event_id": "a08f2ac073b84890bb380779bc8ca61b",
+  "seq": 37,
+  "ts": "2026-11-22T20:45:04.747+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 99,
+   "cached": false,
+   "summary": "곰팡이, 락스 XX새끼 · 90분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(16:00) · 전석 25,000원"
+  }
+ },
+ {
+  "event_id": "b8ec9a74bc544c0883dd24077165cd73",
+  "seq": 38,
+  "ts": "2026-11-22T20:45:04.748+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF306528"
+   },
+   "cached": false,
+   "task_id": "t2:PF306528",
+   "attempt": 0
+  }
+ },
+ {
+  "event_id": "cea325521e6645158f17f136ff6b09b9",
+  "seq": 39,
+  "ts": "2026-11-22T20:45:04.856+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 108,
+   "cached": false,
+   "summary": "단막극 낭독공연, 시선: Eleven Ways of Believing [대학로] · 120분 · 목요일 ~ 금요일(19:30), 토요일 ~ 일요일(14:00,18:00) · 전석 25,000원"
+  }
+ },
+ {
+  "event_id": "41813e52684f4c6ba1c29778b9202fba",
+  "seq": 40,
+  "ts": "2026-11-22T20:45:04.857+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF306527"
+   },
+   "cached": false,
+   "task_id": "t2:PF306527",
+   "attempt": 0
+  }
+ },
+ {
+  "event_id": "264ae03b108a4b55a4c94c6b4e4d9200",
+  "seq": 41,
+  "ts": "2026-11-22T20:45:04.965+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 107,
+   "cached": false,
+   "summary": "없는 대화 · 100분 · 월요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00) · 전석 40,000원"
+  }
+ },
+ {
+  "event_id": "26932281fca341b9bb38ea61e3635884",
+  "seq": 42,
+  "ts": "2026-11-22T20:45:04.965+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF306452"
+   },
+   "cached": false,
+   "task_id": "t2:PF306452",
+   "attempt": 0
+  }
+ },
+ {
+  "event_id": "50313ba415e74016a2256ce27b361232",
+  "seq": 43,
+  "ts": "2026-11-22T20:45:05.062+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 96,
+   "cached": false,
+   "summary": "모든 날, 모든 순간 [대학로] · 100분 · 화요일 ~ 금요일(19:00), 토요일 ~ 일요일(14:00,16:30) · 전석 45,000원"
+  }
+ },
+ {
+  "event_id": "c256512ebc9f4c37ae3a69e12dad25c8",
+  "seq": 44,
+  "ts": "2026-11-22T20:45:05.062+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF306446"
+   },
+   "cached": false,
+   "task_id": "t2:PF306446",
+   "attempt": 0
+  }
+ },
+ {
+  "event_id": "7a13351e9e964bdfb9c56ff932d22e01",
+  "seq": 45,
+  "ts": "2026-11-22T20:45:07.167+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 2105,
+   "cached": false,
+   "summary": "아직 · 70분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 20,000원"
+  }
+ },
+ {
+  "event_id": "82262597960a4e20a6fc5286663741ca",
+  "seq": 46,
+  "ts": "2026-11-22T20:45:07.168+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF306164"
+   },
+   "cached": false,
+   "task_id": "t2:PF306164",
+   "attempt": 0
+  }
+ },
+ {
+  "event_id": "d8ae961551ab4a67a99e64d08f95b0b1",
+  "seq": 47,
+  "ts": "2026-11-22T20:45:07.266+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 98,
+   "cached": false,
+   "summary": "꿈깨 [대학로] · 70분 · 화요일 ~ 금요일(15:00,19:30), 토요일 ~ 일요일(15:00,19:30) · 전석 30,000원"
+  }
+ },
+ {
+  "event_id": "ff4bda3031164017badf9121c25bf1d9",
+  "seq": 48,
+  "ts": "2026-11-22T20:45:07.267+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF306085"
+   },
+   "cached": false,
+   "task_id": "t2:PF306085",
+   "attempt": 0
+  }
+ },
+ {
+  "event_id": "40e77f8be87c480a820d9e0fbb6e4ad3",
+  "seq": 49,
+  "ts": "2026-11-22T20:45:07.368+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 101,
+   "cached": false,
+   "summary": "김지선 베토벤 바이올린 소나타 전곡 시리즈 Ⅳ. To B: to Beethoven, to beyound · 100분 · 토요일(19:30) · 전석 20,000원"
+  }
+ },
+ {
+  "event_id": "7f16e24375e243d0b3c0ba19c48425c7",
+  "seq": 50,
+  "ts": "2026-11-22T20:45:07.368+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF306008"
+   },
+   "cached": false,
+   "task_id": "t2:PF306008",
+   "attempt": 0
+  }
+ },
+ {
+  "event_id": "ade5297e99c847baafa5c161b9a83ee3",
+  "seq": 51,
+  "ts": "2026-11-22T20:45:07.469+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 100,
+   "cached": false,
+   "summary": "타조소년들 [대학로] · 90분 · 목요일 ~ 금요일(20:00), 토요일 ~ 일요일(14:00,18:00) · R석 30,000원, A석 15,000원"
+  }
+ },
+ {
+  "event_id": "6ab2835b0df04f4a86070be2950edf02",
+  "seq": 52,
+  "ts": "2026-11-22T20:45:07.470+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF305979"
+   },
+   "cached": false,
+   "task_id": "t2:PF305979",
+   "attempt": 0
+  }
+ },
+ {
+  "event_id": "4159f05fa9a94110b3abcf97b12ffeac",
+  "seq": 53,
+  "ts": "2026-11-22T20:45:07.568+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 98,
+   "cached": false,
+   "summary": "플레이티켓 낭독쇼케이스, 스마일 보이 (11월) · 60분 · 토요일 ~ 일요일(15:00) · 전석무료"
+  }
+ },
+ {
+  "event_id": "280e6821f1c449c984e655b96d03d366",
+  "seq": 54,
+  "ts": "2026-11-22T20:45:07.569+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF305953"
+   },
+   "cached": false,
+   "task_id": "t2:PF305953",
+   "attempt": 0
+  }
+ },
+ {
+  "event_id": "5e389689f27741ce9573a42f7355fd35",
+  "seq": 55,
+  "ts": "2026-11-22T20:45:07.679+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 109,
+   "cached": false,
+   "summary": "제7회 서울연극25페스티벌, 서초노트 · 80분 · 토요일(15:00,18:00), 일요일(15:00) · 전석 30,000원"
+  }
+ },
+ {
+  "event_id": "7a3b0e16cfa4431495c319a0eaa7711f",
+  "seq": 56,
+  "ts": "2026-11-22T20:45:07.679+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF305931"
+   },
+   "cached": false,
+   "task_id": "t2:PF305931",
+   "attempt": 0
+  }
+ },
+ {
+  "event_id": "fdc0385518844ef8a17e4ac1db60f6b6",
+  "seq": 57,
+  "ts": "2026-11-22T20:45:07.788+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 108,
+   "cached": false,
+   "summary": "오펀스 · 150분 · 목요일 ~ 금요일(19:30), 토요일 ~ 일요일(13:00,17:00) · 전석 20,000원"
+  }
+ },
+ {
+  "event_id": "855c74f68c7e4fcfba4e3197874582e4",
+  "seq": 58,
+  "ts": "2026-11-22T20:45:07.788+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF305869"
+   },
+   "cached": false,
+   "task_id": "t2:PF305869",
+   "attempt": 0
+  }
+ },
+ {
+  "event_id": "c2e9375749bd46eabe6ac7ed53831f92",
+  "seq": 59,
+  "ts": "2026-11-22T20:45:07.896+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 107,
+   "cached": false,
+   "summary": "우리는 지금 어디에 있을까 [대학로] · 70분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(16:00) · 전석 40,000원"
+  }
+ },
+ {
+  "event_id": "d4a570b574a8446eb723a7dd6d26d521",
+  "seq": 60,
+  "ts": "2026-11-22T20:45:07.896+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF305847"
+   },
+   "cached": false,
+   "task_id": "t2:PF305847",
+   "attempt": 0
+  }
+ },
+ {
+  "event_id": "76280ea6c412461eb951112e6d17a1df",
+  "seq": 61,
+  "ts": "2026-11-22T20:45:07.998+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 101,
+   "cached": false,
+   "summary": "엄마와 아들: 아들, 엄마도 처음이야! [대학로] · 80분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:30) · 전석 40,000원"
+  }
+ },
+ {
+  "event_id": "e90396c3ef494020b56916a75de85d95",
+  "seq": 62,
+  "ts": "2026-11-22T20:45:07.999+09:00",
+  "type": "agent.message",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "from": "Worker",
+   "to": "Planner",
+   "kind": "work_result",
+   "body": {
+    "done": 16,
+    "failed": 0,
+    "retried": 0,
+    "unresolved": [],
+    "replan_requests": []
+   }
+  }
+ },
+ {
+  "event_id": "2ae2a656ad764e0b9395c669f7eaeab2",
+  "seq": 63,
+  "ts": "2026-11-22T20:45:08.000+09:00",
+  "type": "node.exit",
+  "node": "execute",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "role": "Worker"
+  }
+ },
+ {
+  "event_id": "3bc1e44aab30477ebd5b13055122ab29",
+  "seq": 64,
+  "ts": "2026-11-22T20:45:08.002+09:00",
+  "type": "node.enter",
+  "node": "verify",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "role": "LoggingAgent"
+  }
+ },
+ {
+  "event_id": "3de0d1eca3564905b3deeff0294b16b0",
+  "seq": 65,
+  "ts": "2026-11-22T20:45:08.003+09:00",
+  "type": "verify.result",
+  "node": "verify",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "verdict": "normal",
+   "warnings": [],
+   "reason": null
+  }
+ },
+ {
+  "event_id": "e6bb85b3e2434d76bba8a666b855d83f",
+  "seq": 66,
+  "ts": "2026-11-22T20:45:08.004+09:00",
+  "type": "agent.message",
+  "node": "verify",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "from": "LoggingAgent",
+   "to": "Planner",
+   "kind": "verification",
+   "body": {
+    "verdict": "normal",
+    "warnings": []
+   }
+  }
+ },
+ {
+  "event_id": "62c31cae7868429b885c0dea65785cde",
+  "seq": 67,
+  "ts": "2026-11-22T20:45:08.004+09:00",
+  "type": "node.exit",
+  "node": "verify",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "role": "LoggingAgent"
+  }
+ },
+ {
+  "event_id": "11d50cb5a14845c6b9a59cfb20f35ee4",
+  "seq": 68,
+  "ts": "2026-11-22T20:45:08.006+09:00",
+  "type": "node.enter",
+  "node": "judge",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "role": "Planner"
+  }
+ },
+ {
+  "event_id": "090428f788644457a3698234075f9aa4",
+  "seq": 69,
+  "ts": "2026-11-22T20:45:08.006+09:00",
+  "type": "judge.result",
+  "node": "judge",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "plan_version": 1,
+   "eligible": 5,
+   "excluded": 10,
+   "unjudgeable": 0
+  }
+ },
+ {
+  "event_id": "6691b13767f54325b64cf5a5f76da37a",
+  "seq": 70,
+  "ts": "2026-11-22T20:45:08.007+09:00",
+  "type": "node.exit",
+  "node": "judge",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "next": "respond",
+   "phase": "done",
+   "role": "Planner"
+  }
+ },
+ {
+  "event_id": "ea24f009e21944afb964f71866484d7c",
+  "seq": 71,
+  "ts": "2026-11-22T20:45:08.008+09:00",
+  "type": "node.enter",
+  "node": "respond",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "role": "Planner"
+  }
+ },
+ {
+  "event_id": "f28eb2defc2948bba5cd64935d82a196",
+  "seq": 72,
+  "ts": "2026-11-22T20:45:10.937+09:00",
+  "type": "node.exit",
+  "node": "respond",
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "role": "Planner"
+  }
+ },
+ {
+  "event_id": "9b72a48b7be04896858d34fc5db9de52",
+  "seq": 73,
+  "ts": "2026-11-22T20:45:10.939+09:00",
+  "type": "run.end",
+  "node": null,
+  "run_id": "r-4e2d05b989d9",
+  "payload": {
+   "status": "ok",
+   "llm_calls": 3,
+   "worker_llm_calls": 0,
+   "mode": "planner_worker",
+   "duration_ms": 8720,
+   "replan_count": 1
+  }
+ }
+]

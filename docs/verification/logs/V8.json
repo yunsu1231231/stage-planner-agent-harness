@@ -1,78 +1,88 @@
 [
  {
-  "event_id": "7d29747d75e046a883460b67768c9637",
+  "event_id": "4da5a46cc3de473d98b4f6404126e3eb",
   "seq": 1,
-  "ts": "2026-11-22T20:04:22.225+09:00",
+  "ts": "2026-11-22T20:46:52.416+09:00",
   "type": "run.start",
   "node": null,
-  "run_id": "r-55d7695c2966",
+  "run_id": "r-fa1d11248177",
   "payload": {
-   "message": "1번으로 저장해줘"
+   "message": "1번으로 저장해줘",
+   "mode": "planner_worker"
   }
  },
  {
-  "event_id": "05cc2600e8c5412ea974de5c23ceee3b",
+  "event_id": "013aa0eb9dde4c1392101fb054d1bcb5",
   "seq": 2,
-  "ts": "2026-11-22T20:04:22.230+09:00",
+  "ts": "2026-11-22T20:46:52.417+09:00",
   "type": "node.enter",
   "node": "analyze",
-  "run_id": "r-55d7695c2966",
-  "payload": {}
- },
- {
-  "event_id": "1067e389a9ca45fd8cea396a8ac0aec7",
-  "seq": 3,
-  "ts": "2026-11-22T20:04:23.338+09:00",
-  "type": "llm.decision",
-  "node": "analyze",
-  "run_id": "r-55d7695c2966",
+  "run_id": "r-fa1d11248177",
   "payload": {
-   "decision": "confirm_plan",
-   "reason": "사용자가 직전 추천 중 1번 공연을 저장·확정하려고 함"
+   "role": "Planner"
   }
  },
  {
-  "event_id": "f6bcc3b7a14a4cb79611d43088a28c05",
+  "event_id": "208c71b3e2904ec7860f178510bf630a",
+  "seq": 3,
+  "ts": "2026-11-22T20:46:53.713+09:00",
+  "type": "llm.decision",
+  "node": "analyze",
+  "run_id": "r-fa1d11248177",
+  "payload": {
+   "decision": "confirm_plan",
+   "reason": "사용자가 1번 공연을 저장·확정하려는 요청임"
+  }
+ },
+ {
+  "event_id": "30c65d11bd1b490bac62f68570acd377",
   "seq": 4,
-  "ts": "2026-11-22T20:04:23.339+09:00",
+  "ts": "2026-11-22T20:46:53.713+09:00",
   "type": "node.exit",
   "node": "analyze",
-  "run_id": "r-55d7695c2966",
+  "run_id": "r-fa1d11248177",
   "payload": {
    "intent": "confirm_plan",
    "missing": [],
-   "reason": "사용자가 직전 추천 중 1번 공연을 저장·확정하려고 함"
+   "reason": "사용자가 1번 공연을 저장·확정하려는 요청임",
+   "role": "Planner"
   }
  },
  {
-  "event_id": "22eb4d33281840e6b3f4e13eae374d9b",
+  "event_id": "f8aa03bd4d27417bbbcc7c201d433d3c",
   "seq": 5,
-  "ts": "2026-11-22T20:04:23.343+09:00",
+  "ts": "2026-11-22T20:46:53.715+09:00",
   "type": "node.enter",
   "node": "respond",
-  "run_id": "r-55d7695c2966",
-  "payload": {}
+  "run_id": "r-fa1d11248177",
+  "payload": {
+   "role": "Planner"
+  }
  },
  {
-  "event_id": "532f533e54e6425a9cd716ff25171b31",
+  "event_id": "ba6b261ce0b34999816bfb4f47ad12b5",
   "seq": 6,
-  "ts": "2026-11-22T20:04:23.351+09:00",
+  "ts": "2026-11-22T20:46:53.716+09:00",
   "type": "node.exit",
   "node": "respond",
-  "run_id": "r-55d7695c2966",
-  "payload": {}
+  "run_id": "r-fa1d11248177",
+  "payload": {
+   "role": "Planner"
+  }
  },
  {
-  "event_id": "914b260d85e147ff81d4fa994372dc68",
+  "event_id": "2ee0bea060224e3a807cc3f019cc4f2b",
   "seq": 7,
-  "ts": "2026-11-22T20:04:23.352+09:00",
+  "ts": "2026-11-22T20:46:53.717+09:00",
   "type": "run.end",
   "node": null,
-  "run_id": "r-55d7695c2966",
+  "run_id": "r-fa1d11248177",
   "payload": {
    "status": "saved",
    "llm_calls": 1,
-   "duration_ms": 1127,
+   "worker_llm_calls": 0,
+   "mode": "planner_worker",
+   "duration_ms": 1301,
    "replan_count": 0
   }
  }
