@@ -66,6 +66,8 @@ docs 명세 ──▶ [테스트 작성] ──▶ 실패 확인(Red) ──▶ 
 
 ## 5. 도입 순서
 1. **지금 (설계 동결 시점)**: 이 문서 + 추적표 확정, `requirements-dev.txt`(pytest)
-2. **구현 0단계**: `tests/` 골격, `conftest.py`, fixture 복사, 가짜 LLM·가짜 HTTP, L6 가드 테스트 → 이때부터 CI처럼 매 커밋 전 실행
+2. **구현 0단계 (M0, ✅ 완료)**: `tests/` 골격, `conftest.py`(네트워크 차단), fixture 복사, `FakeLLM`·`FakeSession`, L6 가드 7종, 하네스 자체 테스트 10종, hook(`git commit/push` 직전·종료 전 pytest) → 이때부터 매 커밋 전 자동 실행
+   - 가드가 실제로 위반을 잡는지 **의도적 위반 주입(mutation)으로 Red 확인** 완료 (LLM import, 브라우저 UA)
+   - FakeSession은 KOPIS의 charset 누락(한글 깨짐)·차단 후 성공 시퀀스·연결 끊김을 재현한다
 3. **구현 각 단계**: 해당 기능의 L1/L2 → 구현 → L3/L4
 4. **3일차**: L5 시나리오로 4.7 검증 기록 자동 생성 (`docs/` 검증 결과 문서의 근거)

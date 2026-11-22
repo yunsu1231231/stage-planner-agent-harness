@@ -22,3 +22,6 @@ Thumbs.db
 
 # confidential spec (對外秘) — keep local only
 docs/*.pdf
+
+# Claude Code personal settings
+.claude/settings.local.json

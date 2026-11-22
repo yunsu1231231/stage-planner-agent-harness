@@ -50,4 +50,18 @@
   - 요약은 한국어·영어 모두 가능, 본문에 이유와 관련 요구사항 번호(F30xx)를 적는다.
 - **API 키, `.env`, `.venv`는 커밋하지 않는다.** `.env.example` 에는 실제 값을 넣지 않는다.
 - **커밋 전 변경 사항을 확인한다**: `git status` 와 `git diff --staged` 로 스테이징 내용을 검토하고, 키 문자열이 섞이지 않았는지 확인한다. `git add -A` / `git add .` 대신 파일을 명시해 스테이징한다.
-- **GitHub push는 사용자 승인 후에만** 진행한다. 커밋은 로컬에서 자유롭게 하되, push 전에는 반드시 묻는다.
+- **GitHub push는 Claude가 자율적으로 진행해도 된다** (사용자 위임, 2026-11-22). 단, push 전에 반드시:
+  1. `pytest` 전체 통과 (hook이 `git push` 직전에 자동 실행해 실패 시 차단)
+  2. 키 노출 없음 (가드 테스트 `test_no_secrets_in_repo_files`)
+  3. `docs/*.pdf`(대외비 명세서)가 추적되지 않음
+  - force push, 히스토리 재작성, 원격 브랜치 삭제는 여전히 사용자 승인 필요.
+
+## 하네스 (자동 검증 장치)
+| 장치 | 위치 | 동작 |
+|---|---|---|
+| 가드 테스트 (L6) | `tests/guards/` | 버전 고정, 키 노출, 로깅 구역 LLM import, 브라우저 UA 위장, 모듈 분리 |
+| 하네스 자체 테스트 | `tests/harness/` | FakeLLM·FakeSession·네트워크 차단이 의도대로 동작하는지 |
+| 가짜 LLM / HTTP | `tests/fakes/` | 대본 기반 LLM, fixture 기반 HTTP. 대본·route 밖 호출은 실패 |
+| 네트워크 차단 | `tests/conftest.py` | `live` 마커 없는 테스트에서 실제 소켓 연결 금지 |
+| hook: PreToolUse(Bash) | `.claude/settings.json` → `scripts/hooks/harness_gate.py pretool` | `git commit`/`git push` 직전 pytest, 실패 시 차단 |
+| hook: Stop | 〃 `stop` | 코드 변경이 있으면 종료 전 pytest, 실패 시 종료 차단(1회) |
