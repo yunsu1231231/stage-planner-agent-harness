@@ -105,6 +105,8 @@ class KopisClient:
                 return ToolResult.failure(ErrorCode.INVALID_INPUT,
                                           f"알 수 없는 장르입니다: {inp.genre} (예: 연극, 뮤지컬, 클래식)")
             params["shcate"] = code
+        if inp.keyword:
+            params["shprfnm"] = inp.keyword
 
         today = self.today()
         defaults, estimated, note = [], False, None
@@ -132,7 +134,8 @@ class KopisClient:
         if not items:
             return ToolResult.failure(ErrorCode.NO_RESULT, "조건에 맞는 공연을 찾지 못했습니다.",
                                       source="KOPIS", attempts=attempts)
-        query = {"date": target.isoformat(), "region": inp.region, "genre": inp.genre, "limit": inp.limit}
+        query = {"date": target.isoformat(), "region": inp.region, "genre": inp.genre, "keyword": inp.keyword,
+                 "limit": inp.limit}
         return ToolResult.success({"query": query, "items": items}, source="KOPIS", defaults=defaults,
                                   estimated=estimated, note=note, attempts=attempts)
 

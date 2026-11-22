@@ -14,6 +14,7 @@ class SearchInput(BaseModel):
     date: str | None = Field(None, pattern=_DATE, description="관람 날짜 YYYY-MM-DD. 생략하면 오늘")
     region: str | None = Field(None, description="지역 이름. 예: 대학로, 종로구, 강남, 홍대, 서울")
     genre: str | None = Field(None, description="장르 이름. 예: 연극, 뮤지컬, 클래식, 국악, 대중음악, 무용")
+    keyword: str | None = Field(None, max_length=50, description="공연명 일부. 특정 공연을 찾을 때만 사용")
     limit: int = Field(20, ge=1, le=50, description="가져올 후보 수 (최대 50)")
 
     @field_validator("date")

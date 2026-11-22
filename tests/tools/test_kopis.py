@@ -43,6 +43,12 @@ def test_search_maps_region_and_genre_names_to_codes(make_kopis, session, fixtur
     assert (p["signgucode"], p["signgucodesub"], p["shcate"]) == ("11", "1111", "AAAA")
 
 
+def test_search_keyword_maps_to_title_filter(make_kopis, session, fixture_text):
+    session.add(KOPIS_LIST, kopis_xml(fixture_text("kopis_list.xml")))
+    make_kopis().search_performances(SearchInput(keyword="한남서림"))
+    assert session.calls[0].params["shprfnm"] == "한남서림"
+
+
 def test_search_unknown_region_or_genre_is_invalid_input_without_call(make_kopis, session):
     r1 = make_kopis().search_performances(SearchInput(region="아틀란티스"))
     r2 = make_kopis().search_performances(SearchInput(genre="e스포츠"))
