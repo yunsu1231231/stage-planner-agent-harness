@@ -1,0 +1,186 @@
+{
+  "C1": {
+    "ok": true,
+    "note": "응답='서울'",
+    "checked_at": "2026-11-22T17:53:44",
+    "model": "gpt-4.1-mini",
+    "base_url": null,
+    "latency_s": 3.09
+  },
+  "C2": {
+    "ok": true,
+    "note": "계획요청 tool_calls=['search_performances'], 인사 tool_calls=[]",
+    "checked_at": "2026-11-22T17:53:47",
+    "args": {
+      "start_date": "2026-11-21",
+      "region": "대학로",
+      "genre": "연극"
+    }
+  },
+  "V1": {
+    "ok": true,
+    "note": "20건 수신",
+    "checked_at": "2026-11-22T17:55:49",
+    "status": 200,
+    "content_type": "application/xml",
+    "base_url": "https://www.kopis.or.kr/openApi/restful",
+    "fields": [
+      "mt20id",
+      "prfnm",
+      "prfpdfrom",
+      "prfpdto",
+      "fcltynm",
+      "poster",
+      "area",
+      "genrenm",
+      "openrun",
+      "prfstate"
+    ]
+  },
+  "V4": {
+    "ok": true,
+    "note": "식당 5건 (KOPIS 공연시설 좌표)",
+    "checked_at": "2026-11-22T17:56:34",
+    "status": 200,
+    "fields": [
+      "address_name",
+      "category_group_code",
+      "category_group_name",
+      "category_name",
+      "distance",
+      "id",
+      "phone",
+      "place_name",
+      "place_url",
+      "road_address_name",
+      "x",
+      "y"
+    ],
+    "example": {
+      "place_name": "거복이식당 대학로",
+      "road_address_name": "서울 종로구 대학로8가길 52",
+      "distance": "4",
+      "place_url": "http://place.map.kakao.com/1845946240"
+    }
+  },
+  "T3-KAKAO": {
+    "ok": true,
+    "note": "실패 케이스 응답 수집",
+    "checked_at": "2026-11-22T17:56:36",
+    "cases": {
+      "bad_key": {
+        "status": 401,
+        "body": "{\"errorType\":\"AccessDeniedError\",\"message\":\"wrong appKey(INVALID_KEY) format\"}"
+      },
+      "no_result": {
+        "status": 200,
+        "meta": {
+          "is_end": true,
+          "pageable_count": 0,
+          "same_name": {
+            "keyword": "존재하지않는장소가나다라마바사",
+            "region": [],
+            "selected_region": ""
+          },
+          "total_count": 0
+        }
+      },
+      "bad_input": {
+        "status": 400,
+        "body": "{\"code\":-2, \"msg\":\"Invalid Parameter (x)\"}"
+      }
+    }
+  },
+  "V2": {
+    "ok": true,
+    "note": "공연상세 수신",
+    "checked_at": "2026-11-22T17:56:13",
+    "fields": [
+      "mt20id",
+      "mt13id",
+      "prfnm",
+      "frstregdt",
+      "prfpdfrom",
+      "prfpdto",
+      "fcltynm",
+      "prfcast",
+      "prfcrew",
+      "prfruntime",
+      "prfage",
+      "entrpsnm",
+      "entrpsnmP",
+      "entrpsnmA",
+      "entrpsnmH",
+      "entrpsnmS",
+      "pcseguidance",
+      "poster",
+      "sty",
+      "area",
+      "genrenm",
+      "openrun",
+      "visit",
+      "child",
+      "daehakro",
+      "festival",
+      "musicallicense",
+      "musicalcreate",
+      "updatedate",
+      "prfstate",
+      "mt10id",
+      "dtguidance",
+      "styurls",
+      "relates"
+    ]
+  },
+  "T2": {
+    "ok": true,
+    "note": "샘플 20건 필드 채움/파싱 가능 비율",
+    "checked_at": "2026-11-22T17:56:13",
+    "non_empty": {
+      "prfruntime": "20/20",
+      "dtguidance": "20/20",
+      "pcseguidance": "20/20",
+      "mt10id": "20/20"
+    },
+    "parseable": {
+      "runtime": "20/20",
+      "schedule_time": "20/20",
+      "price": "20/20"
+    },
+    "examples": {
+      "prfruntime": "1시간 10분",
+      "dtguidance": "토요일 ~ 일요일(15:00)",
+      "pcseguidance": "전석 30,000원",
+      "mt10id": "FC001091"
+    }
+  },
+  "V3": {
+    "ok": true,
+    "note": "좌표 la=37.582943900000000, lo=127.00262709999992",
+    "checked_at": "2026-11-22T17:56:15",
+    "address": "서울특별시 종로구 대학로8가길 52 (동숭동)"
+  },
+  "T3-KOPIS": {
+    "ok": true,
+    "note": "실패 케이스 응답 수집 (실패 코드 매핑에 사용)",
+    "checked_at": "2026-11-22T17:56:25",
+    "cases": {
+      "bad_key": {
+        "status": 200,
+        "body_head": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><dbs><db><returncode>02</returncode><errmsg>SERVICE KEY IS NOT REGISTERED ERROR</errmsg><responsetime>2026-11-22 17:56:18</responsetime></db></db"
+      },
+      "bad_id": {
+        "status": 200,
+        "body_head": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><dbs><db><returncode>04</returncode><errmsg>NODATA ERROR</errmsg><responsetime>2026-11-22 17:56:21</responsetime></db></dbs>"
+      },
+      "no_result": {
+        "status": 200,
+        "body_head": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><dbs/>"
+      },
+      "long_range_120d": {
+        "status": 200,
+        "body_head": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><dbs><db><mt20id>PF307132</mt20id><prfnm>손태진 전국투어 콘서트: Bon Voyage [서울]</prfnm><prfpdfrom>2027.01.09</prfpdfrom><prfpdto>2027.01.10</prfpdto><fclt"
+      }
+    }
+  }
+}
