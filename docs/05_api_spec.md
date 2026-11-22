@@ -195,7 +195,8 @@ CREATE TABLE plans (
 CREATE INDEX idx_plans_date ON plans(date);
 
 CREATE TABLE execution_events (      -- append-only (UPDATE 경로 없음)
-  event_id TEXT PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTOINCREMENT, -- 수신 순서 (run 마다 seq 가 1부터 다시 시작하므로 정렬 기준)
+  event_id TEXT UNIQUE NOT NULL,
   session_id TEXT NOT NULL,
   run_id TEXT NOT NULL,
   seq INTEGER NOT NULL,
@@ -204,8 +205,17 @@ CREATE TABLE execution_events (      -- append-only (UPDATE 경로 없음)
   node TEXT,
   payload TEXT NOT NULL            -- JSON
 );
-CREATE INDEX idx_events_session ON execution_events(session_id, run_id, seq);
+CREATE INDEX idx_events_session ON execution_events(session_id, id);
 ```
+- 연결 하나를 잠금으로 보호해 재사용, WAL + `synchronous=NORMAL`. (이벤트마다 연결을 새로 열면 대화 1건에 약 2초 추가 — M3에서 측정 후 변경)
+- DB 파일: `data/planner.db` (git 제외)
+
+## 7. 실행 (M3 구현 기준)
+```bash
+.venv/Scripts/python -m uvicorn app.main:app --app-dir backend --port 8000
+# 문서: http://127.0.0.1:8000/docs
+```
+- 실서버 확인 (실제 키): health → tools → chat(9.7초, 추천 3) → "1번으로 저장해줘" → plans 1건 → logs(run 2, event 34) → `PUT /api/logs/{id}` 405 → `/docs` 200
 
 ## 6. 화면 구성 (F3018, F3019)
 

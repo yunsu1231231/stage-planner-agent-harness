@@ -31,6 +31,8 @@
 - Python은 **`.venv/Scripts/python`** (3.13) 만 사용한다. 시스템 기본 python은 3.9라 명세(3.10+) 미달.
 - `requirements.txt` 버전은 명세 고정 버전이다. 변경 금지.
 - LLM 설정은 `.env`의 `LLM_API_KEY` / `LLM_BASE_URL` / `LLM_MODEL` 로만 읽는다 (현재 개인 OpenAI 키, base_url 비움).
+- 서버 실행: `.venv/Scripts/python -m uvicorn app.main:app --app-dir backend --port 8000` (문서 `/docs`, DB `data/planner.db`)
+- 테스트: `.venv/Scripts/python -m pytest` (오프라인) / `-m live` (실제 API·LLM, 비용 발생 — 필요할 때만)
 
 ## 불변 규칙 (명세 유래)
 - Tool은 예외를 밖으로 던지지 않는다. 항상 `{ok, data | error{code, message}}` 공통 형식으로 반환한다.
