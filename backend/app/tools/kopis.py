@@ -120,7 +120,10 @@ class KopisClient:
                 note = f"요청한 날짜 {inp.date}는 지난 날짜라 오늘 {today.isoformat()} 기준으로 조회했습니다."
                 target = today
         ymd = target.strftime("%Y%m%d")
-        params.update({"stdate": ymd, "eddate": ymd})
+        end = date.fromisoformat(inp.end_date) if inp.end_date else target
+        if end < target or (end - target).days > 90:
+            return ToolResult.failure(ErrorCode.INVALID_INPUT, "검색 기간은 시작일 이후 90일 이내여야 합니다.")
+        params.update({"stdate": ymd, "eddate": end.strftime("%Y%m%d")})
 
         dbs, fail, attempts = self._get("pblprfr", params)
         if fail:
@@ -134,8 +137,8 @@ class KopisClient:
         if not items:
             return ToolResult.failure(ErrorCode.NO_RESULT, "조건에 맞는 공연을 찾지 못했습니다.",
                                       source="KOPIS", attempts=attempts)
-        query = {"date": target.isoformat(), "region": inp.region, "genre": inp.genre, "keyword": inp.keyword,
-                 "limit": inp.limit}
+        query = {"date": target.isoformat(), "end_date": end.isoformat() if inp.end_date else None,
+                 "region": inp.region, "genre": inp.genre, "keyword": inp.keyword, "limit": inp.limit}
         return ToolResult.success({"query": query, "items": items}, source="KOPIS", defaults=defaults,
                                   estimated=estimated, note=note, attempts=attempts)
 

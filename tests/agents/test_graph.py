@@ -249,6 +249,8 @@ def test_fact_query_searches_by_keyword_and_answers_facts(make_agent):
     res = agent.run("s", "추천될 연극 러닝타임 몇 분이야?")
     assert res["status"] == "ok" and res["facts"]["runtime_min"] == 100 and res["facts"]["title"] == "추천될 연극"
     assert world.list_calls()[0]["shprfnm"] == "추천될"
+    p = world.list_calls()[0]
+    assert (p["stdate"], p["eddate"]) == ("20261122", "20270121")      # 사실 조회는 오늘 ~ +60일 기간 검색
 
 
 def test_confirm_plan_saves_previous_recommendation(make_agent, saver):

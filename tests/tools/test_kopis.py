@@ -49,6 +49,23 @@ def test_search_keyword_maps_to_title_filter(make_kopis, session, fixture_text):
     assert session.calls[0].params["shprfnm"] == "한남서림"
 
 
+def test_search_end_date_sets_period_window(make_kopis, session, fixture_text):
+    """비교 실험(C4)에서 발견: 공연명 질문도 '오늘'만 검색해 다음 주 공연을 못 찾음 → 기간 검색 지원."""
+    session.add(KOPIS_LIST, kopis_xml(fixture_text("kopis_list.xml")))
+    r = make_kopis().search_performances(SearchInput(keyword="여신님", end_date="2027-01-21"))
+    p = session.calls[0].params
+    assert (p["stdate"], p["eddate"]) == ("20261122", "20270121") and r.data["query"]["end_date"] == "2027-01-21"
+
+
+def test_search_end_date_must_not_precede_date_or_exceed_window():
+    import pytest
+    from pydantic import ValidationError
+    with pytest.raises(ValidationError):
+        SearchInput(date="2026-11-28", end_date="2026-11-27")
+    with pytest.raises(ValidationError):
+        SearchInput(date="2026-11-28", end_date="2027-11-28")       # 90일 초과
+
+
 def test_search_unknown_region_or_genre_is_invalid_input_without_call(make_kopis, session):
     r1 = make_kopis().search_performances(SearchInput(region="아틀란티스"))
     r2 = make_kopis().search_performances(SearchInput(genre="e스포츠"))

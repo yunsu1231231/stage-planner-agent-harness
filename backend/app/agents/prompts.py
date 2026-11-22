@@ -17,7 +17,7 @@ class AnalyzeOutput(BaseModel):
     budget_max: int | None = Field(None, description="1인 예산 상한(원)")
     age: int | None = Field(None, description="함께 보는 사람 중 가장 어린 나이(만 나이)")
     region: str | None = Field(None, description="사용자가 말한 지역 이름 그대로")
-    genre: str | None = Field(None, description="연극, 뮤지컬, 클래식, 국악, 대중음악, 무용, 서커스/마술 중 하나")
+    genre: str | None = Field(None, description="연극, 뮤지컬, 클래식, 국악, 대중음악, 무용, 대중무용, 서커스/마술, 복합 중 하나")
     place_category: Literal["restaurant", "cafe", "parking"] | None = Field(None, description="함께 찾을 주변 장소")
     keyword: str | None = Field(None, description="fact_query 에서 묻는 공연명")
     target_index: int | None = Field(None, description="직전 추천 중 가리키는 번호(1부터)")

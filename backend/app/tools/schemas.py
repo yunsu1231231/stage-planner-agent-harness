@@ -12,17 +12,27 @@ _DATE = r"^\d{4}-\d{2}-\d{2}$"
 class SearchInput(BaseModel):
     model_config = ConfigDict(extra="forbid")
     date: str | None = Field(None, pattern=_DATE, description="관람 날짜 YYYY-MM-DD. 생략하면 오늘")
+    end_date: str | None = Field(None, pattern=_DATE,
+                                 description="기간 검색 끝 날짜 YYYY-MM-DD (공연명으로 찾을 때 등). 생략하면 date 하루")
     region: str | None = Field(None, description="지역 이름. 예: 대학로, 종로구, 강남, 홍대, 서울")
     genre: str | None = Field(None, description="장르 이름. 예: 연극, 뮤지컬, 클래식, 국악, 대중음악, 무용")
     keyword: str | None = Field(None, max_length=50, description="공연명 일부. 특정 공연을 찾을 때만 사용")
     limit: int = Field(20, ge=1, le=50, description="가져올 후보 수 (최대 50)")
 
-    @field_validator("date")
+    @field_validator("date", "end_date")
     @classmethod
     def _real_date(cls, v: str | None) -> str | None:
         if v is not None:
             date.fromisoformat(v)          # 2026-02-30 같은 값 거부
         return v
+
+    @model_validator(mode="after")
+    def _window(self) -> "SearchInput":
+        if self.end_date and self.date:
+            start, end = date.fromisoformat(self.date), date.fromisoformat(self.end_date)
+            if end < start or (end - start).days > 90:
+                raise ValueError("end_date 는 date 이후, 90일 이내여야 합니다")
+        return self
 
 
 class DetailInput(BaseModel):

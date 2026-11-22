@@ -29,7 +29,14 @@ WORKER_SYSTEM = """너는 공연 플래너의 Worker 다. 방금 Tool 호출이 
 - retry: 고칠 수 있는 인자(tunable_args)만 바꿔 같은 Tool 로 다시 호출. 바꿀 값만 채운다.
 - skip: 이 작업을 건너뛴다.
 - replan_request: Planner 에게 계획 변경을 요청한다.
-고정 인자(fixed_args)는 바꿀 수 없다. 같은 인자로 다시 시도하지 않는다. reason 에 한 문장으로 이유를 쓴다."""
+고정 인자(fixed_args)는 바꿀 수 없다. 같은 인자로 다시 시도하지 않는다. reason 에 한 문장으로 이유를 쓴다.
+Tool 별 힌트 (tool_hint 참고):
+- search_performances.keyword: 공연명 '부분 일치' 검색이다. 단어를 덧붙이지 마라('공연', '뮤지컬' 등 금지).
+  오타·띄어쓰기를 고치거나, 공연명의 핵심 앞부분(2~5글자)으로 줄여라.
+- search_nearby_places.radius_m: 결과가 없으면 반경을 넓힌다 (최대 2000)."""
+
+TOOL_HINT = {SEARCH: "keyword 는 부분 일치 검색어. 줄이거나 고치기만, 덧붙이기 금지",
+             NEARBY: "radius_m 은 최대 2000, size 는 최대 15"}
 
 
 class WorkerDecision(BaseModel):
@@ -64,6 +71,7 @@ def run_task(run: RunContext, cache: dict, tool: str, args: dict[str, Any], fixe
     deps = run.deps
     cur = dict(args)
     attempt = 0
+    tried: list[dict[str, Any]] = [dict(cur)]     # 이미 시도한 인자 (LLM 이 같은 시도를 반복하지 않게)
     r = run.call_tool(cache, "execute", tool, cur, extra={"task_id": task_id, "attempt": 0})
     while not r.ok:
         code = r.error.code.value
@@ -87,7 +95,8 @@ def run_task(run: RunContext, cache: dict, tool: str, args: dict[str, Any], fixe
         run.llm_calls += 1
         run.worker_llm_calls += 1
         request = {"tool": tool, "args": cur, "fixed_args": fixed_args, "tunable_args": tunable,
-                   "error": {"code": code, "message": r.error.message}, "attempt": attempt}
+                   "tool_hint": TOOL_HINT.get(tool, ""), "error": {"code": code, "message": r.error.message},
+                   "attempt": attempt, "tried": tried}
         try:
             d = deps.llm.with_structured_output(WorkerDecision).invoke(
                 [SystemMessage(WORKER_SYSTEM), HumanMessage(json.dumps(request, ensure_ascii=False))])
@@ -111,6 +120,7 @@ def run_task(run: RunContext, cache: dict, tool: str, args: dict[str, Any], fixe
 
         run.emit("worker.decision", "execute", **base, action="retry", llm=True, reason=d.reason, patch=patch)
         cur.update(patch)
+        tried.append(dict(cur))
         attempt += 1
         r = run.call_tool(cache, "execute", tool, cur, extra={"task_id": task_id, "attempt": attempt, "retry_of": task_id})
     return r, {"action": "done", "attempts": attempt, "args": cur}

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from datetime import date, timedelta
 from typing import Any
 
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -62,10 +63,16 @@ def _required(state: PlannerState) -> list[str]:
     return tools
 
 
-def _search_args(state: PlannerState, query: dict[str, Any]) -> dict[str, Any]:
+FACT_WINDOW_DAYS = 60   # 공연명 질문은 '오늘 공연 중'에 한정하지 않는다 (비교 실험 C4에서 발견)
+
+
+def _search_args(state: PlannerState, query: dict[str, Any], run: RunContext) -> dict[str, Any]:
     cond = state["conditions"]
     args = {"date": cond.get("date"), "region": query.get("region"), "genre": query.get("genre"),
             "keyword": query.get("keyword"), "limit": query.get("limit", 20)}
+    if state["intent"] == "fact_query":
+        start = date.fromisoformat(cond["date"]) if cond.get("date") else run.deps.today()
+        args["end_date"] = (start + timedelta(days=FACT_WINDOW_DAYS)).isoformat()
     return {k: v for k, v in args.items() if v is not None}
 
 
@@ -73,7 +80,7 @@ def _tasks(state: PlannerState, tools: list[str], query: dict[str, Any], run: Ru
     tasks: list[dict[str, Any]] = []
     for i, tool in enumerate(tools, 1):
         if tool == SEARCH:
-            args = _search_args(state, query)
+            args = _search_args(state, query, run)
             # 사용자 조건으로 채운 인자는 고정 (Worker 가 못 바꿈). 검색어는 검색 표현이라 고정하지 않는다.
             tasks.append({"id": f"t{i}", "tool": tool, "args": args, "phase": "collect", "depends_on": [],
                           "fixed_args": [k for k in ("date", "region", "genre") if k in args]})
