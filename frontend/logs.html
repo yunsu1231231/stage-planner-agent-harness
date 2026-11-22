@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>공연 관람 플래너 — 실행 로그</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>🎭 공연 관람 <span>플래너</span></h1>
+    <nav>
+      <a href="index.html">대화</a>
+      <a href="plans.html">계획 관리</a>
+      <a href="logs.html" class="active">실행 로그</a>
+    </nav>
+    <span class="api muted" id="api-base"></span>
+  </header>
+  <main>
+    <div id="banner"></div>
+    <div class="logs-layout">
+      <section>
+        <div class="toolbar"><b>세션별 실행 로그</b><button id="reload">새로고침</button></div>
+        <div id="sessions"></div>
+        <p class="muted small">실행 로그는 로깅 Agent가 이벤트를 받은 그대로 저장한 기록입니다. 조회와 삭제만 가능하고 수정할 수 없습니다.</p>
+      </section>
+      <section class="panel">
+        <h2 id="detail-title">세션을 선택하세요</h2>
+        <div id="detail"></div>
+      </section>
+    </div>
+  </main>
+  <script type="module" src="js/logs.js"></script>
+</body>
+</html>

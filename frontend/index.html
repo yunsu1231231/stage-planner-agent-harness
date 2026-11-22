@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>공연 관람 플래너 — 대화</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>🎭 공연 관람 <span>플래너</span></h1>
+    <nav>
+      <a href="index.html" class="active">대화</a>
+      <a href="plans.html">계획 관리</a>
+      <a href="logs.html">실행 로그</a>
+    </nav>
+    <span class="api muted" id="api-base"></span>
+  </header>
+  <main>
+    <div id="banner"></div>
+    <div class="chat-layout">
+      <section class="panel">
+        <h2>대화 <button id="new-chat" class="small" title="대화 맥락 초기화">새 대화</button></h2>
+        <div class="messages" id="messages" aria-live="polite"></div>
+        <form class="composer" id="composer">
+          <textarea id="input" placeholder="예) 이번 토요일 2시 이후 대학로에서 5만원 이하 연극 보고 6시 전에 끝내고 싶어. 끝나고 갈 식당도" required maxlength="1000"></textarea>
+          <button class="primary" id="send" type="submit">보내기</button>
+        </form>
+        <div class="examples" id="examples"></div>
+      </section>
+      <aside class="panel">
+        <h2>실행 과정 <span class="muted small" id="run-meta"></span></h2>
+        <div id="timeline"><p class="muted small">요청을 보내면 분석 → 계획 → Tool 실행 → 판단 → 응답 과정이 순서대로 표시됩니다. 재계획 지점은 주황색으로 구분됩니다.</p></div>
+      </aside>
+    </div>
+  </main>
+  <div class="toast" id="toast"></div>
+  <script type="module" src="js/chat.js"></script>
+</body>
+</html>

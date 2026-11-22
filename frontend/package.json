@@ -1,0 +1,10 @@
+{
+  "name": "stage-planner-frontend",
+  "private": true,
+  "type": "module",
+  "description": "공연 관람 플래너 프론트엔드 (바닐라 HTML/CSS/JS, 빌드 없음)",
+  "scripts": {
+    "test": "node --test tests/",
+    "serve": "python -m http.server 5500"
+  }
+}

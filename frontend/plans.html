@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>공연 관람 플래너 — 계획 관리</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>🎭 공연 관람 <span>플래너</span></h1>
+    <nav>
+      <a href="index.html">대화</a>
+      <a href="plans.html" class="active">계획 관리</a>
+      <a href="logs.html">실행 로그</a>
+    </nav>
+    <span class="api muted" id="api-base"></span>
+  </header>
+  <main>
+    <div id="banner"></div>
+    <div class="toolbar">
+      <label>날짜 <input type="date" id="filter-date"></label>
+      <button id="clear-filter">전체 보기</button>
+      <button id="reload">새로고침</button>
+      <span class="muted small" id="count"></span>
+    </div>
+    <div id="plans"></div>
+    <p class="muted small">같은 날짜에 시간이 겹치는 계획은 노란색으로 표시됩니다. 겹쳐도 저장은 막지 않습니다.</p>
+  </main>
+  <script type="module" src="js/plans.js"></script>
+</body>
+</html>
