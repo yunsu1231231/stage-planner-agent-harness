@@ -12,6 +12,8 @@
 | `docs/01_requirements.md` | 요구사항 정의서 (F3001~, NF3001~) |
 | `docs/02_tool_spec.md` | Tool 정의서, 실패 코드, 외부 API 호출 규약 |
 | `docs/03_planning_validation.md` | 기획 검증 결과, 설계 변경 이력 |
+| `docs/04_agent_design.md` | LangGraph 노드·상태, 판단 계산식, 재계획, Memory, 이벤트, 모듈 구조 |
+| `docs/05_api_spec.md` | 백엔드 API 경로·요청·응답, SQLite 스키마, 화면 구성 |
 
 ## 진행 방식
 - 사용자와 단계별로 상호작용하며 진행한다. 단계마다 결정 사항을 제시하고 확인받은 뒤 다음으로 넘어간다.
