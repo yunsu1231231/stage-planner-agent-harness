@@ -100,6 +100,8 @@ cd frontend && ../.venv/Scripts/python -m http.server 5500
 .venv/Scripts/python -m pytest              # 오프라인·결정적 188개 (외부 호출 없음)
 .venv/Scripts/python -m pytest -m live      # 실제 API·LLM (비용 발생)
 .venv/Scripts/python scripts/verification/run_scenarios.py   # 대표 시나리오 9종 실제 실행·기록
+.venv/Scripts/python scripts/verification/compare_architectures.py   # 구조 전후 비교 (F3021)
+.venv/Scripts/python scripts/verification/capture_screens.py  # 화면 캡처 14장 (Playwright + Edge headless)
 ```
 
 ## 4. API 키 발급과 설정
@@ -168,6 +170,11 @@ cd frontend && ../.venv/Scripts/python -m http.server 5500
 - 대표 시나리오 9종 (한 번에 충족, **재계획**, **상한 도달**, **Tool 실패**, **Tool 불필요**, 되묻기, 맥락 유지, 저장, 키 누락) 최종 Planner·Worker 구조에서 실제 실행 → 모두 기대와 일치
 - 심화: F3020·F3021 확인 항목 전부 + 구조 전후 비교
 - 실측에서 찾아 고친 문제 7건 (지난 회차 추천, 실패 안내 오류, 되묻기 문장, 공연명 질문이 오늘만 검색, Worker 검색어 덧붙임, 시나리오 전제 오류, 이벤트 참조 공유)
+- 화면 캡처 14장 ([`docs/verification/screenshots/`](docs/verification/screenshots/)) — 캡처를 직접 보고 화면 버그 3건 추가 수정
+
+| 추천 + 실행 과정 | 재계획 구분 | 이상 징후 판정·진단 |
+|---|---|---|
+| ![추천](docs/verification/screenshots/03_chat_recommendation.png) | ![재계획](docs/verification/screenshots/05b_timeline_replan_panel.png) | ![이상 징후](docs/verification/screenshots/12_logs_anomaly.png) |
 - 대표 계획 요청 처리 시간 약 10~17초 (KOPIS ~5초, 카카오 ~3초, LLM 3회 ~8초)
 - 상세: [`docs/07_verification.md`](docs/07_verification.md), 시나리오 기록 [`docs/verification/scenario_report.md`](docs/verification/scenario_report.md)
 

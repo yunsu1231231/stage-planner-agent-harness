@@ -178,22 +178,40 @@
 |---|---|
 | 필수 기능 F3001~F3019 모두 동작 | ✅ (위 2절, 시나리오 9종) |
 | 선택한 심화 기능 동작 + 필수 결과와 비교 | ✅ F3020·F3021, 구조 전후 비교 (3절) |
-| 증명 스크린샷·실행 로그 첨부 | 실행 로그 ✅ / **스크린샷 📷 사람이 캡처 필요** (아래 7절) |
+| 증명 스크린샷·실행 로그 첨부 | ✅ 실행 로그 + 스크린샷 14장 (7절) |
 | 요구사항 정의서·Agent 설계·Tool 정의서·API 명세서·소스·실행 로그 샘플·README | ✅ `docs/01, 04, 02, 05`, 소스, `docs/verification/logs/`, `README.md` |
 | 셀프 체크리스트 | ⏳ 3일차 오후 제공 예정 |
 
-## 7. 사람이 캡처해야 할 화면 (📷)
-자동화하지 않은 브라우저 화면. 백엔드(8000)·프론트(5500)를 띄운 뒤 캡처해 `docs/verification/screenshots/` 에 둔다.
-1. `http://127.0.0.1:8000/docs` — API 경로 분리 (4.5)
-2. 대화 화면 — V1 요청: 추천 카드(근거·주변 식당) + 오른쪽 실행 과정 (4.2, 4.5)
-3. 대화 화면 — V2 요청: 타임라인의 **주황색 재계획 구분선** (4.5, F3019)
-4. 대화 화면 — 처리 중 스피너 (4.5)
-5. 대화 화면 — `.env` 에서 KOPIS 키를 지우고 재시작 → 키 누락 배너 (4.5)
-6. 계획 관리 — 겹치는 계획 노란 표시, 수정 후 즉시 반영 (4.4)
-7. 실행 로그 — 세션 목록 → 타임라인·원본 이벤트 (4.3)
+## 7. 화면 캡처 (증거)
+`scripts/verification/capture_screens.py` 가 Playwright + 설치된 Edge(headless)로 **실제 화면을 조작해** 찍는다 (실제 LLM·API, 캡처 전용 서버·DB). 캡처 순간에만 스크롤 영역을 펼쳐 응답·타임라인 전체를 담는다.
+
+| # | 화면 | 확인 항목 |
+|---|---|---|
+| 01 | [FastAPI 문서](verification/screenshots/01_api_docs.png) — 대화·계획·실행 로그·시스템 경로 분리 | 4.5 F3017 |
+| 02 | [처리 중](verification/screenshots/02_chat_processing.png) — 스피너·경과 초 | 4.5 F3019 |
+| 03 | [추천 + 실행 과정](verification/screenshots/03_chat_recommendation.png) — 카드(회차·종료·가격·판단 근거·근거 Tool·주변 식당), 타임라인(역할·메시지·검증) | 4.2, 4.5, 4.6 |
+| 04 | [카드에서 저장](verification/screenshots/04_chat_saved_card.png) | 4.4 F3015 |
+| 05 | [재계획](verification/screenshots/05_chat_replan.png) · [타임라인 확대](verification/screenshots/05b_timeline_replan_panel.png) — 주황색 '↻ 재계획 #1 후보 확장 / #2 장르 조건 해제', 완화 안내 | 4.2 F3009, 4.5 F3019 |
+| 06 | [Worker LLM 재시도](verification/screenshots/06_chat_worker_retry.png) — `여신님 보고계셔` NO_RESULT → Worker 판단 [LLM] retry `여신님` → 성공 | 4.6 F3021 |
+| 07 | [재계획 상한](verification/screenshots/07_chat_limit_reached.png) — 사유·조정 제안, 검증 이상 → 작업 목록 재구성 | 4.2, NF3004, 4.6 |
+| 08 | [키 누락](verification/screenshots/08_key_missing.png) — 키 이름만 배너, Worker 규칙 판단 `fatal`(LLM 없음) | 4.5 F3019, NF3002, 4.6 |
+| 09 | [계획 겹침](verification/screenshots/09_plans_overlap.png) — 같은 날 겹침 노란 강조·배지, 생성 일시 | 4.4 F3015 |
+| 10 | [수정 후 즉시 반영](verification/screenshots/10_plans_after_edit.png) — 겹침 해소, 수정 일시 | 4.4 F3016 |
+| 11 | [실행 로그 목록](verification/screenshots/11_logs_sessions.png) — 세션별 실행·이벤트·재계획·오류 수 | 4.3 F3014 |
+| 12 | [이상 징후 판정·진단](verification/screenshots/12_logs_anomaly.png) — 규칙 판정(근거 seq) + 별도 LLM 진단 + 타임라인 | 4.3, 4.6 F3020 |
+| 13 | [원본 이벤트](verification/screenshots/13_logs_raw_events.png) — seq·type·node·payload 그대로 | 4.3 F3013 |
+
+### 7.1 캡처를 직접 보고 찾은 화면 문제 → 수정
+자동 테스트(로직·계약)는 통과했지만 **찍은 이미지를 열어 보고** 찾았다.
+| # | 문제 | 원인 | 수정 | 회귀 테스트 |
+|---|---|---|---|---|
+| 1 | 예시 버튼 사이에 `,` 표시 | `render()` 에 배열을 넘기면 `String(array)` 가 쉼표로 이어 붙임 | 배열은 조각을 그대로 잇기 | `dom.test.mjs` "render joins arrays without commas" |
+| 2 | 봇 말풍선 안 큰 빈 공백 | 말풍선 전체 `white-space: pre-wrap` → HTML 템플릿 들여쓰기가 빈칸으로 렌더링 | 봇 말풍선은 `normal`, 답변 문장만 `pre-wrap` | 재캡처 08·03 으로 확인 |
+| 3 | 사실 조회 응답 배지가 '추천 완료' | 상태만 보고 의도를 안 봄 | `statusInfo(status, intent)` → '조회 완료' | `format.test.mjs` |
+| 4 | 캡처에서 응답 윗부분·재계획 구분선이 잘림 | 대화창·타임라인 스크롤 영역 (화면 동작은 정상) | 캡처 순간에만 스크롤 영역 펼침 | — |
 
 ## 8. 한계와 남은 일
-- 브라우저 렌더링·클릭 흐름은 자동 검증하지 않음 (계약·로직만 자동) → 7절 캡처로 보완
+- 브라우저 렌더링은 자동 '판정'하지 않음 — 7절처럼 실제 조작·캡처 후 사람이(또는 에이전트가 이미지를 열어) 확인
 - 대화 맥락은 서버 메모리 보관 → 서버 재시작 시 초기화 (설계대로)
 - 응답 시간 단축(상세·주변 장소 병렬 조회)은 범위 동결 원칙상 보류
 - KOPIS 이용약관·호출 한도 확인 필요 (NF3007)
