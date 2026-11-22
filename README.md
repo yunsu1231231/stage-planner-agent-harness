@@ -170,7 +170,7 @@ cd frontend && ../.venv/Scripts/python -m http.server 5500
 - 대표 시나리오 9종 (한 번에 충족, **재계획**, **상한 도달**, **Tool 실패**, **Tool 불필요**, 되묻기, 맥락 유지, 저장, 키 누락) 최종 Planner·Worker 구조에서 실제 실행 → 모두 기대와 일치
 - 심화: F3020·F3021 확인 항목 전부 + 구조 전후 비교
 - 실측에서 찾아 고친 문제 7건 (지난 회차 추천, 실패 안내 오류, 되묻기 문장, 공연명 질문이 오늘만 검색, Worker 검색어 덧붙임, 시나리오 전제 오류, 이벤트 참조 공유)
-- 화면 캡처 14장 ([`docs/verification/screenshots/`](docs/verification/screenshots/)) — 캡처를 직접 보고 화면 버그 3건 추가 수정
+- 화면 캡처 16장 ([`docs/verification/screenshots/`](docs/verification/screenshots/)) — 캡처를 직접 보고 화면 버그 3건 추가 수정
 
 | 추천 + 실행 과정 | 재계획 구분 | 이상 징후 판정·진단 |
 |---|---|---|
@@ -187,6 +187,7 @@ cd frontend && ../.venv/Scripts/python -m http.server 5500
 | API 명세서 | [`docs/05_api_spec.md`](docs/05_api_spec.md) |
 | 검증 결과 | [`docs/07_verification.md`](docs/07_verification.md), [`docs/verification/`](docs/verification/) |
 | 실행 로그 샘플 | [`docs/verification/logs/V1.json`](docs/verification/logs/V1.json) (대표 요청 전체), `V2.json`·`V3.json` (재계획) |
+| 셀프 체크리스트 | [`docs/셀프체크리스트.xlsx`](docs/셀프체크리스트.xlsx), [`docs/08_self_checklist.md`](docs/08_self_checklist.md) (통과 28 · 미확인 1 · 해당없음 3) |
 | 진행 계획·결정 로그 · 테스트 전략 | [`docs/00_project_plan.md`](docs/00_project_plan.md), [`docs/06_test_strategy.md`](docs/06_test_strategy.md) |
 
 ## 10. 디렉터리

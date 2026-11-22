@@ -178,9 +178,9 @@
 |---|---|
 | 필수 기능 F3001~F3019 모두 동작 | ✅ (위 2절, 시나리오 9종) |
 | 선택한 심화 기능 동작 + 필수 결과와 비교 | ✅ F3020·F3021, 구조 전후 비교 (3절) |
-| 증명 스크린샷·실행 로그 첨부 | ✅ 실행 로그 + 스크린샷 14장 (7절) |
+| 증명 스크린샷·실행 로그 첨부 | ✅ 실행 로그 + 스크린샷 16장 (7절) |
 | 요구사항 정의서·Agent 설계·Tool 정의서·API 명세서·소스·실행 로그 샘플·README | ✅ `docs/01, 04, 02, 05`, 소스, `docs/verification/logs/`, `README.md` |
-| 셀프 체크리스트 | ⏳ 3일차 오후 제공 예정 |
+| 셀프 체크리스트 | ✅ [`셀프체크리스트.xlsx`](셀프체크리스트.xlsx) · [`08_self_checklist.md`](08_self_checklist.md) — 통과 28 · 미확인 1(NF3007 KOPIS 이용 조건) · 해당없음 3 |
 
 ## 7. 화면 캡처 (증거)
 `scripts/verification/capture_screens.py` 가 Playwright + 설치된 Edge(headless)로 **실제 화면을 조작해** 찍는다 (실제 LLM·API, 캡처 전용 서버·DB). 캡처 순간에만 스크롤 영역을 펼쳐 응답·타임라인 전체를 담는다.
@@ -200,6 +200,10 @@
 | 11 | [실행 로그 목록](verification/screenshots/11_logs_sessions.png) — 세션별 실행·이벤트·재계획·오류 수 | 4.3 F3014 |
 | 12 | [이상 징후 판정·진단](verification/screenshots/12_logs_anomaly.png) — 규칙 판정(근거 seq) + 별도 LLM 진단 + 타임라인 | 4.3, 4.6 F3020 |
 | 13 | [원본 이벤트](verification/screenshots/13_logs_raw_events.png) — seq·type·node·payload 그대로 | 4.3 F3013 |
+| 14 | [Tool 실패 안내](verification/screenshots/14_chat_tool_failure.png) — 카카오 키 무효 → 주변 장소 AUTH_FAILED, 추천 유지·'주변 장소 조회 실패' | 4.5 F3019, NF3003 |
+| 15 | [실패 직후 다음 요청](verification/screenshots/15_chat_after_failure.png) — 같은 세션에서 정상 처리 | F3007, NF3003 |
+| 16 | [화면에서 계획 삭제](verification/screenshots/16_plans_after_delete.png) — 목록 즉시 반영 | 4.4 F3016 |
+- 14~16 은 셀프 체크리스트 대조 중 증빙이 부족한 항목(#7·#20·#22)을 찾아 `scripts/verification/capture_extra.py` 로 보완했다.
 
 ### 7.1 캡처를 직접 보고 찾은 화면 문제 → 수정
 자동 테스트(로직·계약)는 통과했지만 **찍은 이미지를 열어 보고** 찾았다.

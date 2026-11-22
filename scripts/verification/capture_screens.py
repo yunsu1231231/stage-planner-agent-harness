@@ -59,7 +59,7 @@ def serve_front(port: int) -> None:
 
 
 # ---------------------------------------------------------------- 화면 조작
-EXPAND = ".messages, .timeline { max-height: none !important; overflow: visible !important; }"
+EXPAND = ".messages, .timeline { max-height: none !important; overflow: visible !important; } .topbar { position: static !important; }"
 
 
 def shot(page: Page, name: str, title: str, covers: str, full_page: bool = True, element: str | None = None) -> None:

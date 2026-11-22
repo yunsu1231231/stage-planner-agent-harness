@@ -3,3 +3,5 @@
 pytest==8.3.5
 # 검증용 화면 캡처 (scripts/verification/capture_screens.py) — 설치된 Edge 를 headless 로 사용
 playwright==1.52.0
+# 셀프 체크리스트(xlsx) 기입 (scripts/verification/fill_checklist.py)
+openpyxl==3.1.5
