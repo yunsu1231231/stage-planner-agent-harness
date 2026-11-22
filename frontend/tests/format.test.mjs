@@ -15,6 +15,7 @@ test("status info gives a level for every API status", () => {
     assert.ok(info.label && ["ok", "info", "warn", "error"].includes(info.level), s);
   }
   assert.equal(statusInfo("config_missing").level, "error");
+  assert.equal(statusInfo("ok", "fact_query").label, "조회 완료");      // 화면 캡처에서 발견: 사실 조회인데 '추천 완료'
   assert.equal(statusInfo("unknown-status").level, "info");
 });
 

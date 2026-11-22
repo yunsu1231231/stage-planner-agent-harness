@@ -1,7 +1,15 @@
 // L1 — XSS 방지: 화면에 넣는 모든 값은 기본 이스케이프 (NF3002 보조)
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { html, raw, esc } from "../js/dom.js";
+import { html, raw, esc, render } from "../js/dom.js";
+
+test("render joins arrays without commas (화면 캡처에서 발견: 예시 버튼 사이 ',')", () => {
+  const el = { innerHTML: "" };
+  render(el, [html`<b>a</b>`, html`<b>${"<x>"}</b>`]);
+  assert.equal(el.innerHTML, "<b>a</b><b>&lt;x&gt;</b>");
+  render(el, "plain");
+  assert.equal(el.innerHTML, "plain");
+});
 
 test("interpolated values are escaped", () => {
   const evil = `<img src=x onerror="alert(1)">`;

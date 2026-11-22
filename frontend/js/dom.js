@@ -28,7 +28,8 @@ export const raw = (s) => new SafeHtml(String(s));
 export const safeUrl = (u) => (/^https?:\/\//i.test(String(u || "")) ? String(u) : "#");
 
 export function render(el, content) {
-  el.innerHTML = String(content);
+  // 배열을 String() 하면 ','로 이어 붙여진다 (화면 캡처에서 발견) → 조각을 그대로 잇는다
+  el.innerHTML = Array.isArray(content) ? content.map(part).join("") : String(content);
 }
 
 export const $ = (sel, root = document) => root.querySelector(sel);

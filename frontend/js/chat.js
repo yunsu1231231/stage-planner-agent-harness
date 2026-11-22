@@ -62,7 +62,7 @@ function recCard(r, key) {
 }
 
 function botContent(res) {
-  const st = statusInfo(res.status);
+  const st = statusInfo(res.status, res.intent && res.intent.value);
   const chips = conditionChips(res.conditions || {});
   const recs = res.recommendations || [];
   recs.forEach((r, i) => state.recs.set(`${res.run_id}:${i}`, r));

@@ -17,7 +17,10 @@ const STATUS = {
   error: { label: "처리 실패", level: "error" },
   chat: { label: "대화", level: "info" },
 };
-export const statusInfo = (s) => STATUS[s] || { label: String(s), level: "info" };
+export const statusInfo = (s, intent = null) => {
+  if (s === "ok" && intent === "fact_query") return { label: "조회 완료", level: "ok" };
+  return STATUS[s] || { label: String(s), level: "info" };
+};
 
 const KEY_NAMES = { llm: "LLM_API_KEY (언어 모델)", kopis: "KOPIS_API_KEY (공연 정보)", kakao: "KAKAO_REST_API_KEY (주변 장소)" };
 export const missingKeys = (config = {}) => Object.keys(KEY_NAMES).filter((k) => config[k] === false).map((k) => KEY_NAMES[k]);
