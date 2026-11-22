@@ -14,6 +14,14 @@
 | `docs/03_planning_validation.md` | 기획 검증 결과, 설계 변경 이력 |
 | `docs/04_agent_design.md` | LangGraph 노드·상태, 판단 계산식, 재계획, Memory, 이벤트, 모듈 구조 |
 | `docs/05_api_spec.md` | 백엔드 API 경로·요청·응답, SQLite 스키마, 화면 구성 |
+| `docs/06_test_strategy.md` | 테스트 계층(L1~L6), 명세 4장 → 테스트 추적표, 개발 루프 |
+
+## 테스트 규칙
+- **테스트 먼저**: 기능을 구현하기 전에 `docs/06_test_strategy.md` 추적표의 해당 테스트를 작성하고 실패(Red)를 확인한다.
+- 테스트는 **명세 문서에서 도출**한다. 구현 코드에 맞춰 테스트를 고치지 않는다. 명세가 틀렸다면 문서를 먼저 고친다.
+- 기본 `pytest`는 오프라인·결정적이어야 한다: 외부 API는 `tests/fixtures/`의 녹화 응답, LLM은 가짜 LLM을 주입한다.
+- 실제 API·LLM 호출 테스트는 `@pytest.mark.live`로 표시하고 `pytest -m live`로만 실행한다.
+- **완료 기준 = `.venv/Scripts/python -m pytest` 전체 통과.** 실패 상태로 커밋하지 않는다.
 
 ## 진행 방식
 - 사용자와 단계별로 상호작용하며 진행한다. 단계마다 결정 사항을 제시하고 확인받은 뒤 다음으로 넘어간다.
