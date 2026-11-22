@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import time
+import uuid
 from dataclasses import dataclass, field
 from datetime import date, datetime
 from typing import Any, Callable
@@ -37,7 +38,7 @@ class RunContext:
     # ---- F3012 이벤트 발행: 구독자가 없거나 실패해도 흐름에 영향 없음
     def emit(self, type_: str, node: str | None = None, **payload: Any) -> dict:
         self._seq += 1
-        event = {"session_id": self.session_id, "run_id": self.run_id, "seq": self._seq,
+        event = {"event_id": uuid.uuid4().hex, "session_id": self.session_id, "run_id": self.run_id, "seq": self._seq,
                  "ts": datetime.now().astimezone().isoformat(timespec="milliseconds"),
                  "type": type_, "node": node, "payload": payload}
         self.events.append(event)

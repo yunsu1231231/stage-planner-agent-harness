@@ -22,16 +22,33 @@ class NetworkBlocked(RuntimeError):
     """오프라인 테스트에서 실제 네트워크 연결을 시도했다."""
 
 
+_LOOPBACK = {"127.0.0.1", "localhost", "::1"}
+_real_connect = socket.socket.connect
+_real_create_connection = socket.create_connection
+
+
+def _host(address) -> str:
+    return address[0] if isinstance(address, tuple) else str(address)
+
+
 @pytest.fixture(autouse=True)
 def _block_network(request, monkeypatch):
+    """외부 연결 금지. 루프백은 허용 (Windows asyncio 의 socketpair, TestClient 등 프로세스 내부 통신)."""
     if request.node.get_closest_marker("live"):
         return
 
-    def guard(*args, **kwargs):
-        raise NetworkBlocked("오프라인 테스트에서 실제 네트워크 연결 시도 — FakeSession/FakeLLM 을 주입하세요")
+    def connect(self, address, *a, **kw):
+        if _host(address) in _LOOPBACK:
+            return _real_connect(self, address, *a, **kw)
+        raise NetworkBlocked(f"오프라인 테스트에서 외부 연결 시도: {_host(address)} — FakeSession/FakeLLM 을 주입하세요")
 
-    monkeypatch.setattr(socket.socket, "connect", guard)
-    monkeypatch.setattr(socket, "create_connection", guard)
+    def create_connection(address, *a, **kw):
+        if _host(address) in _LOOPBACK:
+            return _real_create_connection(address, *a, **kw)
+        raise NetworkBlocked(f"오프라인 테스트에서 외부 연결 시도: {_host(address)}")
+
+    monkeypatch.setattr(socket.socket, "connect", connect)
+    monkeypatch.setattr(socket, "create_connection", create_connection)
 
 
 @pytest.fixture
