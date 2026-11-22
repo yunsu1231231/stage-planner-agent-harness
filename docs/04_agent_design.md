@@ -169,14 +169,34 @@ eligible     = weekday_ok and time_ok and budget_ok and age_ok
 - "1번으로 저장해줘" → analyze가 `confirm_plan` + 대상 인덱스 추출 → 코드가 **Memory의 직전 추천**에서 값을 읽어 PlanRepository에 저장. Tool이 아니다 (사용자가 이미 정한 값, 명세 2.3).
 - 겹침이 있으면 저장 후 응답에 알린다.
 
+### 4.6.1 M2 구현 확정 사항
+- **되묻기 응답은 템플릿**(LLM 없음): 무엇이 빠졌는지가 규칙으로 정해지므로 결정적으로 만든다.
+- **fact_query**: analyze가 `keyword`(공연명)를 추출 → `search_performances(keyword)` → 첫 결과 `get_performance_detail`. 판단 단계는 건너뛰고 사실만 답한다. 직전 추천 번호를 가리키면(`target_index`) Memory의 공연 ID로 상세만 조회. (이를 위해 `SearchInput.keyword` → KOPIS `shprfnm` 추가)
+- **Tool 인자는 코드가 채운다**: LLM은 *어떤 Tool을 쓸지*만 고르고(F3006), 인자는 추출된 조건으로 코드가 만든다. LLM이 제안한 인자는 이벤트에만 기록 (값을 지어내지 못하게).
+- **재계획 전략은 '적용 가능한 다음 단계'만 사용**: 장르 조건이 없으면 `drop_genre`를 건너뛰고, 이미 시·도 단위면 `widen_region`을 건너뛴다. 더 쓸 전략이 없으면 상한 전이라도 `no_match`로 끝낸다.
+- **확정 저장(confirm_plan)**: 저장 함수는 주입(`save_plan`). M3에서 PlanRepository를 연결한다. 직전 추천이 없거나 번호가 범위를 벗어나면 되묻기.
+- **이벤트 발행 지점은 M2에서 노드에 심는다**: 발행 함수(`publish`)는 주입. 구독자(로깅 Agent)는 M3. 발행 실패는 무시 (F3012 "발행은 구독자에 의존하지 않음").
+- **LLM 실패 처리**: analyze 실패 → `status=error` 응답(중단 없음), plan 실패 → 규칙 기반 계획으로 대체 + `plan.corrected`, respond 실패 → 템플릿 문장.
+
 ### 4.7 요청당 LLM 호출 수 (기준선)
 
 | 경로 | analyze | plan | respond | 합계 |
 |---|---|---|---|---|
 | 계획 요청 | 1 | 1 | 1 | **3** (재계획은 규칙이라 추가 0) |
-| 되묻기 / 인사 | 1 | 0 | 1 | 2 |
+| 인사·사용법 | 1 | 0 | 1 | 2 |
+| 되묻기 | 1 | 0 | 0 (템플릿) | 1 |
 
 → F3021 비교 실험의 기준선으로 사용.
+
+### 4.8 실측 (M2, 실제 LLM gpt-4.1-mini + 실제 API, S1 대표 요청 1회)
+| 구간 | 시간 |
+|---|---|
+| 전체 | **15.9초** (LLM 3회, 재계획 0) |
+| KOPIS 목록 1회 | 3.4초 |
+| KOPIS 상세 15회 (세션 재사용) | 합계 2.0초 |
+| 주변 장소 3회 (KOPIS 시설 + 카카오) | 합계 2.9초 |
+| LLM 3회 (추정) | 약 7.6초 |
+- 개선 여지(NF3005): 상세·주변 장소 조회 병렬화, respond 프롬프트 축소. 범위 동결 원칙상 필요 시 3일차에 판단.
 
 ## 5. 대화 맥락 (Memory, F3010)
 
