@@ -41,6 +41,21 @@ CREATE TABLE IF NOT EXISTS execution_events (
   payload TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_events_session ON execution_events(session_id, id);
+
+-- F3020: 규칙 판정과 LLM 진단을 분리 저장 (진단이 경고 수에 섞이지 않게)
+CREATE TABLE IF NOT EXISTS anomaly_reports (
+  run_id TEXT PRIMARY KEY,
+  session_id TEXT,
+  verdict TEXT NOT NULL,             -- normal | anomaly | undeterminable
+  report TEXT NOT NULL,              -- JSON {checked, warnings, reason?, event_count}
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_reports_session ON anomaly_reports(session_id);
+CREATE TABLE IF NOT EXISTS anomaly_diagnoses (
+  run_id TEXT PRIMARY KEY,
+  text TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
 """
 
 

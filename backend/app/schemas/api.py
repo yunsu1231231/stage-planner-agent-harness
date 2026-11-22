@@ -123,6 +123,22 @@ class LogDetail(BaseModel):
     events: list[TimelineEvent]
 
 
+class AnomalyReport(BaseModel):
+    run_id: str
+    verdict: str                           # normal | anomaly | undeterminable
+    checked: dict[str, str] = {}
+    warnings: list[dict[str, Any]] = []
+    reason: str | None = None
+    event_count: int | None = None
+    created_at: str | None = None
+    diagnosis: dict[str, Any] | None = None   # 판정과 분리된 LLM 진단 (이상 실행만)
+
+
+class AnomalyReports(BaseModel):
+    session_id: str
+    reports: list[AnomalyReport]
+
+
 # ---------------------------------------------------------------- 시스템
 class Health(BaseModel):
     status: str

@@ -5,7 +5,7 @@ import uuid
 
 from fastapi import APIRouter, Query, Request, Response
 
-from ..schemas.api import (ChatRequest, ChatResponse, ErrorResponse, Health, LogDetail, LogSessions, Plan, PlanCreate,
+from ..schemas.api import (AnomalyReports, ChatRequest, ChatResponse, ErrorResponse, Health, LogDetail, LogSessions, Plan, PlanCreate,
                            PlanList, PlanSaveResult, PlanUpdate, ToolList)
 
 
@@ -93,6 +93,11 @@ def get_log(session_id: str, request: Request, run_id: str | None = None):
     if not events:
         raise ApiError(404, "LOG_NOT_FOUND", "실행 로그를 찾을 수 없습니다.")
     return {"session_id": session_id, "events": events}
+
+
+@logs.get("/{session_id}/anomalies", response_model=AnomalyReports, summary="실행별 이상 징후 판정·진단 (F3020)")
+def get_anomalies(session_id: str, request: Request):
+    return {"session_id": session_id, "reports": request.app.state.logs.get_reports(session_id)}
 
 
 @logs.delete("/{session_id}", status_code=204, responses=ERRORS, summary="세션 실행 로그 삭제")

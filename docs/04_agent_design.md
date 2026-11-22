@@ -241,7 +241,54 @@ eligible     = weekday_ok and time_ok and budget_ok and age_ok
 - 로깅 Agent는 받은 이벤트를 **그대로** `execution_events` 테이블에 append. 요약·가공·LLM 호출 없음.
 - 저장 실패는 로깅 Agent 내부에서 삼키고 대화는 계속된다.
 
-## 7. 심화 구조 (예정, 필수 완료 후)
+## 7A. 심화 구현 확정 (M6)
+
+### 7A.1 F3020 이상 징후 판단 — 로깅 Agent
+- **판정은 규칙**(`agents/anomaly.py`, LLM 금지 구역). 실행(run) 단위로 이벤트를 대조·계수한다.
+
+| 규칙 | 근거 이벤트 | 이상 조건 | 판정 불가 조건 |
+|---|---|---|---|
+| `repeated_call` | `tool.request` (cached=false) | 같은 Tool·같은 인자 실제 호출 ≥ 2 | Tool 이벤트 없음 → 해당 없음(정상) |
+| `excessive_replan` | `replan` | 재계획 횟수 ≥ 상한(3) | — |
+| `unplanned_call` | `plan.created` ↔ `tool.request` | 직전 작업 목록에 없는 Tool 호출 | Tool 호출은 있는데 `plan.created` 가 없음 |
+| (전체) | `run.start`/`run.end` | — | 이벤트 없음, 종료 판정인데 `run.end` 없음 |
+- 결과: `verdict` = `anomaly`(경고 ≥1) · `undeterminable`(경고 0 + 판정 불가 규칙 ≥1) · `normal`. **근거가 없으면 '이상 없음'이 아니라 '판정 불가'.**
+- **진단은 이상 실행에만**: `run.end` 수신 시 판정 → `anomaly` 일 때만 주입된 진단 함수(`agents/log_diagnosis.py`, LLM)가 3문장 이내로 원인(어느 Agent 쪽 문제인지, 무엇을 고칠지)을 쓴다. 판정(`anomaly_reports`)과 진단(`anomaly_diagnoses`)은 **다른 테이블**에 저장 → 진단 실패해도 판정·로그 유지, 경고 수에 섞이지 않음.
+- **메인 Agent 참조 형식**: `LoggingAgent.inspect(run_id)` 가 실행 중간에도 같은 형식의 보고서를 돌려준다 (F3021 검증 단계에서 사용). 저장된 보고서는 `GET /api/logs/{session_id}/anomalies`.
+
+### 7A.2 F3021 Planner · Worker · 검증
+- **Planner** = analyze · plan · judge 노드 (요청 분해, 작업 목록, 제약 판단, 재계획). **Worker** = execute 노드 (작업 목록대로 Tool 호출). **검증** = verify 노드가 로깅 Agent 의 `inspect` 를 호출.
+- 그래프(Planner·Worker 모드): `analyze → plan → execute → verify → judge → respond` (+ judge → plan 재계획, judge → execute 보강, verify 이상 → plan 재구성 → judge)
+- 기존 단일 구조(baseline)는 그대로 유지하고 `AGENT_MODE` 로 선택 → 구조 변경 전후 비교.
+
+**주고받는 형식** (`agent.message` 이벤트로 실행 로그에 남김)
+| 방향 | kind | body |
+|---|---|---|
+| Planner → Worker | `task_list` | `{plan_version, strategy, tasks:[{id, tool, args, fixed_args, phase}]}` |
+| Worker → Planner | `work_result` | `{done, failed, retried, unresolved:[{task_id, tool, code, reason}], replan_requests:[...]}` |
+| 로깅 Agent → Planner | `verification` | `{verdict, warnings}` |
+
+**Worker 실패 처리 (규칙 우선, LLM 은 마지막)**
+| 실패 | 처리 | LLM |
+|---|---|---|
+| 치명적 (`MISSING_API_KEY`·`AUTH_FAILED`·`RATE_LIMITED`) | 즉시 중단, Planner 에 보고 → 사용자 안내 | ✗ |
+| 필수 인자 누락 (스키마 검증 `missing`) | 중단, Planner 에 보고 (되묻기 대상) | ✗ |
+| 재시도 무의미 (`UPSTREAM_ERROR`·`TIMEOUT`·`NO_RUNTIME`) | 기록 후 건너뜀 | ✗ |
+| 재시도 가능 (`NO_RESULT`·`NOT_FOUND`·`INVALID_INPUT`) + **고칠 수 있는 인자 없음** | 후보 검색이면 Planner 에 계획 변경 요청, 그 외 건너뜀 | ✗ |
+| 재시도 가능 + 고칠 수 있는 인자 있음 + Worker LLM 켜짐 | LLM 이 `retry`(인자 수정) · `skip` · `replan_request` 중 선택 | ✓ |
+- 고칠 수 있는 인자(Tool 별 허용 목록 − Planner 고정 인자): `search_performances.keyword`, `search_nearby_places.radius_m`·`size`. 날짜·지역·장르·공연 ID·공연장·장소 종류는 고정.
+- LLM 결정 검증(규칙): 고정 인자 변경·허용 외 인자·이전과 같은 인자 → 거부하고 `skip`. 재시도는 **같은 Tool 로만, 작업당 2회**.
+- Planner 반영: Worker 의 계획 변경 요청(예: 후보 검색 `NO_RESULT`)은 재계획 사유에 포함되고, 후보가 0건이면 의미 없는 `expand_pool` 을 건너뛴다.
+- 검증 이상 → Planner 가 작업 목록을 재구성(`strategy=verified_rebuild`, Worker LLM 재시도 중단)하고 판단으로 진행. 실행당 1회.
+
+**Agent 별 LLM 호출 조건**
+| Agent | 호출하는 경우 | 호출하지 않는 경우 |
+|---|---|---|
+| Planner | 의도·조건 추출(analyze), Tool 선택(plan 최초), 응답 문장화(respond) | 재계획, 제약 판단, 작업 목록 재구성, 되묻기·키 누락 응답 |
+| Worker | 재시도 가능한 실패 + 고칠 인자 있음 | 정상 경로(**0회**), 치명적 실패, 필수 인자 누락, 고칠 인자 없음, Worker LLM 꺼짐 |
+| 로깅 Agent | `anomaly` 로 판정된 실행의 원인 진단 | 수집·저장, 규칙 판정, 정상·판정 불가 실행 |
+
+## 7. 심화 구조 (초기 구상)
 
 ### 7.1 F3020 이상 징후 판단 (로깅 Agent)
 | 규칙 | 판정 근거 이벤트 |

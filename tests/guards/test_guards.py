@@ -25,7 +25,7 @@ SPEC_PINS = {
 }
 
 # LLM을 쓰면 안 되는 구역 (F3013: 로깅 Agent의 수집·저장, 저장소, 이벤트 버스)
-NO_LLM_ZONE = ["agents/logging_agent.py", "events", "storage"]
+NO_LLM_ZONE = ["agents/logging_agent.py", "agents/anomaly.py", "events", "storage"]   # F3020 판정도 규칙
 LLM_MODULE_PREFIXES = ("openai", "langchain_openai", "langchain", "langchain_core.language_models", "app.core.llm")
 
 SECRET_PATTERNS = [

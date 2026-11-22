@@ -32,8 +32,11 @@ function drawSessions() {
 async function open(sessionId) {
   state.selected = sessionId;
   drawSessions();
+  let reports = {};
   try {
     state.events = (await api("GET", `/api/logs/${sessionId}`)).events;
+    const r = await api("GET", `/api/logs/${sessionId}/anomalies`);
+    reports = Object.fromEntries(r.reports.map((x) => [x.run_id, x]));
   } catch (e) {
     render($("#detail"), html`<div class="banner error">${e.message}</div>`);
     return;
@@ -46,12 +49,26 @@ async function open(sessionId) {
     ${runs.map((runId, i) => {
       const evs = state.events.filter((e) => e.run_id === runId);
       return html`<div class="run-divider">실행 ${i + 1} · ${runId} · ${when(evs[0] && evs[0].ts)}</div>
+        ${verdictBox(reports[runId])}
         ${renderTimeline(buildTimeline(evs))}
         <details><summary class="small muted">원본 이벤트 ${evs.length}개 보기</summary>
           <table><thead><tr><th>seq</th><th>type</th><th>node</th><th>payload</th></tr></thead><tbody>
           ${evs.map((e) => html`<tr><td>${e.seq}</td><td>${e.type}</td><td>${e.node || ""}</td><td><pre class="payload">${JSON.stringify(e.payload, null, 1)}</pre></td></tr>`)}
           </tbody></table></details>`;
     })}`);
+}
+
+// F3020: 규칙 판정(정상·이상·판정 불가)과 LLM 진단을 구분해 표시
+const VERDICT = { normal: ["ok", "이상 없음"], anomaly: ["error", "이상 징후"], undeterminable: ["info", "판정 불가"] };
+function verdictBox(r) {
+  if (!r) return html`<div class="small muted">이상 징후 판정 없음 (실행이 끝나지 않았거나 판정 전)</div>`;
+  const [level, label] = VERDICT[r.verdict] || ["info", r.verdict];
+  return html`<div class="banner ${level === "ok" ? "ok" : level === "error" ? "error" : "info"} small">
+    <b>규칙 판정: ${label}</b> · 점검 ${Object.entries(r.checked || {}).map(([k, v]) => `${k}=${v}`).join(", ")}
+    ${r.reason ? html`<div>${r.reason}</div>` : ""}
+    ${(r.warnings || []).length ? html`<ul>${r.warnings.map((w) => html`<li>${w.rule}: ${w.detail} (근거 seq ${w.evidence_seqs.join(", ")})</li>`)}</ul>` : ""}
+    ${r.diagnosis ? html`<div><b>원인 진단 (LLM, 판정과 별도)</b>: ${r.diagnosis.text}</div>` : ""}
+  </div>`;
 }
 
 async function remove(sessionId) {

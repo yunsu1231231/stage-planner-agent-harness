@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from ..agents.graph import MainAgent
+from ..agents.log_diagnosis import make_diagnoser
 from ..agents.logging_agent import LoggingAgent
 from ..agents.memory import MemoryStore
 from ..core.config import ROOT, Settings
@@ -35,7 +36,8 @@ def create_app(settings: Settings | None = None, llm: Any = _UNSET, registry: To
     plan_repo, log_repo = PlanRepository(db), LogRepository(db)
 
     bus = EventBus()
-    logging_agent = LoggingAgent(log_repo)
+    diagnoser = make_diagnoser(llm) if (llm is not None and settings.log_diagnosis) else None
+    logging_agent = LoggingAgent(log_repo, diagnoser=diagnoser)
     if attach_logger:
         logging_agent.attach(bus)
 

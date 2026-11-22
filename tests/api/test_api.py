@@ -117,6 +117,15 @@ def test_logs_list_detail_delete_and_no_update(make_client):
     assert client.get(f"/api/logs/{sid}").status_code == 404
 
 
+def test_anomaly_reports_endpoint_returns_rule_verdict_per_run(make_client):
+    client, llm, _ = make_client(S1_ANALYZE, plan(SEARCH, DETAIL, NEARBY), "추천")
+    sid = client.post("/api/chat", json={"message": "..."}).json()["session_id"]
+    [report] = client.get(f"/api/logs/{sid}/anomalies").json()["reports"]
+    assert report["verdict"] == "normal" and report["diagnosis"] is None
+    assert set(report["checked"]) == {"repeated_call", "excessive_replan", "unplanned_call"}
+    assert llm.call_count == 3                     # 정상 실행 → 진단 LLM 호출 없음 (대본에 4번째 없음)
+
+
 def test_chat_works_without_logging_agent(make_client):
     client, _, _ = make_client(S1_ANALYZE, plan(SEARCH, DETAIL, NEARBY), "추천", attach_logger=False)
     assert client.post("/api/chat", json={"message": "..."}).json()["status"] == "ok"

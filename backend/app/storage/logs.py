@@ -45,4 +45,35 @@ class LogRepository:
 
     def delete_session(self, session_id: str) -> int:
         with self.db.connect() as conn:
+            runs = [r[0] for r in conn.execute("SELECT run_id FROM anomaly_reports WHERE session_id = ?", (session_id,))]
+            conn.executemany("DELETE FROM anomaly_diagnoses WHERE run_id = ?", [(r,) for r in runs])
+            conn.execute("DELETE FROM anomaly_reports WHERE session_id = ?", (session_id,))
             return conn.execute("DELETE FROM execution_events WHERE session_id = ?", (session_id,)).rowcount
+
+    # ---------------------------------------------------------------- F3020 판정·진단 (각각 한 번 기록)
+    def save_report(self, report: dict[str, Any]) -> None:
+        body = {k: report.get(k) for k in ("checked", "warnings", "reason", "event_count", "final")}
+        with self.db.connect() as conn:
+            conn.execute("INSERT OR IGNORE INTO anomaly_reports (run_id, session_id, verdict, report, created_at) "
+                         "VALUES (?, ?, ?, ?, datetime('now'))",
+                         (report["run_id"], report.get("session_id"), report["verdict"],
+                          json.dumps(body, ensure_ascii=False)))
+
+    def save_diagnosis(self, run_id: str, text: str) -> None:
+        with self.db.connect() as conn:
+            conn.execute("INSERT OR IGNORE INTO anomaly_diagnoses (run_id, text, created_at) VALUES (?, ?, datetime('now'))",
+                         (run_id, text))
+
+    def get_reports(self, session_id: str) -> list[dict[str, Any]]:
+        sql = """SELECT r.run_id, r.verdict, r.report, r.created_at, d.text AS diagnosis_text, d.created_at AS diagnosed_at
+                 FROM anomaly_reports r LEFT JOIN anomaly_diagnoses d ON d.run_id = r.run_id
+                 WHERE r.session_id = ? ORDER BY r.rowid"""
+        with self.db.connect() as conn:
+            rows = conn.execute(sql, (session_id,)).fetchall()
+        out = []
+        for r in rows:
+            body = json.loads(r["report"])
+            out.append({"run_id": r["run_id"], "verdict": r["verdict"], "created_at": r["created_at"], **body,
+                        "diagnosis": ({"text": r["diagnosis_text"], "created_at": r["diagnosed_at"]}
+                                      if r["diagnosis_text"] else None)})
+        return out
