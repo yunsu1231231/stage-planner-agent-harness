@@ -67,6 +67,7 @@ def _enrich(state: PlannerState, run: RunContext) -> dict[str, Any]:
     failures = list(state.get("tool_failures", []))
     notices = list(state.get("notices", []))
     places: dict[str, list[dict]] = dict(state.get("places", {}))
+    places_failed: list[str] = list(state.get("places_failed", []))
     category = state["conditions"].get("place_category")
     venues = list(dict.fromkeys(e["venue_id"] for e in state.get("eligible", [])[: run.deps.max_enrich] if e.get("venue_id")))
     for venue_id in venues:
@@ -77,6 +78,8 @@ def _enrich(state: PlannerState, run: RunContext) -> dict[str, Any]:
             places[venue_id] = []
             if r.error.code != ErrorCode.NO_RESULT:
                 failures.append({"tool": NEARBY, "target": venue_id, "code": r.error.code.value})
+                places_failed.append(venue_id)
             if r.error.code == ErrorCode.MISSING_API_KEY and not any(n["type"] == "config" for n in notices):
                 notices.append({"type": "config", "message": "카카오 API 키가 없어 주변 장소는 안내하지 못했습니다."})
-    return {"tool_cache": cache, "places": places, "tool_failures": failures, "notices": notices, "phase": "done"}
+    return {"tool_cache": cache, "places": places, "places_failed": places_failed, "tool_failures": failures,
+            "notices": notices, "phase": "done"}

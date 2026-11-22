@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import re
-from datetime import date
+from datetime import date, datetime
 from typing import Any
 
 WEEKDAYS = ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"]
@@ -46,8 +46,10 @@ def _base(pid: str, d: dict[str, Any]) -> dict[str, Any]:
             "venue_name": d.get("venue_name")}
 
 
-def evaluate(pid: str, detail_result: dict[str, Any], cond: dict[str, Any]) -> dict[str, Any]:
-    """detail_result: get_performance_detail 의 ToolResult(dict). → eligible / excluded / unjudgeable"""
+def evaluate(pid: str, detail_result: dict[str, Any], cond: dict[str, Any],
+             now: datetime | None = None) -> dict[str, Any]:
+    """detail_result: get_performance_detail 의 ToolResult(dict). → eligible / excluded / unjudgeable
+    now: 관람일이 오늘이면 이미 시작한 회차를 제외하는 기준 (V2 실측에서 추가)."""
     if not detail_result.get("ok"):
         err = detail_result.get("error") or {}
         partial = err.get("partial") or {}
@@ -94,10 +96,13 @@ def evaluate(pid: str, detail_result: dict[str, Any], cond: dict[str, Any]) -> d
         if price > budget:
             return excluded("OVER_BUDGET", f"최저가 {won(price)} > 예산 {won(budget)}")
 
+    cutoff = hm(now.strftime("%H:%M")) if now and target == now.date().isoformat() else None
     reasons, ok_times = [], []
     for st in times:
         s, e = hm(st), hm(st) + runtime
-        if earliest and s < hm(earliest):
+        if cutoff is not None and s <= cutoff:
+            reasons.append(f"{st} 회차는 이미 시작했습니다")
+        elif earliest and s < hm(earliest):
             reasons.append(f"{st} 시작 < 희망 {earliest}")
         elif end_by and e > hm(end_by):
             reasons.append(f"{st} 시작 + {runtime}분 = {fmt(e)} 종료 > 제한 {end_by}")

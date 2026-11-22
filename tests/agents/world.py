@@ -45,6 +45,7 @@ class FakeWorld:
     shows: list[Show]
     detail_failures: dict[str, FakeResponse | BaseException] = field(default_factory=dict)
     list_failure: FakeResponse | BaseException | None = None
+    kakao_status: int = 200
     places: list[dict] = field(default_factory=lambda: [
         {"place_name": "혜화 국밥", "road_address_name": "서울 종로구 대학로 1", "distance": "30",
          "place_url": "http://place.map.kakao.com/1", "phone": "", "category_name": "음식점 > 한식"}])
@@ -106,7 +107,10 @@ class FakeWorld:
                                  f"<adres>서울특별시 종로구 대학로 1</adres><la>37.58</la><lo>127.00</lo></db></dbs>")
 
     def _kakao(self, url, params):
-        return FakeResponse(200, json.dumps({"documents": self.places, "meta": {"total_count": len(self.places)}},
+        if self.kakao_status != 200:
+            return FakeResponse(self.kakao_status, '{"errorType":"AccessDeniedError"}',
+                                content_type="application/json;charset=UTF-8")
+        return FakeResponse(200,json.dumps({"documents": self.places, "meta": {"total_count": len(self.places)}},
                                             ensure_ascii=False), content_type="application/json;charset=UTF-8")
 
     # ---- helpers

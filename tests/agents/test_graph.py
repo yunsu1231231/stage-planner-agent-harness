@@ -103,7 +103,8 @@ def test_clarify_before_any_tool_when_start_point_missing(make_agent):
     res = agent.run("s1", "7시 전에 끝나야 해")
     assert res["status"] == "clarify" and set(res["missing"]) == {"date", "earliest_start"}
     assert world.session.calls == [] and llm.call_count == 1          # 되묻기 응답은 템플릿
-    assert "날짜" in res["reply"]
+    assert "관람 날짜" in res["reply"] and "시작 시각" in res["reply"]
+    assert "을(를)" not in res["reply"]                                # V6 실측: 어색한 조사 제거
 
 
 # ---------------------------------------------------------------- F3007 Tool 실패 후 진행
@@ -114,6 +115,19 @@ def test_one_detail_failure_is_recorded_and_flow_continues(make_agent):
     res = agent.run("s1", "...")
     assert res["status"] == "partial" and res["recommendations"][0]["performance_id"] == "PFA1"
     assert {"tool": DETAIL, "target": "PFA2", "code": "UPSTREAM_ERROR"} in res["tool_failures"]
+    assert any("상세" in n["message"] and "제외" in n["message"] for n in res["notices"])
+
+
+def test_nearby_failure_is_reported_as_failure_not_as_no_places(make_agent):
+    """V4 실측에서 발견: 주변 장소 조회 실패를 '후보 제외'·'식당 없음'으로 잘못 안내."""
+    world = s1_world()
+    world.kakao_status = 401
+    agent, _, _ = make_agent(world, S1_ANALYZE, plan(SEARCH, DETAIL, NEARBY), "ok")
+    res = agent.run("s1", "...")
+    assert res["status"] == "partial" and res["recommendations"][0]["performance_id"] == "PFA1"
+    msgs = " ".join(n["message"] for n in res["notices"])
+    assert "주변 장소" in msgs and "실패" in msgs and "제외" not in msgs
+    assert res["recommendations"][0]["places_status"] == "failed"
 
 
 def test_missing_key_stops_without_replan_and_guides_setup(make_agent):

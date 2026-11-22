@@ -75,7 +75,19 @@ def test_no_constraints_means_first_show_of_day():
     assert e["result"] == "eligible" and e["start_time"] == "15:00"
 
 
-@pytest.mark.parametrize("raw,age", [("만 13세 이상", 13), ("8세 이상", 8), ("전체관람가", 0), ("36개월 이상", 3), ("", None)])
+def test_today_excludes_show_times_already_started():
+    """V2 실측에서 발견: 19:55 현재 오늘 19:00 회차를 추천함 → 이미 시작한 회차는 제외."""
+    from datetime import datetime
+    cond = {"date": "2026-11-28", "earliest_start": "14:00", "end_by": "23:00"}
+    e = evaluate("PF1", detail(), cond, now=datetime(2026, 11, 28, 15, 30))
+    assert e["result"] == "eligible" and e["start_time"] == "19:00"          # 15:00 은 지남
+    e2 = evaluate("PF1", detail(), cond, now=datetime(2026, 11, 28, 19, 55))
+    assert e2["result"] == "excluded" and "이미" in e2["reason"]
+    e3 = evaluate("PF1", detail(), cond, now=datetime(2026, 11, 27, 23, 0))   # 다른 날이면 영향 없음
+    assert e3["start_time"] == "15:00"
+
+
+@pytest.mark.parametrize("raw,age",[("만 13세 이상", 13), ("8세 이상", 8), ("전체관람가", 0), ("36개월 이상", 3), ("", None)])
 def test_parse_age(raw, age):
     assert parse_age(raw) == age
 

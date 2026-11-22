@@ -36,6 +36,7 @@ class PlannerState(TypedDict, total=False):
     details: dict[str, dict]
     tool_failures: list[dict[str, Any]]
     places: dict[str, list[dict]]
+    places_failed: list[str]           # 주변 장소 조회가 '실패'한 공연장 (결과 없음과 구분)
     # judge
     evaluations: list[dict[str, Any]]
     eligible: list[dict[str, Any]]

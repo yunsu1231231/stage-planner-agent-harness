@@ -55,6 +55,8 @@ function recCard(r, key) {
     <div class="criteria">판단 근거: ${r.criteria}</div>
     <div class="criteria">근거 Tool 결과: ${(r.evidence || []).join(", ")}</div>
     ${places.length ? html`<ul class="places">${places.slice(0, 3).map((p) => html`<li><a href="${safeUrl(p.url)}" target="_blank" rel="noopener">${p.name}</a> <span class="muted">${p.distance_m != null ? `${p.distance_m}m` : ""} · ${p.address || ""}</span></li>`)}</ul>` : ""}
+    ${r.places_status === "failed" ? html`<div class="small"><span class="badge warn">주변 장소 조회 실패</span></div>` : ""}
+    ${r.places_status === "none" ? html`<div class="small muted">주변에서 장소를 찾지 못했습니다.</div>` : ""}
     <div class="actions"><button class="primary small" data-save="${key}">이 계획 저장</button><span class="small" data-save-result="${key}"></span></div>
   </div>`;
 }

@@ -11,9 +11,12 @@ from ..prompts import CHAT_SYSTEM, RESPOND_SYSTEM
 from ..runtime import RunContext
 from ..state import PlannerState
 
-MISSING_TEXT = {"date": "관람 날짜", "earliest_start": "몇 시 이후에 시작하면 좋을지",
+MISSING_TEXT = {"date": "관람 날짜", "earliest_start": "희망 시작 시각(몇 시 이후)",
                 "keyword": "궁금한 공연 이름", "target_index": "저장할 추천 번호",
                 "recommendation": "먼저 공연 추천"}
+FAILURE_TEXT = {"get_performance_detail": "일부 공연의 상세 조회에 실패해 해당 공연은 판단에서 제외했습니다.",
+                "search_performances": "공연 목록 조회 중 일부가 실패했습니다.",
+                "search_nearby_places": "주변 장소 검색에 실패해 일부 공연장의 주변 장소를 안내하지 못했습니다."}
 FIELD_TEXT = {"genre": "장르", "region": "지역"}
 CONFIG_TEXT = {"MISSING_API_KEY": "공연 정보(KOPIS) API 키가 설정되지 않았습니다. .env 의 KOPIS_API_KEY 를 확인해 주세요.",
                "AUTH_FAILED": "공연 정보(KOPIS) API 키가 유효하지 않습니다. 키를 다시 확인해 주세요.",
@@ -68,7 +71,7 @@ def respond(state: PlannerState, run: RunContext) -> dict[str, Any]:
         return {"response": {**base, "status": "error", "reply": "요청을 이해하지 못했어요. 다시 한 번 말씀해 주시겠어요?"}}
     if state.get("missing"):
         asks = ", ".join(MISSING_TEXT.get(m, m) for m in state["missing"])
-        reply = (f"추천을 위해 {asks}을(를) 알려 주세요." if "recommendation" not in state["missing"]
+        reply = (f"이어서 찾아 드리려면 다음 내용을 알려 주세요: {asks}." if "recommendation" not in state["missing"]
                  else "저장할 추천이 아직 없어요. 먼저 공연 추천을 받아 주세요.")
         if base["notices"]:
             reply += " (" + " ".join(n["message"] for n in base["notices"]) + ")"
@@ -92,8 +95,16 @@ def respond(state: PlannerState, run: RunContext) -> dict[str, Any]:
         payload["facts"] = {k: found.get(k) for k in keys} if found else None
         status = "ok" if found else "no_match"
     else:
-        places = state.get("places", {})
-        payload["recommendations"] = [{**e, "places": places.get(e.get("venue_id"), [])}
+        places, failed = state.get("places", {}), set(state.get("places_failed", []))
+
+        def places_status(venue_id: str | None) -> str:
+            if venue_id in failed:
+                return "failed"
+            if venue_id in places:
+                return "ok" if places[venue_id] else "none"
+            return "not_requested"
+        payload["recommendations"] = [{**e, "places": places.get(e.get("venue_id"), []),
+                                       "places_status": places_status(e.get("venue_id"))}
                                       for e in state.get("eligible", [])[:3]]
         payload["excluded"] = [e for e in state.get("evaluations", []) if e["result"] == "excluded"]
         payload["unjudgeable"] = [e for e in state.get("evaluations", []) if e["result"] == "unjudgeable"]
@@ -101,8 +112,11 @@ def respond(state: PlannerState, run: RunContext) -> dict[str, Any]:
         for r in state.get("relaxed", []):
             payload["notices"].append({"type": "relaxed", "message": (
                 f"'{r['from']}' {FIELD_TEXT[r['field']]} 조건으로는 맞는 공연이 없어 {FIELD_TEXT[r['field']]} 조건을 넓혀 찾았습니다.")})
-        if state.get("tool_failures"):
-            payload["notices"].append({"type": "partial", "message": "일부 정보 조회에 실패해 해당 후보는 제외했습니다."})
+        for tool in dict.fromkeys(f["tool"] for f in state.get("tool_failures", [])):
+            msg = FAILURE_TEXT.get(tool, "일부 정보 조회에 실패했습니다.")
+            if any(f["tool"] == tool and f["code"] == "AUTH_FAILED" for f in state["tool_failures"]):
+                msg += " (API 키가 유효하지 않습니다. 설정을 확인해 주세요.)"
+            payload["notices"].append({"type": "partial", "message": msg})
         if payload["recommendations"]:
             status = "partial" if state.get("tool_failures") else "ok"
         else:

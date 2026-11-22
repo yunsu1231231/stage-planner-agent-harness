@@ -3,7 +3,8 @@ from __future__ import annotations
 
 import time
 import uuid
-from datetime import date
+from datetime import date, datetime
+from datetime import time as dtime
 from typing import Any, Callable
 
 from langchain_core.runnables import RunnableConfig
@@ -68,13 +69,17 @@ def build_graph():
 class MainAgent:
     def __init__(self, llm: Any, registry: ToolRegistry, memory: MemoryStore | None = None,
                  publish: Callable[[dict], None] | None = None, save_plan: Callable[[dict], dict] | None = None,
-                 today: Callable[[], date] | None = None, max_replan: int = 3):
-        from ..tools.factory import kst_today
+                 today: Callable[[], date] | None = None, max_replan: int = 3,
+                 now: Callable[[], datetime] | None = None):
+        from ..tools.factory import KST, kst_today
         self.llm = llm
         self.memory = memory or MemoryStore()
         self.publish = publish
+        if now is None:
+            # 시계를 주입한 테스트는 그날 00:00 기준(지난 회차 없음), 실제 실행은 현재 KST 시각
+            now = (lambda: datetime.combine(today(), dtime.min)) if today else (lambda: datetime.now(KST).replace(tzinfo=None))
         self.deps = AgentDeps(llm=llm, registry=registry, today=today or kst_today, save_plan=save_plan,
-                              max_replan=max_replan)
+                              max_replan=max_replan, now=now)
         self.graph = build_graph()
 
     def run(self, session_id: str, message: str) -> dict[str, Any]:

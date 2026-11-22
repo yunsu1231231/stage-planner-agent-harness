@@ -15,7 +15,8 @@ def judge(state: PlannerState, run: RunContext) -> dict[str, Any]:
 
     cond, details = state["conditions"], state.get("details", {})
     evaluations = list(state.get("evaluations", []))
-    evaluations += [evaluate(pid, details[pid], cond) for pid in state.get("round_ids", [])]
+    now = run.deps.now() if run.deps.now else None
+    evaluations += [evaluate(pid, details[pid], cond, now=now) for pid in state.get("round_ids", [])]
     eligible = sorted((e for e in evaluations if e["result"] == "eligible"),
                       key=lambda e: (e["start_time"], e.get("min_price") or 0))
     counts = {k: sum(e["result"] == k for e in evaluations) for k in ("eligible", "excluded", "unjudgeable")}

@@ -19,6 +19,7 @@ class AgentDeps:
     registry: ToolRegistry
     today: Callable[[], date]
     save_plan: Callable[[dict], dict] | None = None
+    now: Callable[[], datetime] | None = None   # 오늘 관람이면 지난 회차 제외 (judge)
     max_replan: int = 3                 # NF3004
     max_detail: int = 15                # NF3005: 단계당 상세 조회 상한
     max_enrich: int = 3                 # 주변 장소를 붙일 추천 공연장 수
