@@ -54,6 +54,9 @@ class ChatResponse(BaseModel):
     saved_plan: dict[str, Any] | None = None
     timeline: list[TimelineEvent] = []
     llm_calls: int = 0
+    worker_llm_calls: int = 0
+    agent_mode: str | None = None
+    verification: dict[str, Any] | None = None
 
 
 # ---------------------------------------------------------------- 계획

@@ -26,12 +26,30 @@ def _applicable(strategy: str, query: dict[str, Any]) -> bool:
     return False
 
 
-def next_strategy(query: dict[str, Any], index: int) -> tuple[int, str] | None:
-    """index: 지금까지 쓴 마지막 전략 번호 (0 = 최초 계획)."""
+def next_strategy(query: dict[str, Any], index: int, skip: set[str] | frozenset = frozenset()) -> tuple[int, str] | None:
+    """index: 지금까지 쓴 마지막 전략 번호 (0 = 최초 계획). skip: 이번에 의미 없는 전략."""
     for i in range(index + 1, len(STRATEGIES) + 1):
-        if _applicable(STRATEGIES[i - 1], query):
+        if STRATEGIES[i - 1] not in skip and _applicable(STRATEGIES[i - 1], query):
             return i, STRATEGIES[i - 1]
     return None
+
+
+def skip_for(state: PlannerState) -> set[str]:
+    """Worker 가 '후보 검색 결과 없음'으로 계획 변경을 요청했다면 후보 풀 확장은 의미 없다 (F3021 반영)."""
+    return {"expand_pool"} if any(r["tool"] == SEARCH and r["code"] == "NO_RESULT"
+                                  for r in state.get("replan_requests", [])) else set()
+
+
+def worker_reason(state: PlannerState) -> str:
+    reqs = state.get("replan_requests", [])
+    return ("; Worker 요청: " + ", ".join(f"{r['tool']} {r['code']}" for r in reqs)) if reqs else ""
+
+
+def _send_tasks(run: RunContext, plan_version: int, strategy: str, tasks: list[dict[str, Any]]) -> None:
+    if run.deps.mode == "planner_worker":
+        run.message("plan", "Planner", "Worker", "task_list", {
+            "plan_version": plan_version, "strategy": strategy,
+            "tasks": [{k: t[k] for k in ("id", "tool", "args", "fixed_args", "phase")} for t in tasks]})
 
 
 def _required(state: PlannerState) -> list[str]:
@@ -56,8 +74,9 @@ def _tasks(state: PlannerState, tools: list[str], query: dict[str, Any], run: Ru
     for i, tool in enumerate(tools, 1):
         if tool == SEARCH:
             args = _search_args(state, query)
+            # 사용자 조건으로 채운 인자는 고정 (Worker 가 못 바꿈). 검색어는 검색 표현이라 고정하지 않는다.
             tasks.append({"id": f"t{i}", "tool": tool, "args": args, "phase": "collect", "depends_on": [],
-                          "fixed_args": [k for k in ("date", "keyword") if k in args]})
+                          "fixed_args": [k for k in ("date", "region", "genre") if k in args]})
         elif tool == DETAIL:
             if SEARCH in tools:
                 args = {"performance_id": "<search.items[].performance_id>"}
@@ -76,6 +95,8 @@ def _tasks(state: PlannerState, tools: list[str], query: dict[str, Any], run: Ru
 
 
 def plan(state: PlannerState, run: RunContext) -> dict[str, Any]:
+    if state.get("rebuild_requested"):
+        return _rebuild(state, run)
     if state.get("replanning"):
         return _replan(state, run)
 
@@ -103,13 +124,26 @@ def plan(state: PlannerState, run: RunContext) -> dict[str, Any]:
              "limit": 5 if state["intent"] == "fact_query" else 20}
     tasks = _tasks(state, required, query, run)
     run.emit("plan.created", "plan", plan_version=0, strategy="initial", tasks=tasks)
+    _send_tasks(run, 0, "initial", tasks)
     return {"tasks": tasks, "query": query, "plan_version": 0, "strategy_index": 0, "replan_count": 0,
-            "replanning": False, "phase": "collect", "relaxed": [], "replan_reasons": []}
+            "replanning": False, "phase": "collect", "relaxed": [], "replan_reasons": [], "route_after_plan": "execute"}
+
+
+def _rebuild(state: PlannerState, run: RunContext) -> dict[str, Any]:
+    """검증(로깅 Agent)이 이상으로 판정 → 작업 목록 재구성: Worker 의 LLM 재시도를 중단하고 확보한 결과로 판단 진행."""
+    rules = ", ".join(sorted({w["rule"] for w in state["verification"].get("warnings", [])}))
+    reason = f"검증 이상({rules}) → Worker 재시도 중단, 확보한 결과로 판단"
+    tasks = [{**t, "retry": False} for t in state["tasks"]]
+    run.emit("plan.created", "plan", plan_version=state.get("plan_version", 0), strategy="verified_rebuild",
+             reason=reason, tasks=tasks)
+    _send_tasks(run, state.get("plan_version", 0), "verified_rebuild", tasks)
+    return {"tasks": tasks, "rebuild_requested": False, "rebuilt": True, "worker_retry_disabled": True,
+            "route_after_plan": "judge"}
 
 
 def _replan(state: PlannerState, run: RunContext) -> dict[str, Any]:
     query = dict(state["query"])
-    found = next_strategy(query, state.get("strategy_index", 0))
+    found = next_strategy(query, state.get("strategy_index", 0), skip_for(state))
     assert found is not None, "judge 가 적용 가능한 전략이 있을 때만 재계획을 요청한다"
     index, strategy = found
     relaxed = list(state.get("relaxed", []))
@@ -127,5 +161,6 @@ def _replan(state: PlannerState, run: RunContext) -> dict[str, Any]:
     tools = [t["tool"] for t in state["tasks"]]
     tasks = _tasks(state, tools, query, run)
     run.emit("plan.created", "plan", plan_version=count, strategy=strategy, tasks=tasks)
+    _send_tasks(run, count, strategy, tasks)
     return {"tasks": tasks, "query": query, "plan_version": count, "strategy_index": index, "replan_count": count,
-            "replanning": False, "phase": "collect", "relaxed": relaxed}
+            "replanning": False, "phase": "collect", "relaxed": relaxed, "route_after_plan": "execute"}

@@ -46,7 +46,8 @@ def create_app(settings: Settings | None = None, llm: Any = _UNSET, registry: To
         return {"plan": saved, "overlaps": overlaps}
 
     agent = MainAgent(llm=llm, registry=registry, memory=MemoryStore(), publish=bus.publish,
-                      save_plan=save_plan, today=today)
+                      save_plan=save_plan, today=today, mode=settings.agent_mode, worker_llm=settings.worker_llm,
+                      verifier=logging_agent.inspect if attach_logger else None)
 
     app = FastAPI(title="공연 관람 플래너 API", version="0.1.0",
                   description="Agent 기반 공연 관람 플래너 — 대화, 계획 관리, 실행 로그")

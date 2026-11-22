@@ -46,6 +46,7 @@ class FakeWorld:
     detail_failures: dict[str, FakeResponse | BaseException] = field(default_factory=dict)
     list_failure: FakeResponse | BaseException | None = None
     kakao_status: int = 200
+    places_min_radius: int = 0          # 이 반경 미만으로 검색하면 결과 없음 (Worker 반경 확대 재시도 검증용)
     places: list[dict] = field(default_factory=lambda: [
         {"place_name": "혜화 국밥", "road_address_name": "서울 종로구 대학로 1", "distance": "30",
          "place_url": "http://place.map.kakao.com/1", "phone": "", "category_name": "음식점 > 한식"}])
@@ -110,7 +111,10 @@ class FakeWorld:
         if self.kakao_status != 200:
             return FakeResponse(self.kakao_status, '{"errorType":"AccessDeniedError"}',
                                 content_type="application/json;charset=UTF-8")
-        return FakeResponse(200,json.dumps({"documents": self.places, "meta": {"total_count": len(self.places)}},
+        if int(params.get("radius", 0)) < self.places_min_radius:
+            return FakeResponse(200, '{"documents": [], "meta": {"total_count": 0}}',
+                                content_type="application/json;charset=UTF-8")
+        return FakeResponse(200, json.dumps({"documents": self.places, "meta": {"total_count": len(self.places)}},
                                             ensure_ascii=False), content_type="application/json;charset=UTF-8")
 
     # ---- helpers

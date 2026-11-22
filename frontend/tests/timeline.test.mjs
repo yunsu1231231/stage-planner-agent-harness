@@ -56,6 +56,24 @@ test("LLM decisions keep their reason and summary counts are computed", () => {
   assert.deepEqual(t.summary, { status: "ok", llmCalls: 3, durationMs: 9000, toolCalls: 3, toolFailures: 1, replans: 1 });
 });
 
+test("F3021 agent messages, worker decisions and verification are shown", () => {
+  const t = buildTimeline([
+    ev(1, "node.enter", "execute", { role: "Worker" }),
+    ev(2, "agent.message", "plan", { from: "Planner", to: "Worker", kind: "task_list", body: { tasks: [{}, {}] } }),
+    ev(3, "worker.decision", "execute", { tool: "search_nearby_places", code: "NO_RESULT", action: "retry", llm: true, reason: "반경 확대", patch: { radius_m: 1000 } }),
+    ev(4, "worker.decision", "execute", { tool: "search_performances", code: "NO_RESULT", action: "replan_request", llm: false, reason: "고칠 인자 없음" }),
+    ev(5, "verify.result", "verify", { verdict: "anomaly", warnings: [{ rule: "repeated_call" }] }),
+  ]);
+  assert.equal(t.items[0].role, "Worker");
+  const msg = t.items.find((i) => i.kind === "message");
+  assert.deepEqual([msg.from, msg.to, msg.text], ["Planner", "Worker", "작업 목록 2건"]);
+  const [w1, w2] = t.items.filter((i) => i.kind === "worker");
+  assert.deepEqual([w1.byLlm, w1.action, w1.patchText], [true, "retry", "radius_m=1000"]);
+  assert.deepEqual([w2.byLlm, w2.action], [false, "replan_request"]);
+  const v = t.items.find((i) => i.kind === "verify");
+  assert.deepEqual([v.verdict, v.rules], ["anomaly", ["repeated_call"]]);
+});
+
 test("unknown event types are kept, not dropped", () => {
   const t = buildTimeline([ev(1, "something.new", "x", { a: 1 })]);
   assert.equal(t.items[0].kind, "other");

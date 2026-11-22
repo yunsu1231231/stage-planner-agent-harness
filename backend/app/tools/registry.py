@@ -48,8 +48,12 @@ class ToolRegistry:
         try:
             inp = spec.input_model.model_validate(args or {})
         except ValidationError as e:
-            fields = ", ".join(".".join(map(str, err["loc"])) or "입력" for err in e.errors())
-            return ToolResult.failure(ErrorCode.INVALID_INPUT, f"입력값이 올바르지 않습니다: {fields}")
+            errs = e.errors()
+            fields = ", ".join(".".join(map(str, err["loc"])) or "입력" for err in errs)
+            missing = [".".join(map(str, err["loc"])) for err in errs if err["type"] == "missing"]
+            # 필수 인자 누락은 Worker 가 LLM 으로 고칠 일이 아니라 되묻거나 멈출 일 (F3021) → detail 로 구분
+            detail = f"missing:{','.join(missing)}" if missing else "invalid"
+            return ToolResult.failure(ErrorCode.INVALID_INPUT, f"입력값이 올바르지 않습니다: {fields}", detail=detail)
         return never_raises(spec.func)(inp)
 
     def as_langchain_tools(self) -> list[StructuredTool]:

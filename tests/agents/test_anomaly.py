@@ -39,6 +39,7 @@ def test_repeated_identical_real_calls_are_flagged_but_cache_hits_are_not():
                                   ev(9, "run.end")]
     r = evaluate_run(events)
     assert r["verdict"] == "anomaly" and rules(r) == {"repeated_call"}
+    assert len(r["warnings"]) == 1, "캐시 조회(PF2 두 번째)는 실제 호출이 아니므로 경고가 아니다"
     w = r["warnings"][0]
     assert w["evidence_seqs"] == [4, 7] and "PF1" in w["detail"]
 

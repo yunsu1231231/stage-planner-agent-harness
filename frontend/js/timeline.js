@@ -5,6 +5,17 @@ export const NODE_LABEL = { analyze: "요청 분석", plan: "계획 수립", exe
 export const STRATEGY_LABEL = { initial: "최초 계획", expand_pool: "후보 확장", drop_genre: "장르 조건 해제", widen_region: "지역 확대" };
 const TOOL_LABEL = { search_performances: "공연 후보 조회", get_performance_detail: "공연 상세 조회", search_nearby_places: "주변 장소 검색" };
 
+export const NODE_LABEL_PW = { verify: "검증 (로깅 Agent)" };
+Object.assign(NODE_LABEL, NODE_LABEL_PW);
+
+function messageText(p) {
+  const b = p.body || {};
+  if (p.kind === "task_list") return `작업 목록 ${(b.tasks || []).length}건`;
+  if (p.kind === "work_result") return `완료 ${b.done ?? 0} · 실패 ${b.failed ?? 0} · 재시도 ${b.retried ?? 0}${(b.replan_requests || []).length ? ` · 계획 변경 요청 ${b.replan_requests.length}` : ""}`;
+  if (p.kind === "verification") return `검증 ${b.verdict}${(b.warnings || []).length ? ` (${b.warnings.map((w) => w.rule).join(", ")})` : ""}`;
+  return p.kind || "";
+}
+
 export function buildTimeline(events = []) {
   const items = [];
   const pending = [];
@@ -16,7 +27,17 @@ export function buildTimeline(events = []) {
     const base = { seq: e.seq, round, node: e.node, ts: e.ts, runId: e.run_id };
     switch (e.type) {
       case "run.start": items.push({ ...base, kind: "start", text: p.message || "" }); break;
-      case "node.enter": items.push({ ...base, kind: "step", label: NODE_LABEL[e.node] || e.node }); break;
+      case "node.enter": items.push({ ...base, kind: "step", label: NODE_LABEL[e.node] || e.node, role: p.role || null }); break;
+      case "agent.message":
+        items.push({ ...base, kind: "message", from: p.from, to: p.to, msgKind: p.kind, text: messageText(p) }); break;
+      case "worker.decision":
+        items.push({ ...base, kind: "worker", tool: p.tool, code: p.code, action: p.action, byLlm: !!p.llm,
+          reason: p.reason || "", rejected: p.rejected || null,
+          patchText: Object.entries(p.patch || {}).map(([k, v]) => `${k}=${v}`).join(", ") });
+        break;
+      case "verify.result":
+        items.push({ ...base, kind: "verify", verdict: p.verdict, rules: (p.warnings || []).map((w) => w.rule), reason: p.reason || "" });
+        break;
       case "node.exit": {
         const step = [...items].reverse().find((i) => i.kind === "step" && i.node === e.node && !i.exit);
         if (step) step.exit = p;
@@ -73,7 +94,11 @@ export function renderTimeline({ items, summary }) {
   const rows = items.map((i) => {
     switch (i.kind) {
       case "start": return html`<li class="tl tl-start">요청 시작 <span class="muted">${i.text}</span></li>`;
-      case "step": return html`<li class="tl tl-step"><b>${i.label}</b>${i.exit && i.exit.intent ? html` <span class="pill">${i.exit.intent}</span>` : ""}${i.exit && i.exit.stop_reason ? html` <span class="pill warn">${i.exit.stop_reason}</span>` : ""}</li>`;
+      case "message": return html`<li class="tl tl-message">✉ <b>${i.from} → ${i.to}</b> <span class="muted">${i.text}</span></li>`;
+      case "worker": return html`<li class="tl tl-worker ${i.byLlm ? "llm" : ""}">Worker 판단 <span class="badge ${i.byLlm ? "info" : "ok"}">${i.byLlm ? "LLM" : "규칙"}</span>
+          <b>${i.action}</b> <span class="muted">${i.tool} ${i.code}${i.patchText ? ` → ${i.patchText}` : ""}${i.rejected ? ` (거부: ${i.rejected})` : ""}</span><div class="small muted">${i.reason}</div></li>`;
+      case "verify": return html`<li class="tl tl-verify"><span class="badge ${i.verdict === "anomaly" ? "error" : i.verdict === "normal" ? "ok" : "info"}">검증 ${i.verdict}</span>${i.rules.length ? html` <span class="muted">${i.rules.join(", ")}</span>` : ""}${i.reason ? html` <span class="muted small">${i.reason}</span>` : ""}</li>`;
+      case "step": return html`<li class="tl tl-step">${i.role ? html`<span class="pill">${i.role}</span> ` : ""}<b>${i.label}</b>${i.exit && i.exit.intent ? html` <span class="pill">${i.exit.intent}</span>` : ""}${i.exit && i.exit.stop_reason ? html` <span class="pill warn">${i.exit.stop_reason}</span>` : ""}</li>`;
       case "decision": return html`<li class="tl tl-decision">LLM 판단 <b>${Array.isArray(i.decision) ? i.decision.join(" → ") : i.decision}</b><div class="muted">${i.reason}</div></li>`;
       case "plan": return html`<li class="tl tl-plan">작업 목록 v${i.version} (${STRATEGY_LABEL[i.strategy] || i.strategy}): ${i.tools.join(" → ")}</li>`;
       case "note": return html`<li class="tl tl-note">${i.text}</li>`;

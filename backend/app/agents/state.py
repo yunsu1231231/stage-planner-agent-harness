@@ -43,5 +43,12 @@ class PlannerState(TypedDict, total=False):
     suggestions: list[str]
     next: str
     stop_reason: str | None
+    # F3021 Planner·Worker
+    replan_requests: list[dict[str, Any]]   # Worker → Planner 계획 변경 요청 (이번 라운드)
+    verification: dict[str, Any]            # 로깅 Agent 검증 결과
+    rebuild_requested: bool
+    rebuilt: bool
+    worker_retry_disabled: bool
+    route_after_plan: str                   # execute | judge
     # respond
     response: dict[str, Any]

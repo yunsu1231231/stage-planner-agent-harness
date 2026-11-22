@@ -1,4 +1,4 @@
-"""judge 노드 — F3008 제약 판단 + F3009 재계획 결정. LLM 없음."""
+"""judge 노드 — F3008 제약 판단 + F3009 재계획 결정 (Planner). LLM 없음."""
 from __future__ import annotations
 
 from typing import Any
@@ -6,7 +6,7 @@ from typing import Any
 from ..judge import evaluate, suggest_adjustments
 from ..runtime import RunContext
 from ..state import NEARBY, PlannerState
-from .plan import next_strategy
+from .plan import next_strategy, skip_for, worker_reason
 
 
 def judge(state: PlannerState, run: RunContext) -> dict[str, Any]:
@@ -21,7 +21,7 @@ def judge(state: PlannerState, run: RunContext) -> dict[str, Any]:
                       key=lambda e: (e["start_time"], e.get("min_price") or 0))
     counts = {k: sum(e["result"] == k for e in evaluations) for k in ("eligible", "excluded", "unjudgeable")}
     run.emit("judge.result", "judge", plan_version=state.get("plan_version", 0), **counts)
-    update: dict[str, Any] = {"evaluations": evaluations, "eligible": eligible}
+    update: dict[str, Any] = {"evaluations": evaluations, "eligible": eligible, "round_ids": []}
 
     if eligible:
         wants_places = any(t["tool"] == NEARBY for t in state["tasks"])
@@ -29,9 +29,9 @@ def judge(state: PlannerState, run: RunContext) -> dict[str, Any]:
                 "phase": "enrich" if wants_places else "done"}
 
     count = state.get("replan_count", 0)
-    if count < run.deps.max_replan and next_strategy(state["query"], state.get("strategy_index", 0)):
+    if count < run.deps.max_replan and next_strategy(state["query"], state.get("strategy_index", 0), skip_for(state)):
         reasons = list(state.get("replan_reasons", [])) + [
-            f"충족 후보 0개 (제외 {counts['excluded']}, 판단 불가 {counts['unjudgeable']})"]
+            f"충족 후보 0개 (제외 {counts['excluded']}, 판단 불가 {counts['unjudgeable']}){worker_reason(state)}"]
         return {**update, "next": "replan", "replanning": True, "replan_reasons": reasons}
 
     ok_details = [d["data"] for d in details.values() if d.get("ok")]
