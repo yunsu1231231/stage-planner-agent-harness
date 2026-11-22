@@ -1,19 +1,21 @@
 # 07. 검증 결과 (명세 4장)
 
-> 범위: 필수 기능 F3001~F3019, 비기능 NF3001~NF3007. 심화 F3020·F3021은 M6에서 추가한다.
+> 범위: 필수 기능 F3001~F3019, 비기능 NF3001~NF3007, 심화 F3020(이상 징후 판단)·F3021(Planner·Worker).
+> 서비스 기본 구조는 Planner·Worker(`AGENT_MODE=planner_worker`). 대표 시나리오 9종은 최종 구조에서 다시 실행해 모두 통과했다.
 > 원칙: 확인은 **실행 결과로 증명**한다. 자동 테스트(오프라인·결정적) + 실제 LLM·API 시나리오 + 결함 주입(mutation) 세 가지로 확인했다.
 
 ## 0. 요약
 
 | 구분 | 결과 | 증거 |
 |---|---|---|
-| 자동 테스트 (오프라인) | **188 통과** / 0 실패 | [`verification/pytest_report.txt`](verification/pytest_report.txt) |
+| 자동 테스트 (오프라인) | **221 통과** / 0 실패 | [`verification/pytest_report.txt`](verification/pytest_report.txt) |
 | 실제 API·LLM 테스트 (`-m live`) | Tool 5 + Agent 3 통과 | `tests/tools/test_live.py`, `tests/agents/test_live_agent.py` |
-| 대표 시나리오 (4.7) | **9개 모두 기대와 일치** (2차 실행) | [`verification/scenario_report.md`](verification/scenario_report.md) |
-| 1차 실행에서 찾은 차이 | **3건** → 테스트 추가 후 수정 | 아래 4.7.2 |
-| 결함 주입 | 24종 주입(가드 2 · Tool 4 · Agent 6 · 저장/API 6 · 프론트 6) → 24종 검출 (Agent 2종은 처음에 놓쳐 테스트 보강) | [`06_test_strategy.md`](06_test_strategy.md) |
+| 대표 시나리오 (4.7) | **9개 모두 기대와 일치** (최종 Planner·Worker 구조) | [`verification/scenario_report.md`](verification/scenario_report.md) |
+| 심화 구조 비교 (F3021) | 시나리오 5 × 구성 3, 실제 LLM·API | [`verification/pw_comparison.md`](verification/pw_comparison.md) |
+| 실측에서 찾은 차이 | 시나리오 1차 **3건** + 비교 1차 **3건** + 구현 중 1건 → 모두 회귀 테스트 추가 후 수정 | 4.7.2, 3.4 |
+| 결함 주입 | 31종 주입(가드 2 · Tool 4 · Agent 6 · 저장/API 6 · 프론트 6 · 심화 7) → 31종 검출 (3종은 처음에 놓쳐 테스트 보강) | [`06_test_strategy.md`](06_test_strategy.md) |
 
-테스트 분포: Tool 85 · Agent 47 · 저장소 15 · API 13 · 하네스 자체 10 · 가드 7 · 프론트 7(내부 JS 단위 13) · 이벤트 4.
+테스트 분포: Tool 87 · Agent 71 · 저장소 15 · API 14 · 하네스 자체 10 · 이벤트 10 · 가드 7 · 프론트 7(내부 JS 단위 14).
 
 ## 1. 검증 방법
 
@@ -78,8 +80,56 @@
 | 실행 단계·Tool 이력 순서, 재계획 지점 구분 | ✅ | `timeline.test.mjs`, 화면 오른쪽 패널 (📷 V2 처럼 재계획 있는 요청) |
 | 처리 중 상태, Tool 실패·키 누락 안내 | ✅ 스피너+경과 초 / 부분 실패 안내 / `/api/health` 배너 | V4·V9, `test_health_reports_flags_never_values` (📷) |
 
-## 3. 4.6 심화 기능
-M6 에서 F3020(이상 징후 판단) → F3021(Planner·Worker) 구현 후 이 절을 채운다.
+## 3. 4.6 심화 기능 (선택: F3020 + F3021)
+
+### 3.1 F3020 이상 징후 판단 (로깅 Agent)
+| 확인 항목 | 결과 | 증거 |
+|---|---|---|
+| 같은 Tool·같은 입력 반복 호출 식별 | ✅ 실제 호출만 계수, 캐시 조회는 제외 | `test_repeated_identical_real_calls_are_flagged_but_cache_hits_are_not` |
+| 재계획 과도 반복 식별 | ✅ 상한(3) 도달 → `excessive_replan`. **실측 C3·V3 에서 실제로 탐지** | `test_replan_reaching_limit_is_excessive`, [`pw_comparison.md`](verification/pw_comparison.md) C3 |
+| 계획에 없던 Tool 호출 식별 | ✅ 직전 작업 목록 기준 | `test_tool_not_in_active_plan_is_unplanned`, `test_active_plan_is_the_latest_one` |
+| 근거 이벤트 없으면 '판정 불가' | ✅ 이벤트 없음·`run.end` 없음·작업 목록 없이 Tool 호출 → `undeterminable` | `test_no_evidence_is_undeterminable`, `test_tool_calls_without_any_plan_are_undeterminable_not_normal` |
+| 판단 결과를 메인 Agent 가 참조 | ✅ `LoggingAgent.inspect(run_id)` 가 실행 중간에도 같은 형식 보고 → F3021 verify 노드가 사용 | `test_inspect_mid_run_returns_interim_report_in_same_format`, `GET /api/logs/{id}/anomalies` |
+| 이상 실행에만 진단, 정상 실행엔 LLM 없음 | ✅ 진단은 별도 테이블, 실패해도 판정·로그 유지 | `test_normal_run_gets_report_and_no_llm_call`, `test_anomaly_run_is_diagnosed_once_and_stored_separately`, `test_diagnosis_failure_keeps_report_and_logs`, API `test_anomaly_reports_endpoint_returns_rule_verdict_per_run` |
+- 실측 진단 예 (C3, 실제 LLM): "경고 원인은 Planner의 재계획이 3회로 상한에 도달했기 때문입니다. Planner가 후보가 없을 때 재계획 전략을 조정하거나 … Worker와 로깅 Agent에는 문제점이 없습니다."
+- 판정 모듈(`agents/anomaly.py`)·수집 모듈(`logging_agent.py`)은 가드 테스트의 LLM 금지 구역. LLM 은 주입되는 `log_diagnosis.py` 에만 있다.
+
+### 3.2 F3021 Planner · Worker 구조
+| 확인 항목 | 결과 | 증거 |
+|---|---|---|
+| 작업 목록·수행 결과가 정해진 형식으로 오감 | ✅ `task_list` / `work_result` / `verification` | `test_normal_path_worker_uses_no_llm_and_messages_are_logged` |
+| 로깅 Agent 가 이상 판단 → Planner 가 작업 목록 재구성 | ✅ `strategy=verified_rebuild`. **실측 C3 에서 실제 발생** (`initial → expand_pool → drop_genre → widen_region → verified_rebuild`) | `test_planner_rebuilds_task_list_when_verifier_flags_anomaly`, `logs/compare_pw_llm_on_C3.json` |
+| Planner·Worker·로깅 Agent 메시지가 실행 로그에 남음 | ✅ `agent.message` 이벤트로 저장 | 같은 테스트(sink), `logs/compare_pw_*.json` |
+| 구조 변경 전후 흐름·재계획 비교 | ✅ 아래 3.3 | [`verification/pw_comparison.md`](verification/pw_comparison.md) |
+| 정상 경로 Worker LLM 0회, 치명적 실패·필수 인자 누락은 LLM 없음 | ✅ 실측 C1~C3 Worker LLM 0, 키 누락 시 규칙 `fatal` | `test_fatal_failure_never_reaches_worker_llm`, `test_classify_rules`, `test_registry_marks_missing_required_argument` |
+| 결과 없음 → Worker LLM 이 인자를 고쳐 같은 Tool 재호출, 고정 인자 불변 | ✅ 반경 500→1000m, 공연명 `여신님 보고계셔`→`여신님`(실측 C4). 결정 형식에 고정 인자 필드가 없음, 같은 인자·허용 외 인자 거부, 작업당 2회 상한 | `test_no_result_worker_llm_fixes_tunable_arg_and_keeps_fixed_args`, `test_fact_query_typo_is_fixed_by_worker_retry`, `test_decision_schema_cannot_express_fixed_args`, `test_invalid_retry_decisions_are_rejected_and_skipped`, `test_retry_is_capped_at_two_per_task` |
+| Worker 의 계획 변경 요청이 Planner 재계획에 반영 | ✅ 후보 0건 → `expand_pool` 건너뛰고 `drop_genre`, 사유에 "Worker 요청" 기록 (실측 C5) | `test_worker_replan_request_is_reflected_by_planner` |
+
+### 3.3 구조 변경 전후 비교 (실제 LLM·API, 시나리오 5 × 구성 3)
+| 구성 | 요청당 LLM | 그중 Worker | 재계획 합계 | 실제 Tool 호출 | 평균 응답 |
+|---|---|---|---|---|---|
+| baseline (필수 구조) | 3.0 | 0.0 | 7 | 29.6 | 9.9초 |
+| Planner·Worker · Worker LLM **ON** | 3.2 | 0.2 | **6** | 29.8 | 9.7초 |
+| Planner·Worker · Worker LLM **OFF** | 3.0 | 0.0 | **6** | 29.4 | 8.9초 |
+
+| 시나리오 | baseline | PW · LLM ON | PW · LLM OFF | 차이의 이유 |
+|---|---|---|---|---|
+| C1 정상 | ok, 재계획 0 | 같음 | 같음 | 정상 경로는 동일 (Worker LLM 0) |
+| C2 재계획 후 성공 | ok, 2 | 같음 | 같음 | 후보는 있으나 예산 초과 → Worker 실패 없음 |
+| C3 상한 | limit, 3, 이상 판정 | 같음 + **verified_rebuild** | 같음 + rebuild | 검증 단계가 실행 중간에 과도 재계획 탐지 |
+| C4 공연명 오타 | **no_match** | **ok** (LLM 1회 더: `여신님`으로 수정) | no_match | Worker LLM 만 고칠 수 있는 인자(검색어)를 바꿀 수 있음 |
+| C5 후보 0건 장르 | ok, **재계획 2** (expand_pool 헛수고) | ok, **재계획 1** | ok, 1 | Worker 의 계획 변경 요청을 Planner 가 반영 (LLM 없이 규칙) |
+
+- 해석: Worker LLM 은 **고칠 수 있는 실패가 있을 때만** 비용(+1 LLM, +1.5초)을 쓰고 결과를 살린다(C4). 계획 변경 요청 반영은 LLM 없이 재계획을 줄인다(C5). 그 외 경로는 세 구성이 같다 — 응답 시간 차이(±1초)는 외부 API 지연 편차 범위.
+
+### 3.4 비교 1차 실행에서 찾은 차이 → 수정
+1차 결과: [`pw_comparison_run1.md`](verification/pw_comparison_run1.md)
+| # | 관찰 | 원인 | 수정 | 회귀 테스트 |
+|---|---|---|---|---|
+| 1 | C4: 정확한 공연명으로도 결과 없음 (baseline 포함) | 공연명 질문도 **오늘 공연 중**만 검색 — 다음 주 공연을 못 찾음 | 사실 조회는 오늘~+60일 기간 검색 (`SearchInput.end_date`, KOPIS `eddate`) | `test_search_end_date_sets_period_window`, `test_fact_query_searches_by_keyword_and_answers_facts` |
+| 2 | C4: Worker LLM 이 검색어에 "공연"을 **덧붙여** 더 안 맞게 고침 | 프롬프트에 '부분 일치 검색' 정보가 없음 | Tool 별 힌트(덧붙이기 금지, 줄이기·오타 수정), 이미 시도한 인자 전달 | 실측 2차: `여신님`으로 수정해 성공 |
+| 3 | C5: Worker 반영이 안 보임 | 시나리오의 '서커스'가 실제로 3건 존재 (후보 0건이 아니었음) | 실호출로 0건 확인한 '대중무용'으로 교체 | — |
+| 4 | (구현 중) Worker 재시도 후 **과거 이벤트의 인자까지 바뀜** | 이벤트가 인자 dict 를 참조로 담음 → 검증이 가짜 '반복 호출'을 볼 위험 | 발행 시 payload 깊은 복사 | `test_events_are_snapshots_not_live_references` |
 
 ## 4. 4.7 대표 시나리오 검증
 
@@ -127,7 +177,7 @@ M6 에서 F3020(이상 징후 판단) → F3021(Planner·Worker) 구현 후 이 
 | 항목 | 상태 |
 |---|---|
 | 필수 기능 F3001~F3019 모두 동작 | ✅ (위 2절, 시나리오 9종) |
-| 선택한 심화 기능 동작 + 필수 결과와 비교 | ⏳ M6 |
+| 선택한 심화 기능 동작 + 필수 결과와 비교 | ✅ F3020·F3021, 구조 전후 비교 (3절) |
 | 증명 스크린샷·실행 로그 첨부 | 실행 로그 ✅ / **스크린샷 📷 사람이 캡처 필요** (아래 7절) |
 | 요구사항 정의서·Agent 설계·Tool 정의서·API 명세서·소스·실행 로그 샘플·README | ✅ `docs/01, 04, 02, 05`, 소스, `docs/verification/logs/`, `README.md` |
 | 셀프 체크리스트 | ⏳ 3일차 오후 제공 예정 |

@@ -29,11 +29,20 @@ LLM 만으로 답하면 이번 주 실제 공연·회차·가격을 **지어냅�
 | **계획** (F3015~F3016) | 관람 계획 저장·조회·수정·삭제. 같은 날 시간이 겹치면 저장은 하되 알림 |
 | **서버·화면** (F3017~F3019) | FastAPI (대화·계획·로그 경로 분리), 바닐라 JS 화면 3개(대화·계획 관리·실행 로그), 실행 과정 타임라인(재계획 지점 구분), 처리 중 표시, Tool 실패·키 누락 안내 |
 
-### 심화 기능 — ⏳ 진행 예정
-| 번호 | 기능 | 상태 |
+### 심화 기능 — ✅ 구현·검증 완료
+| 번호 | 기능 | 핵심 |
 |---|---|---|
-| F3020 | 로깅 Agent 이상 징후 판단 (규칙 판정, 이상 실행만 LLM 진단) | 예정 |
-| F3021 | Planner·Worker 구조 전환 + 구조 변경 전후 비교 | 예정 |
+| **F3020** | 로깅 Agent 이상 징후 판단 | 실행마다 **규칙**으로 반복 호출·과도한 재계획·계획 외 호출을 판정(근거 없으면 '판정 불가'). **이상으로 판정된 실행에만** LLM 이 3문장 이내로 원인 진단, 판정과 분리 저장. 실행 중간에도 `inspect` 로 메인 Agent 에 판정 제공 |
+| **F3021** | Planner · Worker 구조 | Planner(분석·계획·판단·재계획) ↔ Worker(작업 수행) ↔ 로깅 Agent(검증)가 정해진 형식으로 메시지를 주고받고 모두 실행 로그에 남음. Worker 는 **고칠 수 있는 실패에서만** LLM 으로 재시도·건너뜀·계획 변경 요청을 판단(검색어·반경만, 고정 인자 불가, 작업당 2회). 검증 이상 → Planner 가 작업 목록 재구성 |
+
+**구조 변경 전후 비교** (실제 LLM·API, 시나리오 5 × 구성 3 — [`docs/verification/pw_comparison.md`](docs/verification/pw_comparison.md))
+| 구성 | 요청당 LLM | 그중 Worker | 재계획 합계 | 평균 응답 | 차이 |
+|---|---|---|---|---|---|
+| baseline | 3.0 | 0.0 | 7 | 9.9초 | — |
+| Planner·Worker · Worker LLM ON | 3.2 | 0.2 | **6** | 9.7초 | 공연명 오타를 Worker 가 고쳐 **답을 찾음**(C4), 후보 0건 시 의미 없는 재계획 생략(C5) |
+| Planner·Worker · Worker LLM OFF | 3.0 | 0.0 | **6** | 8.9초 | C5 개선은 유지(규칙), C4 는 실패 |
+
+구조 선택: `.env` 의 `AGENT_MODE=planner_worker`(기본) | `baseline`, `WORKER_LLM=on|off`, `LOG_DIAGNOSIS=on|off`.
 
 ## 2. 구조
 
@@ -42,10 +51,12 @@ flowchart LR
     U[사용자] --> FE["프론트엔드<br/>frontend/ (HTML·CSS·JS)"]
     FE -->|HTTP JSON| API["FastAPI<br/>/api/chat · /api/plans · /api/logs"]
     API --> AG
-    subgraph AG["메인 Agent (LangGraph)"]
-      A[analyze<br/>LLM] --> P[plan<br/>LLM 선택 + 규칙]
-      P --> X[execute]
-      X --> J[judge<br/>계산식]
+    subgraph AG["메인 Agent (LangGraph · Planner·Worker)"]
+      A[analyze<br/>Planner · LLM] --> P[plan<br/>Planner · LLM 선택 + 규칙]
+      P -->|task_list| X[execute<br/>Worker · 규칙, 필요 시 LLM]
+      X -->|work_result| V[verify<br/>로깅 Agent 판정]
+      V -->|이상| P
+      V --> J[judge<br/>Planner · 계산식]
       J -->|충족 0 · 상한 전| P
       J -->|추천 공연장| X
       J --> R[respond<br/>LLM 문장화]
@@ -54,8 +65,9 @@ flowchart LR
     T --> K1[(KOPIS)]
     T --> K2[(카카오 로컬)]
     AG -. 이벤트 발행 .-> B((EventBus))
-    B -. 구독 .-> L["로깅 Agent<br/>(LLM 없음)"]
-    L --> DB[(SQLite<br/>실행 로그 · 계획)]
+    B -. 구독 .-> L["로깅 Agent<br/>수집·저장·규칙 판정 (LLM 없음)<br/>이상 실행만 LLM 진단"]
+    L --> DB[(SQLite<br/>실행 로그 · 판정 · 계획)]
+    V -. inspect .-> L
     API --> DB
 ```
 
@@ -152,9 +164,11 @@ cd frontend && ../.venv/Scripts/python -m http.server 5500
 - 모든 판단은 이벤트로 기록되고 수정할 수 없음 → 사후 관찰·진단 가능 (심화 F3020 의 근거)
 
 ## 8. 검증 결과
-- 자동 테스트 **188 통과** (Tool 85 · Agent 47 · 저장소 15 · API 13 · 하네스 10 · 가드 7 · 프론트 7 + JS 단위 13 · 이벤트 4)
-- 대표 시나리오 9종 (한 번에 충족, **재계획**, **상한 도달**, **Tool 실패**, **Tool 불필요**, 되묻기, 맥락 유지, 저장, 키 누락) 실제 실행 → 모두 기대와 일치
-- 대표 계획 요청 처리 시간 11~18초 (KOPIS ~5초, 카카오 ~3초, LLM 3회 ~8초)
+- 자동 테스트 **221 통과** (Tool 87 · Agent 71 · 저장소 15 · API 14 · 하네스 10 · 이벤트 10 · 가드 7 · 프론트 7 + JS 단위 14)
+- 대표 시나리오 9종 (한 번에 충족, **재계획**, **상한 도달**, **Tool 실패**, **Tool 불필요**, 되묻기, 맥락 유지, 저장, 키 누락) 최종 Planner·Worker 구조에서 실제 실행 → 모두 기대와 일치
+- 심화: F3020·F3021 확인 항목 전부 + 구조 전후 비교
+- 실측에서 찾아 고친 문제 7건 (지난 회차 추천, 실패 안내 오류, 되묻기 문장, 공연명 질문이 오늘만 검색, Worker 검색어 덧붙임, 시나리오 전제 오류, 이벤트 참조 공유)
+- 대표 계획 요청 처리 시간 약 10~17초 (KOPIS ~5초, 카카오 ~3초, LLM 3회 ~8초)
 - 상세: [`docs/07_verification.md`](docs/07_verification.md), 시나리오 기록 [`docs/verification/scenario_report.md`](docs/verification/scenario_report.md)
 
 ## 9. 문서

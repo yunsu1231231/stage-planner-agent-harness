@@ -91,6 +91,8 @@ registry.as_langchain_tools()  # LLM bind_tools 용 (이름·설명·입력 스�
 - `region`은 이름으로 받는다 ("대학로", "종로구", "서울", "강남") → 시도/구 코드 매핑. 모르는 이름 → `INVALID_INPUT` (임의 추정 금지)
 - `genre`도 이름 ("연극", "뮤지컬", "클래식" …) → KOPIS 장르 코드. 모르는 이름 → `INVALID_INPUT`
 - `limit` 기본 20, 최대 50
+- `end_date`(M6): 기간 검색 끝 날짜 (date 이후 90일 이내). 공연명 질문은 Planner 가 오늘~+60일로 지정 — '오늘 공연 중'에 한정하면 다음 주 공연을 못 찾는 문제를 비교 실험에서 발견
+- `keyword`: 공연명 부분 일치(`shprfnm`). Planner 고정 인자가 아니어서 Worker 가 오타 수정·축약으로 재시도할 수 있다 (F3021)
 
 **`get_performance_detail`**
 - 러닝타임 해석 불가 → `ok=false, NO_RUNTIME` (판단에서 제외, `error.partial`에 제목·공연장만)
