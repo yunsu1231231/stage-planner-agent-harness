@@ -31,6 +31,7 @@
 | `UPSTREAM_ERROR` | 외부 API 5xx/파싱 실패 | false | 사유 기록 후 진행 |
 | `TIMEOUT` | 시간 초과 | false | 사유 기록 후 진행 |
 | `RATE_LIMITED` | 호출 한도 초과 | false | 즉시 안내 |
+| `UNKNOWN_TOOL` | 등록되지 않은 Tool 이름 | false | 계획 보정 (plan.corrected) |
 
 ## 3. Tool 목록
 
@@ -66,8 +67,41 @@
 - 계획 저장/수정/삭제 → 사용자 확정 값
 - 회차 시각·가격 텍스트 파싱 → Tool 내부 정규화
 
-## 5. 등록 및 확장 방법
-TBD (구현 시 레지스트리 구조 확정 후 작성)
+## 5. 등록 및 확장 방법 (M1 확정)
+
+```python
+registry = ToolRegistry()
+registry.register(ToolSpec(
+    name="search_performances", kind="external",            # external | local
+    description="…언제 쓰는지…", input_model=SearchInput,    # Pydantic 입력 스키마
+    func=kopis.search_performances,                          # (input) -> ToolResult
+))
+registry.list_specs()          # [{name, kind, description, input_schema}]  ← Agent·/api/tools 에 노출
+registry.call(name, args)      # 스키마 검증 → 실행 → ToolResult. 어떤 경우에도 예외를 던지지 않음
+registry.as_langchain_tools()  # LLM bind_tools 용 (이름·설명·입력 스키마만 전달)
+```
+- 새 Tool 추가 = 입력 모델 + `(input) -> ToolResult` 함수 + `register()` 한 줄. 외부 의존(HTTP 세션, 키, 시계)은 생성자 주입 → 테스트에서 FakeSession 으로 교체.
+- 레지스트리 단계 실패 코드: 없는 Tool → `UNKNOWN_TOOL`, 입력 검증 실패 → `INVALID_INPUT`, Tool 내부 예외 → `UPSTREAM_ERROR` (예외 메시지는 사용자에게 노출하지 않고 로그용 `detail`에만).
+
+### 5.1 Tool별 확정 규칙
+**`search_performances`**
+- `date` 생략 → **오늘(KST)**, `meta.defaults = ["date"]`
+- `date`가 과거 → 오늘로 보정하고 `meta.estimated = true`, `meta.note`에 "요청 2026-11-01 → 조회 2026-11-22" (F3002 추정 명시)
+- 공연 상태 필터(`prfstate`)는 쓰지 않는다. 미래 날짜에 개막하는 `공연예정`이 빠지기 때문. 응답에서 `공연완료`만 제외
+- `region`은 이름으로 받는다 ("대학로", "종로구", "서울", "강남") → 시도/구 코드 매핑. 모르는 이름 → `INVALID_INPUT` (임의 추정 금지)
+- `genre`도 이름 ("연극", "뮤지컬", "클래식" …) → KOPIS 장르 코드. 모르는 이름 → `INVALID_INPUT`
+- `limit` 기본 20, 최대 50
+
+**`get_performance_detail`**
+- 러닝타임 해석 불가 → `ok=false, NO_RUNTIME` (판단에서 제외, `error.partial`에 제목·공연장만)
+- 회차·가격 해석 불가 → `ok=true`, 해당 필드 `null` + `meta.missing = ["schedule" | "price"]` (판단 단계에서 `unjudgeable`/"확인 불가" 처리)
+- 출력 `schedule`: `{"월요일": ["19:30"], …, "HOL": [...]}`
+
+**`search_nearby_places`**
+- 입력은 `venue_id`(KOPIS 공연장 ID) **또는** `x`,`y`(경도·위도) 중 하나. `venue_id`면 KOPIS 공연시설상세로 좌표를 구한 뒤 카카오 검색 (상세 Tool의 `venue_id`가 그대로 입력이 됨)
+- `category`: `restaurant`(FD6) | `cafe`(CE7) | `parking`(PK6), `radius_m` 기본 500(최대 2000), `size` 기본 5
+- 좌표 없음 → `NOT_FOUND`, 결과 0건 → `NO_RESULT`
+- 출력에 `basis`(어느 공연장·좌표 기준인지) 포함 — 장소와 공연을 임의로 엮지 않음
 
 ## 6. 외부 API 호출 규약 (기획 검증 결과 반영, `03_planning_validation.md` 5절)
 
@@ -101,5 +135,5 @@ TBD (구현 시 레지스트리 구조 확정 후 작성)
 
 ### 6.3 미확정
 - [ ] 호출 한도·약관 (T4, NF3007)
-- [ ] 지역 코드(`signgucode`/`signgucodesub`)·장르 코드(`shcate`) 표 — 구현 시 상수로 정리
+- [x] 지역 코드·장르 코드 표 → `backend/app/tools/codes.py`. 실호출 확인: 서울 11, 부산 26, 종로 1111, 마포 1144, 서초 1165, 강남 1168, 연극 AAAA, 뮤지컬 GGGA, 클래식 CCCA
 - [ ] `dtguidance` 패턴 다양성 (예: "화요일 ~ 금요일(19:30), 토요일(14:00,18:00)", "HOL(...)") — 파서 테스트 fixture 수집
