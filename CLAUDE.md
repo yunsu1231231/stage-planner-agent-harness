@@ -64,4 +64,5 @@
 | 가짜 LLM / HTTP | `tests/fakes/` | 대본 기반 LLM, fixture 기반 HTTP. 대본·route 밖 호출은 실패 |
 | 네트워크 차단 | `tests/conftest.py` | `live` 마커 없는 테스트에서 실제 소켓 연결 금지 |
 | hook: PreToolUse(Bash) | `.claude/settings.json` → `scripts/hooks/harness_gate.py pretool` | `git commit`/`git push` 직전 pytest, 실패 시 차단 |
-| hook: Stop | 〃 `stop` | 코드 변경이 있으면 종료 전 pytest, 실패 시 종료 차단(1회) |
+| hook: Stop | 〃 `stop` | **마지막 통과 이후 코드가 바뀐 경우에만** 종료 전 pytest (질의응답 턴은 건너뜀), 실패 시 종료 차단(1회) |
+| hook 기록 | `.claude/harness/gate.log`, `state.json` (git 제외) | 모든 판단(pass/block/skip 사유)을 JSON 한 줄씩 기록. 마지막 통과 시점의 코드 해시 보관 |
