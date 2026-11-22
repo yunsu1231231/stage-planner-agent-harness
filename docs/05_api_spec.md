@@ -224,3 +224,15 @@ CREATE INDEX idx_events_session ON execution_events(session_id, id);
 | 대화 `index.html` | 대화창 / 추천 카드(저장 버튼) / 실행 타임라인 패널(단계·Tool·재계획 구분 색) / 처리 중 표시 / 키 누락 배너 | `/api/health`, `/api/chat`, `/api/plans` |
 | 계획 관리 `plans.html` | 날짜별 목록, 상세, 인라인 수정, 삭제, 겹침 경고 | `/api/plans*` |
 | 실행 로그 `logs.html` | 세션 목록 → 이벤트 타임라인, 삭제 | `/api/logs*` |
+
+### 6.1 M4 구현 (바닐라 HTML/CSS/JS, 빌드 없음 · `frontend/`)
+| 요구 | 구현 |
+|---|---|
+| 실행 단계·Tool 이력 순서대로 (F3019) | `timeline.js` 가 응답의 `timeline` 이벤트를 단계 → LLM 판단(이유) → 작업 목록 → Tool(성공/실패/캐시, 소요 시간) → 판단 결과 순으로 그림 |
+| 재계획 지점 구분 | `replan` 이벤트를 주황색 구분선 "↻ 재계획 #n — 장르 조건 해제"로 표시, 이후 항목은 다음 라운드 |
+| 처리 중 상태 | 전송 즉시 스피너 + 경과 초, 입력 비활성화 |
+| Tool 실패 · 키 누락 안내 | 접속 시 `/api/health` 로 누락 키 이름만 배너 표시, `config_missing` 응답도 배너, 부분 실패는 응답 안내 목록 |
+| 추천 근거 (F3011) | 카드에 회차·종료·러닝타임·가격·판단 근거·근거 Tool·주변 장소 링크, 제외 사유는 접기 목록 |
+| 계획 저장·관리 (F3015, F3016) | 카드의 "이 계획 저장" → 겹침 결과 표시 / 계획 관리 화면에서 인라인 수정·삭제 후 목록 즉시 갱신, 겹침 행 강조 |
+| 노출 제한 (NF3002) | 모든 동적 값은 `dom.js` 의 `html``` 로 이스케이프, 외부 링크는 http(s)만, 오류는 서버가 준 사용자용 문장만 |
+- 실행: `cd frontend && ../.venv/Scripts/python -m http.server 5500` → http://127.0.0.1:5500 (API 기본 `http://127.0.0.1:8000`, `localStorage.apiBase` 로 변경 가능)

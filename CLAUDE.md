@@ -32,6 +32,8 @@
 - `requirements.txt` 버전은 명세 고정 버전이다. 변경 금지.
 - LLM 설정은 `.env`의 `LLM_API_KEY` / `LLM_BASE_URL` / `LLM_MODEL` 로만 읽는다 (현재 개인 OpenAI 키, base_url 비움).
 - 서버 실행: `.venv/Scripts/python -m uvicorn app.main:app --app-dir backend --port 8000` (문서 `/docs`, DB `data/planner.db`)
+- 화면 실행: `cd frontend && ../.venv/Scripts/python -m http.server 5500` → http://127.0.0.1:5500 (빌드 없음, ES 모듈)
+- 프론트 규칙: 동적 값은 `dom.js` 의 `html```로만 출력 (innerHTML 직접 사용 금지), API 호출은 `api("METHOD", "/api/...")` 형태 유지 (계약 테스트가 파싱)
 - 테스트: `.venv/Scripts/python -m pytest` (오프라인) / `-m live` (실제 API·LLM, 비용 발생 — 필요할 때만)
 
 ## 불변 규칙 (명세 유래)
