@@ -1,0 +1,24 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# runtime data
+*.db
+*.sqlite3
+data/
+
+# editor / os
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# confidential spec (對外秘) — keep local only
+docs/*.pdf
