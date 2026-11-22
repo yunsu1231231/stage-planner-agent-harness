@@ -1,0 +1,72 @@
+[
+ {
+  "file": "01_api_docs.png",
+  "title": "FastAPI 문서 — 대화·계획·실행 로그·시스템 경로 분리",
+  "covers": "4.5 F3017"
+ },
+ {
+  "file": "02_chat_processing.png",
+  "title": "처리 중 상태 — 스피너와 경과 초, 실행 과정 패널 '실행 중'",
+  "covers": "4.5 F3019"
+ },
+ {
+  "file": "03_chat_recommendation.png",
+  "title": "추천 카드(회차·종료·가격·판단 근거·근거 Tool·주변 식당) + 실행 과정 타임라인(역할·메시지·검증)",
+  "covers": "4.2 F3008·F3011, 4.5 F3019, 4.6 F3021"
+ },
+ {
+  "file": "04_chat_saved_card.png",
+  "title": "추천 카드의 '이 계획 저장' 결과 표시",
+  "covers": "4.4 F3015"
+ },
+ {
+  "file": "05_chat_replan.png",
+  "title": "재계획 — 타임라인의 주황색 '↻ 재계획 #n' 구분과 조건 완화 안내",
+  "covers": "4.2 F3009, 4.5 F3019"
+ },
+ {
+  "file": "05b_timeline_replan_panel.png",
+  "title": "실행 과정 패널 (재계획 지점 확대)",
+  "covers": "4.5 F3019"
+ },
+ {
+  "file": "06_chat_worker_retry.png",
+  "title": "Worker 판단 [LLM] retry — 검색어 수정 후 같은 Tool 재호출",
+  "covers": "4.6 F3021"
+ },
+ {
+  "file": "07_chat_limit_reached.png",
+  "title": "재계획 상한 도달 — 사유·조정 제안, 검증(로깅 Agent) 이상 → 작업 목록 재구성",
+  "covers": "4.2 F3009, NF3004, 4.6 F3020·F3021"
+ },
+ {
+  "file": "08_key_missing.png",
+  "title": "API 키 누락 — 누락된 키 이름만 배너로 안내 (값 노출 없음), 응답 '설정 필요'",
+  "covers": "4.5 F3019, NF3002"
+ },
+ {
+  "file": "09_plans_overlap.png",
+  "title": "계획 관리 — 같은 날 시간 겹침 노란 강조·'겹침' 배지, 생성 일시",
+  "covers": "4.4 F3015"
+ },
+ {
+  "file": "10_plans_after_edit.png",
+  "title": "계획 수정 후 즉시 반영 — 시간 변경으로 겹침 해소, 결과 안내",
+  "covers": "4.4 F3016"
+ },
+ {
+  "file": "11_logs_sessions.png",
+  "title": "실행 로그 — 세션 목록(실행·이벤트·재계획·오류 수)",
+  "covers": "4.3 F3014"
+ },
+ {
+  "file": "12_logs_anomaly.png",
+  "title": "실행 로그 상세 — 규칙 판정 '이상 징후'(근거 seq) + LLM 원인 진단(별도) + 타임라인",
+  "covers": "4.3, 4.6 F3020"
+ },
+ {
+  "file": "13_logs_raw_events.png",
+  "title": "원본 이벤트 (seq·type·node·payload 그대로 — 수정 기능 없음)",
+  "covers": "4.3 F3013·F3014"
+ }
+]
