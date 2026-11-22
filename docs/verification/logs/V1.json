@@ -1,0 +1,862 @@
+[
+ {
+  "event_id": "bf483e67b033434d817287348423b208",
+  "seq": 1,
+  "ts": "2026-11-22T20:03:13.558+09:00",
+  "type": "run.start",
+  "node": null,
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "message": "이번 토요일 오후 2시 이후에 대학로에서 5만원 이하 연극 보고 6시 전에는 끝내고 싶어. 끝나고 갈 식당도 알려줘"
+  }
+ },
+ {
+  "event_id": "a5846acf511f4ba598d2bc5a28a6bed3",
+  "seq": 2,
+  "ts": "2026-11-22T20:03:13.598+09:00",
+  "type": "node.enter",
+  "node": "analyze",
+  "run_id": "r-5511615f5d0a",
+  "payload": {}
+ },
+ {
+  "event_id": "1a5d3f9713cb4fb7aec1adb1e9e8ca8e",
+  "seq": 3,
+  "ts": "2026-11-22T20:03:15.969+09:00",
+  "type": "llm.decision",
+  "node": "analyze",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "decision": "plan_performance",
+   "reason": "사용자가 이번 토요일 오후 2시 이후에 대학로에서 5만원 이하 연극을 보고 6시 전에는 끝나는 공연과 끝나고 갈 식당을 요청함"
+  }
+ },
+ {
+  "event_id": "b3be049dd16242fc9a90186cf1167c3c",
+  "seq": 4,
+  "ts": "2026-11-22T20:03:15.970+09:00",
+  "type": "node.exit",
+  "node": "analyze",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "intent": "plan_performance",
+   "missing": [],
+   "reason": "사용자가 이번 토요일 오후 2시 이후에 대학로에서 5만원 이하 연극을 보고 6시 전에는 끝나는 공연과 끝나고 갈 식당을 요청함"
+  }
+ },
+ {
+  "event_id": "bc9ebebe073245ebb2b007bdba365fda",
+  "seq": 5,
+  "ts": "2026-11-22T20:03:15.981+09:00",
+  "type": "node.enter",
+  "node": "plan",
+  "run_id": "r-5511615f5d0a",
+  "payload": {}
+ },
+ {
+  "event_id": "f2c077874ece47568744182aad078ed3",
+  "seq": 6,
+  "ts": "2026-11-22T20:03:16.894+09:00",
+  "type": "llm.decision",
+  "node": "plan",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "decision": [
+    "search_performances"
+   ],
+   "reason": "",
+   "proposed_args": {
+    "search_performances": {
+     "date": "2026-11-28",
+     "region": "대학로",
+     "genre": "연극",
+     "limit": 10
+    }
+   }
+  }
+ },
+ {
+  "event_id": "0a9be5982e3a44958e64784e4de95412",
+  "seq": 7,
+  "ts": "2026-11-22T20:03:16.895+09:00",
+  "type": "plan.corrected",
+  "node": "plan",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "reason": "rule_check",
+   "added": [
+    "get_performance_detail",
+    "search_nearby_places"
+   ],
+   "removed": []
+  }
+ },
+ {
+  "event_id": "93304bf74a334b63b90aefd5830b8d39",
+  "seq": 8,
+  "ts": "2026-11-22T20:03:16.897+09:00",
+  "type": "plan.created",
+  "node": "plan",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "plan_version": 0,
+   "strategy": "initial",
+   "tasks": [
+    {
+     "id": "t1",
+     "tool": "search_performances",
+     "args": {
+      "date": "2026-11-28",
+      "region": "대학로",
+      "genre": "연극",
+      "limit": 20
+     },
+     "phase": "collect",
+     "depends_on": [],
+     "fixed_args": [
+      "date"
+     ]
+    },
+    {
+     "id": "t2",
+     "tool": "get_performance_detail",
+     "args": {
+      "performance_id": "<search.items[].performance_id>"
+     },
+     "phase": "collect",
+     "depends_on": [
+      "t1"
+     ],
+     "fixed_args": []
+    },
+    {
+     "id": "t3",
+     "tool": "search_nearby_places",
+     "phase": "enrich",
+     "fixed_args": [
+      "category"
+     ],
+     "args": {
+      "venue_id": "<judge.eligible[].venue_id>",
+      "category": "restaurant"
+     },
+     "depends_on": [
+      "t2"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "event_id": "5aa06171e6ac4c28be48749ab9aee63a",
+  "seq": 9,
+  "ts": "2026-11-22T20:03:16.900+09:00",
+  "type": "node.exit",
+  "node": "plan",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "phase": "collect",
+   "plan_version": 0
+  }
+ },
+ {
+  "event_id": "c0d4440e1ae74bf3bd361c620e0b8e11",
+  "seq": 10,
+  "ts": "2026-11-22T20:03:16.903+09:00",
+  "type": "node.enter",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {}
+ },
+ {
+  "event_id": "28b182c27bb94891be51b34ce4aca49e",
+  "seq": 11,
+  "ts": "2026-11-22T20:03:16.904+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "search_performances",
+   "args": {
+    "date": "2026-11-28",
+    "region": "대학로",
+    "genre": "연극",
+    "limit": 20
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "e365de8369844fe99a0085f2a4dd8bf7",
+  "seq": 12,
+  "ts": "2026-11-22T20:03:22.570+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "search_performances",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 5665,
+   "cached": false,
+   "summary": "후보 20건"
+  }
+ },
+ {
+  "event_id": "032b1b90ff544ab0bb11b441bbdcd065",
+  "seq": 13,
+  "ts": "2026-11-22T20:03:22.575+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF307016"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "191df5c25135479eb9c05df15b36547d",
+  "seq": 14,
+  "ts": "2026-11-22T20:03:22.805+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 230,
+   "cached": false,
+   "summary": "제3회 고래 단막극 페스티벌 · 105분 · 목요일 ~ 금요일(19:30), 토요일(15:00) · 전석 40,000원"
+  }
+ },
+ {
+  "event_id": "34f16b5abee04e4cbd3b0c01ad12bbf1",
+  "seq": 15,
+  "ts": "2026-11-22T20:03:22.808+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF306970"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "ac4d0bfc6e1e45868f308b7d3543d02d",
+  "seq": 16,
+  "ts": "2026-11-22T20:03:22.921+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 113,
+   "cached": false,
+   "summary": "의원님, 자수할래요! · 75분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 30,000원"
+  }
+ },
+ {
+  "event_id": "23d08dd6a474421d8e655510f5bfa79e",
+  "seq": 17,
+  "ts": "2026-11-22T20:03:22.924+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF306685"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "c00d81647c3740a8964c5099aec33d2e",
+  "seq": 18,
+  "ts": "2026-11-22T20:03:23.037+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 112,
+   "cached": false,
+   "summary": "곰팡이, 락스 XX새끼 · 90분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(16:00) · 전석 25,000원"
+  }
+ },
+ {
+  "event_id": "af0c680681254b359ee2c625802ea729",
+  "seq": 19,
+  "ts": "2026-11-22T20:03:23.037+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF306528"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "2521ebaa08ed448eb8e4d564c19bb4ed",
+  "seq": 20,
+  "ts": "2026-11-22T20:03:23.183+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 145,
+   "cached": false,
+   "summary": "단막극 낭독공연, 시선: Eleven Ways of Believing [대학로] · 120분 · 목요일 ~ 금요일(19:30), 토요일 ~ 일요일(14:00,18:00) · 전석 25,000원"
+  }
+ },
+ {
+  "event_id": "415d00e6fabd49528c49bccb590ff779",
+  "seq": 21,
+  "ts": "2026-11-22T20:03:23.184+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF306527"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "fef6cbcfc81a40f0952b66f9bdfcd1c7",
+  "seq": 22,
+  "ts": "2026-11-22T20:03:23.456+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 271,
+   "cached": false,
+   "summary": "없는 대화 · 100분 · 월요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00) · 전석 40,000원"
+  }
+ },
+ {
+  "event_id": "5ab46ac91e4b4f0b888ee5765beaef2e",
+  "seq": 23,
+  "ts": "2026-11-22T20:03:23.457+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF306452"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "abab0e547dc84d0382e194c08f3f7823",
+  "seq": 24,
+  "ts": "2026-11-22T20:03:23.686+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 228,
+   "cached": false,
+   "summary": "모든 날, 모든 순간 [대학로] · 100분 · 화요일 ~ 금요일(19:00), 토요일 ~ 일요일(14:00,16:30) · 전석 45,000원"
+  }
+ },
+ {
+  "event_id": "2fcd5d910f684906971773cc5b34295c",
+  "seq": 25,
+  "ts": "2026-11-22T20:03:23.692+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF306446"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "3e5fad2f5fc74379a82e24995a969f77",
+  "seq": 26,
+  "ts": "2026-11-22T20:03:23.958+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 217,
+   "cached": false,
+   "summary": "아직 · 70분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:00) · 전석 20,000원"
+  }
+ },
+ {
+  "event_id": "e7f5ec6e3b2640d08e0cb806a0c27bdc",
+  "seq": 27,
+  "ts": "2026-11-22T20:03:23.968+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF306164"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "f8ef40e9c8bf475fae75a0f5cd6d3c79",
+  "seq": 28,
+  "ts": "2026-11-22T20:03:24.092+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 124,
+   "cached": false,
+   "summary": "꿈깨 [대학로] · 70분 · 화요일 ~ 금요일(15:00,19:30), 토요일 ~ 일요일(15:00,19:30) · 전석 30,000원"
+  }
+ },
+ {
+  "event_id": "9ff270c957c04001a9de88414fcb7355",
+  "seq": 29,
+  "ts": "2026-11-22T20:03:24.126+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF306008"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "56ed0be613114e19a4d8e3e067df0261",
+  "seq": 30,
+  "ts": "2026-11-22T20:03:24.307+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 168,
+   "cached": false,
+   "summary": "타조소년들 [대학로] · 90분 · 목요일 ~ 금요일(20:00), 토요일 ~ 일요일(14:00,18:00) · R석 30,000원, A석 15,000원"
+  }
+ },
+ {
+  "event_id": "2c0cc44b4cfc4fddaf830252012b76c0",
+  "seq": 31,
+  "ts": "2026-11-22T20:03:24.308+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF305979"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "b22ee6cce94043be9f81d74cafa0f20f",
+  "seq": 32,
+  "ts": "2026-11-22T20:03:24.496+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 186,
+   "cached": false,
+   "summary": "플레이티켓 낭독쇼케이스, 스마일 보이 (11월) · 60분 · 토요일 ~ 일요일(15:00) · 전석무료"
+  }
+ },
+ {
+  "event_id": "a5b42f3ff98c4613b61a1ccfdc80d9f0",
+  "seq": 33,
+  "ts": "2026-11-22T20:03:24.497+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF305953"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "292db5c8ccc149248c33de47eea8426e",
+  "seq": 34,
+  "ts": "2026-11-22T20:03:24.625+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 127,
+   "cached": false,
+   "summary": "제7회 서울연극25페스티벌, 서초노트 · 80분 · 토요일(15:00,18:00), 일요일(15:00) · 전석 30,000원"
+  }
+ },
+ {
+  "event_id": "7d48fee4baeb4215b113cc88823c9f04",
+  "seq": 35,
+  "ts": "2026-11-22T20:03:24.626+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF305931"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "b3708afd02394130ac89ecf51c8a6611",
+  "seq": 36,
+  "ts": "2026-11-22T20:03:24.750+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 122,
+   "cached": false,
+   "summary": "오펀스 · 150분 · 목요일 ~ 금요일(19:30), 토요일 ~ 일요일(13:00,17:00) · 전석 20,000원"
+  }
+ },
+ {
+  "event_id": "f7a7d115fc2d4c08bcc7b1da9b54fef4",
+  "seq": 37,
+  "ts": "2026-11-22T20:03:24.751+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF305869"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "90c45c53f0e7488ebf13172aff27aad1",
+  "seq": 38,
+  "ts": "2026-11-22T20:03:24.871+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 119,
+   "cached": false,
+   "summary": "우리는 지금 어디에 있을까 [대학로] · 70분 · 수요일 ~ 금요일(19:30), 토요일 ~ 일요일(16:00) · 전석 40,000원"
+  }
+ },
+ {
+  "event_id": "e7fe85f7c43d40b2b3c7c7fce9ad7ae5",
+  "seq": 39,
+  "ts": "2026-11-22T20:03:24.872+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF305847"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "a32c6ed1e22e4e49a1129fa3900a53f4",
+  "seq": 40,
+  "ts": "2026-11-22T20:03:24.998+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 124,
+   "cached": false,
+   "summary": "엄마와 아들: 아들, 엄마도 처음이야! [대학로] · 80분 · 화요일 ~ 금요일(19:30), 토요일 ~ 일요일(15:30) · 전석 40,000원"
+  }
+ },
+ {
+  "event_id": "6019f4e750384eadb4cd7b1e967b4fb5",
+  "seq": 41,
+  "ts": "2026-11-22T20:03:25.009+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "args": {
+    "performance_id": "PF305831"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "efcd8304b1c24f9ba046c319553f9365",
+  "seq": 42,
+  "ts": "2026-11-22T20:03:25.141+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "get_performance_detail",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 130,
+   "cached": false,
+   "summary": "핑크트럭 [대학로 (앵콜) ] · 110분 · 화요일 ~ 목요일(19:30), 토요일 ~ 일요일(14:00,17:00), HOL(14:00,17:00) · 전석 50,000원"
+  }
+ },
+ {
+  "event_id": "5ae06b747af44c9db81096ec2025ceda",
+  "seq": 43,
+  "ts": "2026-11-22T20:03:25.142+09:00",
+  "type": "node.exit",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {}
+ },
+ {
+  "event_id": "514bd8abce5e46298c7ca2c5ec0c75ef",
+  "seq": 44,
+  "ts": "2026-11-22T20:03:25.149+09:00",
+  "type": "node.enter",
+  "node": "judge",
+  "run_id": "r-5511615f5d0a",
+  "payload": {}
+ },
+ {
+  "event_id": "3c4b278065174a6ba6a57b4f28229a81",
+  "seq": 45,
+  "ts": "2026-11-22T20:03:25.153+09:00",
+  "type": "judge.result",
+  "node": "judge",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "plan_version": 0,
+   "eligible": 14,
+   "excluded": 1,
+   "unjudgeable": 0
+  }
+ },
+ {
+  "event_id": "4f995aaad8a944859bd50a92fc2ea9ab",
+  "seq": 46,
+  "ts": "2026-11-22T20:03:25.154+09:00",
+  "type": "node.exit",
+  "node": "judge",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "next": "enrich",
+   "phase": "enrich"
+  }
+ },
+ {
+  "event_id": "0a8aec674977462a81c6b580bb76142e",
+  "seq": 47,
+  "ts": "2026-11-22T20:03:25.156+09:00",
+  "type": "node.enter",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {}
+ },
+ {
+  "event_id": "1e5fec5c25f348599d81c0e759b4b370",
+  "seq": 48,
+  "ts": "2026-11-22T20:03:25.157+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "search_nearby_places",
+   "args": {
+    "venue_id": "FC001250",
+    "category": "restaurant"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "08d0a9f9981c4fd4bcd2733d340a97b3",
+  "seq": 49,
+  "ts": "2026-11-22T20:03:26.835+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "search_nearby_places",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 1677,
+   "cached": false,
+   "summary": "장소 5곳"
+  }
+ },
+ {
+  "event_id": "b6a1a8db9a40423fa7466da701e29118",
+  "seq": 50,
+  "ts": "2026-11-22T20:03:26.836+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "search_nearby_places",
+   "args": {
+    "venue_id": "FC001814",
+    "category": "restaurant"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "9a0889b1ef7d48aa853c55d8e59f7287",
+  "seq": 51,
+  "ts": "2026-11-22T20:03:27.146+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "search_nearby_places",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 309,
+   "cached": false,
+   "summary": "장소 5곳"
+  }
+ },
+ {
+  "event_id": "1a7b4a83779448fea7f31dfbc7125484",
+  "seq": 52,
+  "ts": "2026-11-22T20:03:27.147+09:00",
+  "type": "tool.request",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "search_nearby_places",
+   "args": {
+    "venue_id": "FC001156",
+    "category": "restaurant"
+   },
+   "cached": false
+  }
+ },
+ {
+  "event_id": "81a7b44d95ab477aaab7973124b829d9",
+  "seq": 53,
+  "ts": "2026-11-22T20:03:27.314+09:00",
+  "type": "tool.response",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "tool": "search_nearby_places",
+   "ok": true,
+   "error_code": null,
+   "duration_ms": 165,
+   "cached": false,
+   "summary": "장소 5곳"
+  }
+ },
+ {
+  "event_id": "47f97b809ebf49c8b1fcd1d17581a62e",
+  "seq": 54,
+  "ts": "2026-11-22T20:03:27.315+09:00",
+  "type": "node.exit",
+  "node": "execute",
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "phase": "done"
+  }
+ },
+ {
+  "event_id": "47b763736f584225813dddb9901c9a2e",
+  "seq": 55,
+  "ts": "2026-11-22T20:03:27.319+09:00",
+  "type": "node.enter",
+  "node": "respond",
+  "run_id": "r-5511615f5d0a",
+  "payload": {}
+ },
+ {
+  "event_id": "fed7d871c6124b8e880e6b48292d43fa",
+  "seq": 56,
+  "ts": "2026-11-22T20:03:31.205+09:00",
+  "type": "node.exit",
+  "node": "respond",
+  "run_id": "r-5511615f5d0a",
+  "payload": {}
+ },
+ {
+  "event_id": "5021ce51c27e4831b98aef53224238a1",
+  "seq": 57,
+  "ts": "2026-11-22T20:03:31.209+09:00",
+  "type": "run.end",
+  "node": null,
+  "run_id": "r-5511615f5d0a",
+  "payload": {
+   "status": "ok",
+   "llm_calls": 3,
+   "duration_ms": 17650,
+   "replan_count": 0
+  }
+ }
+]
