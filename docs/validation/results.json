@@ -182,5 +182,20 @@
         "body_head": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><dbs><db><mt20id>PF307132</mt20id><prfnm>손태진 전국투어 콘서트: Bon Voyage [서울]</prfnm><prfpdfrom>2027.01.09</prfpdfrom><prfpdto>2027.01.10</prfpdto><fclt"
       }
     }
+  },
+  "D1": {
+    "ok": true,
+    "note": "S1 전 단계 Tool 입력이 앞 단계 결과로 채워짐",
+    "checked_at": "2026-11-22T18:24:01"
+  },
+  "D2": {
+    "ok": true,
+    "note": "S2=ok(replan 2), S3=limit_reached, 재실행 상세 호출 0회/캐시 15회",
+    "checked_at": "2026-11-22T18:24:01"
+  },
+  "P1": {
+    "ok": true,
+    "note": "상세 73건 패턴 수집: 회차 해석 실패 0/73, 러닝타임 0/73, 가격 0/73",
+    "checked_at": "2026-11-22T18:24:01"
   }
 }

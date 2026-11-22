@@ -1,0 +1,565 @@
+{
+ "scenarios": [
+  {
+   "scenario": "S1",
+   "conditions": {
+    "date": "2026-11-28",
+    "earliest_start": "14:00",
+    "end_by": "18:00",
+    "budget_max": 50000
+   },
+   "steps": [
+    {
+     "plan_version": 0,
+     "strategy": "initial",
+     "candidates": 15,
+     "eligible": 11,
+     "excluded": 4,
+     "unjudgeable": 0,
+     "exclusion_samples": [
+      {
+       "performance_id": "PF305235",
+       "title": "혜화동1번지 동인 페스티벌, 지역 대축제: 혜화동 콩집",
+       "result": "excluded",
+       "reason_code": "TIME_MISMATCH",
+       "reason": "21:00+60분=22:00 종료 > 제한 18:00"
+      },
+      {
+       "performance_id": "PF304832",
+       "title": "THE CELL: 더 셀 [대학로]",
+       "result": "excluded",
+       "reason_code": "OVER_BUDGET",
+       "reason": "55,000원 > 50,000원"
+      },
+      {
+       "performance_id": "PF303353",
+       "title": "라 파운데이션 [대학로]",
+       "result": "excluded",
+       "reason_code": "OVER_BUDGET",
+       "reason": "55,000원 > 50,000원"
+      }
+     ]
+    }
+   ],
+   "status": "ok",
+   "recommendations": [
+    {
+     "performance_id": "PF306527",
+     "title": "없는 대화",
+     "result": "eligible",
+     "start": "15:00",
+     "end": "16:40",
+     "runtime_min": 100,
+     "min_price": 40000,
+     "price_unknown": false,
+     "venue_id": "FC001201",
+     "venue_name": "제이원 씨어터 (구. 서완소극장, 구. 씨어터고리) (제이원 씨어터 (구. 서완소극장, 구. 씨어터고리) )",
+     "criteria": "15:00+100분=16:40 ≤ 18:00, 가격 40000"
+    },
+    {
+     "performance_id": "PF306452",
+     "title": "모든 날, 모든 순간 [대학로]",
+     "result": "eligible",
+     "start": "14:00",
+     "end": "15:40",
+     "runtime_min": 100,
+     "min_price": 45000,
+     "price_unknown": false,
+     "venue_id": "FC001156",
+     "venue_name": "지즐소극장 (지즐소극장)",
+     "criteria": "14:00+100분=15:40 ≤ 18:00, 가격 45000"
+    },
+    {
+     "performance_id": "PF305847",
+     "title": "엄마와 아들: 아들, 엄마도 처음이야! [대학로]",
+     "result": "eligible",
+     "start": "15:30",
+     "end": "16:50",
+     "runtime_min": 80,
+     "min_price": 40000,
+     "price_unknown": false,
+     "venue_id": "FC000794",
+     "venue_name": "세우아트센터 (2관)",
+     "criteria": "15:30+80분=16:50 ≤ 18:00, 가격 40000"
+    }
+   ],
+   "replan_count": 0,
+   "tool_calls": {
+    "search_performances": 1,
+    "get_performance_detail": 15,
+    "venue": 0,
+    "kakao": 0
+   },
+   "detail_cache_hits": 0,
+   "enrich": [
+    {
+     "venue_id": "FC001201",
+     "x": "127.00042899999994",
+     "y": "37.584170500000000",
+     "places": [
+      {
+       "name": "경성양꼬치 대학로점",
+       "address": "서울 종로구 창경궁로34길 18-12",
+       "distance_m": 4,
+       "url": "http://place.map.kakao.com/18304586"
+      },
+      {
+       "name": "스침혼술바 서울혜화점",
+       "address": "서울 종로구 창경궁로 258",
+       "distance_m": 8,
+       "url": "http://place.map.kakao.com/713274504"
+      },
+      {
+       "name": "구룡관 혜화본점",
+       "address": "서울 종로구 창경궁로 258-5",
+       "distance_m": 13,
+       "url": "http://place.map.kakao.com/40669117"
+      }
+     ]
+    },
+    {
+     "venue_id": "FC001156",
+     "x": "126.99966880000000",
+     "y": "37.584710100000000",
+     "places": [
+      {
+       "name": "녹산",
+       "address": "서울 종로구 성균관로4길 42",
+       "distance_m": 9,
+       "url": "http://place.map.kakao.com/1357798460"
+      },
+      {
+       "name": "도어스2",
+       "address": "서울 종로구 창경궁로 257",
+       "distance_m": 40,
+       "url": "http://place.map.kakao.com/1035586263"
+      },
+      {
+       "name": "혜화수산 혜화본점",
+       "address": "서울 종로구 창경궁로 259",
+       "distance_m": 41,
+       "url": "http://place.map.kakao.com/15410982"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "scenario": "S2",
+   "conditions": {
+    "date": "2026-11-29",
+    "earliest_start": "19:00",
+    "end_by": "21:00",
+    "budget_max": 30000
+   },
+   "steps": [
+    {
+     "plan_version": 0,
+     "strategy": "initial",
+     "candidates": 15,
+     "eligible": 0,
+     "excluded": 15,
+     "unjudgeable": 0,
+     "exclusion_samples": [
+      {
+       "performance_id": "PF305735",
+       "title": "언제는 행복하지 않은 순간이 있었나요 (언행순) [서울]",
+       "result": "excluded",
+       "reason_code": "OVER_BUDGET",
+       "reason": "60,000원 > 30,000원"
+      },
+      {
+       "performance_id": "PF304765",
+       "title": "붓다, 세상의 길을 묻다 [대학로]",
+       "result": "excluded",
+       "reason_code": "OVER_BUDGET",
+       "reason": "50,000원 > 30,000원"
+      },
+      {
+       "performance_id": "PF303594",
+       "title": "브로큰 넘버스 (BROKEN NUMBERS)",
+       "result": "excluded",
+       "reason_code": "OVER_BUDGET",
+       "reason": "44,000원 > 30,000원"
+      }
+     ]
+    },
+    {
+     "plan_version": 1,
+     "strategy": "expand_pool",
+     "candidates": 15,
+     "eligible": 0,
+     "excluded": 15,
+     "unjudgeable": 0,
+     "exclusion_samples": [
+      {
+       "performance_id": "PF296148",
+       "title": "소크라테스 패러독스",
+       "result": "excluded",
+       "reason_code": "OVER_BUDGET",
+       "reason": "44,000원 > 30,000원"
+      },
+      {
+       "performance_id": "PF296139",
+       "title": "미드나잇: 액터뮤지션 THE CHOICE [대학로]",
+       "result": "excluded",
+       "reason_code": "OVER_BUDGET",
+       "reason": "70,000원 > 30,000원"
+      },
+      {
+       "performance_id": "PF296104",
+       "title": "콰이어 오브 맨 [대학로]",
+       "result": "excluded",
+       "reason_code": "OVER_BUDGET",
+       "reason": "66,000원 > 30,000원"
+      }
+     ]
+    },
+    {
+     "plan_version": 2,
+     "strategy": "drop_genre",
+     "candidates": 15,
+     "eligible": 1,
+     "excluded": 14,
+     "unjudgeable": 0,
+     "exclusion_samples": [
+      {
+       "performance_id": "PF306527",
+       "title": "없는 대화",
+       "result": "excluded",
+       "reason_code": "OVER_BUDGET",
+       "reason": "40,000원 > 30,000원"
+      },
+      {
+       "performance_id": "PF306452",
+       "title": "모든 날, 모든 순간 [대학로]",
+       "result": "excluded",
+       "reason_code": "OVER_BUDGET",
+       "reason": "45,000원 > 30,000원"
+      },
+      {
+       "performance_id": "PF305847",
+       "title": "엄마와 아들: 아들, 엄마도 처음이야! [대학로]",
+       "result": "excluded",
+       "reason_code": "OVER_BUDGET",
+       "reason": "40,000원 > 30,000원"
+      }
+     ]
+    }
+   ],
+   "status": "ok",
+   "recommendations": [
+    {
+     "performance_id": "PF305235",
+     "title": "혜화동1번지 동인 페스티벌, 지역 대축제: 혜화동 콩집",
+     "result": "eligible",
+     "start": "19:00",
+     "end": "20:00",
+     "runtime_min": 60,
+     "min_price": 20000,
+     "price_unknown": false,
+     "venue_id": "FC001141",
+     "venue_name": "연극실험실 혜화동1번지 (연극실험실 혜화동1번지)",
+     "criteria": "19:00+60분=20:00 ≤ 21:00, 가격 20000"
+    }
+   ],
+   "replan_count": 2,
+   "tool_calls": {
+    "search_performances": 3,
+    "get_performance_detail": 32,
+    "venue": 0,
+    "kakao": 0
+   },
+   "detail_cache_hits": 13
+  },
+  {
+   "scenario": "S3",
+   "conditions": {
+    "date": "2026-11-25",
+    "earliest_start": "09:00",
+    "end_by": "11:00",
+    "budget_max": null
+   },
+   "steps": [
+    {
+     "plan_version": 0,
+     "strategy": "initial",
+     "candidates": 15,
+     "eligible": 0,
+     "excluded": 15,
+     "unjudgeable": 0,
+     "exclusion_samples": [
+      {
+       "performance_id": "PF306527",
+       "title": "없는 대화",
+       "result": "excluded",
+       "reason_code": "TIME_MISMATCH",
+       "reason": "20:00+100분=21:40 종료 > 제한 11:00"
+      },
+      {
+       "performance_id": "PF306452",
+       "title": "모든 날, 모든 순간 [대학로]",
+       "result": "excluded",
+       "reason_code": "TIME_MISMATCH",
+       "reason": "19:00+100분=20:40 종료 > 제한 11:00"
+      },
+      {
+       "performance_id": "PF305847",
+       "title": "엄마와 아들: 아들, 엄마도 처음이야! [대학로]",
+       "result": "excluded",
+       "reason_code": "TIME_MISMATCH",
+       "reason": "19:30+80분=20:50 종료 > 제한 11:00"
+      }
+     ]
+    },
+    {
+     "plan_version": 1,
+     "strategy": "expand_pool",
+     "candidates": 15,
+     "eligible": 0,
+     "excluded": 15,
+     "unjudgeable": 0,
+     "exclusion_samples": [
+      {
+       "performance_id": "PF299695",
+       "title": "망원동 브라더스 [대학로]",
+       "result": "excluded",
+       "reason_code": "TIME_MISMATCH",
+       "reason": "19:30+100분=21:10 종료 > 제한 11:00"
+      },
+      {
+       "performance_id": "PF298745",
+       "title": "클로저 [대학로]",
+       "result": "excluded",
+       "reason_code": "TIME_MISMATCH",
+       "reason": "20:00+110분=21:50 종료 > 제한 11:00"
+      },
+      {
+       "performance_id": "PF298385",
+       "title": "나와 할아버지 [대학로]",
+       "result": "excluded",
+       "reason_code": "TIME_MISMATCH",
+       "reason": "20:00+100분=21:40 종료 > 제한 11:00"
+      }
+     ]
+    },
+    {
+     "plan_version": 2,
+     "strategy": "drop_genre",
+     "candidates": 7,
+     "eligible": 0,
+     "excluded": 7,
+     "unjudgeable": 0,
+     "exclusion_samples": [
+      {
+       "performance_id": "PF305735",
+       "title": "언제는 행복하지 않은 순간이 있었나요 (언행순) [서울]",
+       "result": "excluded",
+       "reason_code": "TIME_MISMATCH",
+       "reason": "19:00+140분=21:20 종료 > 제한 11:00"
+      },
+      {
+       "performance_id": "PF304828",
+       "title": "THE Dreamers K-POP STORY CONCERT",
+       "result": "excluded",
+       "reason_code": "NO_SHOW_ON_DAY",
+       "reason": "해당 요일 회차 없음 (토요일(19:00))"
+      },
+      {
+       "performance_id": "PF304765",
+       "title": "붓다, 세상의 길을 묻다 [대학로]",
+       "result": "excluded",
+       "reason_code": "TIME_MISMATCH",
+       "reason": "19:30+100분=21:10 종료 > 제한 11:00"
+      }
+     ]
+    },
+    {
+     "plan_version": 3,
+     "strategy": "widen_region",
+     "candidates": 9,
+     "eligible": 0,
+     "excluded": 9,
+     "unjudgeable": 0,
+     "exclusion_samples": [
+      {
+       "performance_id": "PF306938",
+       "title": "호두까기인형의 크리스마스 초대, 피아노4 hadns [서울]",
+       "result": "excluded",
+       "reason_code": "NO_SHOW_ON_DAY",
+       "reason": "해당 요일 회차 없음 (금요일(19:00), 토요일(15:00))"
+      },
+      {
+       "performance_id": "PF306430",
+       "title": "MU&A 스튜디오 기획 시리즈, 주간 클래식",
+       "result": "excluded",
+       "reason_code": "NO_SHOW_ON_DAY",
+       "reason": "해당 요일 회차 없음 (목요일(19:30))"
+      },
+      {
+       "performance_id": "PF306367",
+       "title": "껍질 벗기기",
+       "result": "excluded",
+       "reason_code": "TIME_MISMATCH",
+       "reason": "20:00+90분=21:30 종료 > 제한 11:00"
+      }
+     ]
+    }
+   ],
+   "status": "limit_reached",
+   "recommendations": [],
+   "replan_count": 3,
+   "tool_calls": {
+    "search_performances": 4,
+    "get_performance_detail": 26,
+    "venue": 0,
+    "kakao": 0
+   },
+   "detail_cache_hits": 20
+  }
+ ],
+ "rerun": {
+  "scenario": "S1-rerun",
+  "conditions": {
+   "date": "2026-11-28",
+   "earliest_start": "14:00",
+   "end_by": "18:00",
+   "budget_max": 50000
+  },
+  "steps": [
+   {
+    "plan_version": 0,
+    "strategy": "initial",
+    "candidates": 15,
+    "eligible": 11,
+    "excluded": 4,
+    "unjudgeable": 0,
+    "exclusion_samples": [
+     {
+      "performance_id": "PF305235",
+      "title": "혜화동1번지 동인 페스티벌, 지역 대축제: 혜화동 콩집",
+      "result": "excluded",
+      "reason_code": "TIME_MISMATCH",
+      "reason": "21:00+60분=22:00 종료 > 제한 18:00"
+     },
+     {
+      "performance_id": "PF304832",
+      "title": "THE CELL: 더 셀 [대학로]",
+      "result": "excluded",
+      "reason_code": "OVER_BUDGET",
+      "reason": "55,000원 > 50,000원"
+     },
+     {
+      "performance_id": "PF303353",
+      "title": "라 파운데이션 [대학로]",
+      "result": "excluded",
+      "reason_code": "OVER_BUDGET",
+      "reason": "55,000원 > 50,000원"
+     }
+    ]
+   }
+  ],
+  "status": "ok",
+  "recommendations": [
+   {
+    "performance_id": "PF306527",
+    "title": "없는 대화",
+    "result": "eligible",
+    "start": "15:00",
+    "end": "16:40",
+    "runtime_min": 100,
+    "min_price": 40000,
+    "price_unknown": false,
+    "venue_id": "FC001201",
+    "venue_name": "제이원 씨어터 (구. 서완소극장, 구. 씨어터고리) (제이원 씨어터 (구. 서완소극장, 구. 씨어터고리) )",
+    "criteria": "15:00+100분=16:40 ≤ 18:00, 가격 40000"
+   },
+   {
+    "performance_id": "PF306452",
+    "title": "모든 날, 모든 순간 [대학로]",
+    "result": "eligible",
+    "start": "14:00",
+    "end": "15:40",
+    "runtime_min": 100,
+    "min_price": 45000,
+    "price_unknown": false,
+    "venue_id": "FC001156",
+    "venue_name": "지즐소극장 (지즐소극장)",
+    "criteria": "14:00+100분=15:40 ≤ 18:00, 가격 45000"
+   },
+   {
+    "performance_id": "PF305847",
+    "title": "엄마와 아들: 아들, 엄마도 처음이야! [대학로]",
+    "result": "eligible",
+    "start": "15:30",
+    "end": "16:50",
+    "runtime_min": 80,
+    "min_price": 40000,
+    "price_unknown": false,
+    "venue_id": "FC000794",
+    "venue_name": "세우아트센터 (2관)",
+    "criteria": "15:30+80분=16:50 ≤ 18:00, 가격 40000"
+   }
+  ],
+  "replan_count": 0,
+  "tool_calls": {
+   "search_performances": 1,
+   "get_performance_detail": 0,
+   "venue": 0,
+   "kakao": 0
+  },
+  "detail_cache_hits": 15
+ },
+ "patterns": {
+  "pool_size": 73,
+  "schedule_unparsed": "0/73",
+  "schedule_unparsed_samples": [],
+  "runtime_unparsed": "0/73",
+  "runtime_unparsed_samples": [],
+  "price_unparsed": "0/73",
+  "price_unparsed_samples": [],
+  "schedule_examples": [
+   "월요일 ~ 금요일(14:00,17:00,20:00), 토요일 ~ 일요일(13:00,15:10,17:30,19:40), HOL(13:00,15:10,17:30,19:40)",
+   "화요일(19:30), 수요일(15:00,19:30), 목요일 ~ 금요일(19:30), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00)",
+   "화요일(20:00), 수요일(16:00,20:00), 목요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00)",
+   "화요일 ~ 수요일(20:00), 목요일(16:00,20:00), 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00)",
+   "월요일(20:00), 수요일(16:00,20:00), 목요일 ~ 금요일(20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00)",
+   "화요일 ~ 목요일(20:00), 금요일(20:00,22:30), 토요일(00:00,19:30,21:30,23:30), 일요일(18:00,20:30), HOL(18:00,20:30)",
+   "월요일 ~ 금요일(13:00,15:00,17:30), 토요일(12:30,14:30,16:30,18:30), 일요일(13:00,15:00,17:00), HOL(13:00,15:00,17:00)",
+   "화요일(20:00), 수요일(16:00,20:00), 목요일(20:00), 금요일(16:00,20:00), 토요일(15:00,19:00), 일요일(14:00,18:00), HOL(14:00,18:00)"
+  ],
+  "price_examples": [
+   "기억석 66,000원, 기록석 55,000원, 존재석 44,000원",
+   "R석 77,000원, S석 55,000원, 시야제한석 20,000원",
+   "회차별 L  35,000원, 회차별 G  50,000원, 패키지  220,000원",
+   "R석 60,000원, S석 50,000원, 시야방해석  30,000원, 관찰일지석  10,000원",
+   "Royal Club 129,000원, Masimo Club 89,000원, Elite Club  69,000원"
+  ]
+ },
+ "latency": {
+  "kopis_calls": 87,
+  "retries": 3,
+  "p50_s": 0.11,
+  "p90_s": 0.14,
+  "max_s": 3.93,
+  "failures": [
+   {
+    "path": "pblprfr",
+    "status": 400,
+    "body_head": "<!DOCTYPE HTML PUBLIC \"-//IETF/DTD HTML 2.0//EN\">\r\n<HTML><HEAD>\r\n<TITLE>400 Bad Request</TITLE>\r\n</HEAD><BODY>\r\n<H1>Request Blocked</H1>\r\n</BODY></HTML>\r\n<br><br><br>"
+   },
+   {
+    "path": "pblprfr",
+    "status": 400,
+    "body_head": "<!DOCTYPE HTML PUBLIC \"-//IETF/DTD HTML 2.0//EN\">\r\n<HTML><HEAD>\r\n<TITLE>400 Bad Request</TITLE>\r\n</HEAD><BODY>\r\n<H1>Request Blocked</H1>\r\n</BODY></HTML>\r\n<br><br><br>"
+   },
+   {
+    "path": "pblprfr",
+    "status": 400,
+    "body_head": "<!DOCTYPE HTML PUBLIC \"-//IETF/DTD HTML 2.0//EN\">\r\n<HTML><HEAD>\r\n<TITLE>400 Bad Request</TITLE>\r\n</HEAD><BODY>\r\n<H1>Request Blocked</H1>\r\n</BODY></HTML>\r\n<br><br><br>"
+   }
+  ],
+  "failure_count": 3
+ },
+ "elapsed_s": 23.0
+}

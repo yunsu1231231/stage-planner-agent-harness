@@ -74,6 +74,9 @@ TBD (구현 시 레지스트리 구조 확정 후 작성)
 ### 6.1 KOPIS
 - Base URL: `https://www.kopis.or.kr/openApi/restful` — 목록 `pblprfr`, 상세 `pblprfr/{mt20id}`, 시설 `prfplc/{mt10id}`, 키는 `service` 파라미터
 - **User-Agent 필수**: `ai-planner/0.1 (SSAFY AI core project)` (기본 UA는 WAF가 400 차단, 브라우저 위장 금지)
+- **연결 재사용 필수**: `requests.Session` 하나를 공유 (매 호출 새 연결이면 연결 끊김·3~9초 지연)
+- **재시도**: 연결 오류·타임아웃·`400 Request Blocked`(HTML)·XML 파싱 실패 → 최대 3회, 2s/4s 백오프. 끝내 실패하면 `UPSTREAM_ERROR`
+- **파서**: 러닝타임 "N시간 M분"→분, 가격은 등급별 금액 중 **최솟값**("무료"→0), 회차는 `요일 ~ 요일(HH:MM,...)` / `요일(...)` / `HOL(...)` 구간 단위로 해석. 해석 못 한 구간은 버리고 전체가 비면 `NO_SCHEDULE`
 - **XML 전용 응답** → Tool 내부에서 dict로 변환, 본문은 **UTF-8로 강제 디코딩** (헤더 charset 없음)
 - 날짜 입력 `YYYYMMDD`, 응답 `YYYY.MM.DD` → Tool 출력은 `YYYY-MM-DD`
 - **오류도 HTTP 200**: `returncode`로 판별
