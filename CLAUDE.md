@@ -15,6 +15,8 @@
 | `docs/04_agent_design.md` | LangGraph 노드·상태, 판단 계산식, 재계획, Memory, 이벤트, 모듈 구조 |
 | `docs/05_api_spec.md` | 백엔드 API 경로·요청·응답, SQLite 스키마, 화면 구성 |
 | `docs/06_test_strategy.md` | 테스트 계층(L1~L6), 명세 4장 → 테스트 추적표, 개발 루프 |
+| `docs/07_verification.md` | 명세 4장 항목별 검증 결과·증거, 대표 시나리오, 차이와 수정, 캡처 목록 |
+| `docs/verification/` | 증거: pytest 결과, 시나리오 기록·원본 로그, Tool 명세, 그래프 구조 |
 
 ## 테스트 규칙
 - **테스트 먼저**: 기능을 구현하기 전에 `docs/06_test_strategy.md` 추적표의 해당 테스트를 작성하고 실패(Red)를 확인한다.
